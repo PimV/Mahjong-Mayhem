@@ -6,22 +6,18 @@ require('angular/angular');
 require('angular-animate');
 require('angular-aria');
 require('angular-material');
+
 require('./users/Users');
-//require('./users/Users');
-//require('./users/UserService');
-//require('./users/UserController');
 
-
-// require('./games/Games');
-// require('./games/GameService');
-	// require('./games/GameController');
+require('./games/Games');
 
 angular.module(constants.appTitle, [
+	require('angular-ui-router'),
 	'ngMaterial',
 	'users'
 ])
-//.module(constants.appTitle).constant('settings', require('./common/constants'))
-//.module(constants.appTitle).config(require('./common/routes'))
+.constant('settings', require('./common/constants'))
+
 .config(function($mdThemingProvider, $mdIconProvider){
 
 	$mdIconProvider
@@ -37,7 +33,8 @@ angular.module(constants.appTitle, [
 	.primaryPalette('brown')
 	.accentPalette('red');
 
-});
+})
+.config(require('./common/routes'));
 
 
 

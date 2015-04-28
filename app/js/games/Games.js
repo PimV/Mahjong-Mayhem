@@ -1,8 +1,21 @@
-(function(){
-  'use strict';
+'use strict';
 
-  // Prepare the 'users' module for subsequent registration of controllers and delegates
-  angular.module('games', [ 'ngMaterial' ]);
+var name = "games";
 
-
-})();
+// Prepare the 'users' module for subsequent registration of controllers and delegates
+angular.module(name, [ 
+	'ngMaterial' 
+])
+.service('gameService', [
+	'$q', 
+	require('./GameService')
+])
+.controller('GameController', [
+		'gameService', 
+		'$mdSidenav', 
+		'$mdBottomSheet', 
+		'$log',
+		'$q',
+		require('./GameController')
+	]
+);

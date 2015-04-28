@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function ( userService, $mdSidenav, $mdBottomSheet, $log, $q) {
 	/**
 	 * Main Controller for the Angular Material Starter App
@@ -6,7 +8,7 @@ module.exports = function ( userService, $mdSidenav, $mdBottomSheet, $log, $q) {
 	 * @param avatarsService
 	 * @constructor
 	 */
-	 
+	
 	var self = this;
 
 	self.selected     = null;
@@ -16,7 +18,6 @@ module.exports = function ( userService, $mdSidenav, $mdBottomSheet, $log, $q) {
 	self.share        = share;
 
 	// Load all registered users
-	console.log(userService);
 	userService
 	.get()
 	.then( function( users ) {

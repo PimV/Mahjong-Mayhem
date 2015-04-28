@@ -3,7 +3,7 @@
 
 module.exports = function($q){
   var service = {};
-
+  
   service.users = [
       {
         name: 'Lia Lugo',
@@ -49,10 +49,6 @@ module.exports = function($q){
       var index = service.users.indexOf(item);
       service.users.splice(index, 1);
     }
+    
+    return service;
 };
-
-
-  // angular.module('users')
-  //        .service('userService', ['$q', UserService]);
-
-

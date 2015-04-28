@@ -1,96 +1,41 @@
-(function(){
+'use strict';
+/**
+* Game Controller
+* @param  {[type]} gameService    [description]
+* @param  {[type]} $mdSidenav     [description]
+* @param  {[type]} $mdBottomSheet [description]
+* @param  {[type]} $log           [description]
+* @param  {[type]} $q             [description]
+*/
+module.exports = function ( gameService, $mdSidenav, $mdBottomSheet, $log, $q) {
 
-  angular
-       .module('games')
-       .controller('GameController', [
-          'gameService', '$mdSidenav', '$mdBottomSheet', '$log', '$q',
-          UserController
-       ]);
+	var self = this;
 
-  /**
-   * Main Controller for the Angular Material Starter App
-   * @param $scope
-   * @param $mdSidenav
-   * @param avatarsService
-   * @constructor
-   */
-  function UserController( gameService, $mdSidenav, $mdBottomSheet, $log, $q) {
-    var self = this;
+	self.selected     = null;
+	self.games        = [ ];
+	self.selectUser   = selectGame;
+	self.toggleList   = toggleGamesList;
 
-    self.selected     = null;
-    self.games        = [ ];
-    self.selectUser   = selectGame;
-    self.toggleList   = toggleGamesList;
-    //self.share        = share;
+	gameService
+	.loadAllGames()
+	.then( function( games ) {
+		self.games    = [].concat(games);
+		self.selected = games[0];
+	});
 
-    // Load all registered games
 
-    gameService
-          .loadAllGames()
-          .then( function( games ) {
-            self.games    = [].concat(games);
-            self.selected = games[0];
-          });
+	function toggleGamesList() {
+		var pending = $mdBottomSheet.hide() || $q.when(true);
 
-    // *********************************
-    // Internal methods
-    // *********************************
+		pending.then(function(){
+			$mdSidenav('left').toggle();
+		});
+	}
 
-    /**
-     * First hide the bottomsheet IF visible, then
-     * hide or Show the 'left' sideNav area
-     */
-    function toggleGamesList() {
-      var pending = $mdBottomSheet.hide() || $q.when(true);
 
-      pending.then(function(){
-        $mdSidenav('left').toggle();
-      });
-    }
+	function selectGame ( game ) {
+		self.selected = angular.isNumber(game) ? $scope.games[game] : game;
+		self.toggleList();
+	}
 
-    /**
-     * Select the current game
-     * @param menuId
-     */
-    function selectGame ( game ) {
-      self.selected = angular.isNumber(game) ? $scope.games[game] : game;
-      self.toggleList();
-    }
-
-    /**
-     * Show the bottom sheet
-     */
-    // function share($event) {
-    //     var game = self.selected;
-
-    //     $mdBottomSheet.show({
-    //       parent: angular.element(document.getElementById('content')),
-    //       templateUrl: '/src/games/view/contactSheet.html',
-    //       controller: [ '$mdBottomSheet', UserSheetController],
-    //       controllerAs: "vm",
-    //       bindToController : true,
-    //       targetEvent: $event
-    //     }).then(function(clickedItem) {
-    //       clickedItem && $log.debug( clickedItem.name + ' clicked!');
-    //     });
-
-    //     /**
-    //      * Bottom Sheet controller for the Avatar Actions
-    //      */
-    //     function UserSheetController( $mdBottomSheet ) {
-    //       this.user = user;
-    //       this.items = [
-    //         { name: 'Phone'       , icon: 'phone'       , icon_url: 'assets/svg/phone.svg'},
-    //         { name: 'Twitter'     , icon: 'twitter'     , icon_url: 'assets/svg/twitter.svg'},
-    //         { name: 'Google+'     , icon: 'google_plus' , icon_url: 'assets/svg/google_plus.svg'},
-    //         { name: 'Hangout'     , icon: 'hangouts'    , icon_url: 'assets/svg/hangouts.svg'}
-    //       ];
-    //       this.performAction = function(action) {
-    //         $mdBottomSheet.hide(action);
-    //       };
-    //     }
-    // }
-
-  }
-
-})();
+};
