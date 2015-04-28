@@ -14,7 +14,8 @@ require('./games/Games');
 angular.module(constants.appTitle, [
 	require('angular-ui-router'),
 	'ngMaterial',
-	'users'
+	'users',
+	'games'
 ])
 .constant('settings', require('./common/constants'))
 

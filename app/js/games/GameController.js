@@ -13,11 +13,11 @@ module.exports = function ( gameService, $mdSidenav, $mdBottomSheet, $log, $q) {
 
 	self.selected     = null;
 	self.games        = [ ];
-	self.selectUser   = selectGame;
+	self.selectGame   = selectGame;
 	self.toggleList   = toggleGamesList;
 
 	gameService
-	.loadAllGames()
+	.get()
 	.then( function( games ) {
 		self.games    = [].concat(games);
 		self.selected = games[0];
