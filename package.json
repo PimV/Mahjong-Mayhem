@@ -1,9 +1,9 @@
 {
-  "name": "material-start",
+  "name": "MahjongMayhem",
   "private": true,
-  "version": "0.0.0",
-  "description": "A starter project for AngularJS Material",
-  "repository": "https://github.com/angular/material-start",
+  "version": "0.0.1",
+  "description": "School project",
+  "repository": "",
   "license": "MIT",
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -17,6 +17,7 @@
     "shelljs": "^0.2.6"
   },
   "scripts": {
+    "start": "start cmd /k run.bat && grunt watch",
     "postinstall": "grunt"
   },
   "dependencies": {

@@ -1,19 +1,10 @@
-(function(){
-  'use strict';
+'use strict';
 
-  angular.module('users')
-         .service('userService', ['$q', UserService]);
 
-  /**
-   * Users DataService
-   * Uses embedded, hard-coded data model; acts asynchronously to simulate
-   * remote data service call(s).
-   *
-   * @returns {{loadAll: Function}}
-   * @constructor
-   */
-  function UserService($q){
-    var users = [
+module.exports = function($q){
+  var service = {};
+
+  service.users = [
       {
         name: 'Lia Lugo',
         avatar: 'svg-1',
@@ -46,13 +37,22 @@
       }
     ];
 
-    // Promise-based API
-    return {
-      loadAllUsers : function() {
-        // Simulate async nature of real remote calls
-        return $q.when(users);
-      }
-    };
-  }
+    service.add = function(obj){
+      service.users.push(obj);
+    }
 
-})();
+    service.get = function(){
+      return $q.when(service.users);
+    }
+
+    service.remove = function(item){
+      var index = service.users.indexOf(item);
+      service.users.splice(index, 1);
+    }
+};
+
+
+  // angular.module('users')
+  //        .service('userService', ['$q', UserService]);
+
+
