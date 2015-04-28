@@ -1,13 +1,23 @@
+'use strict';
+
+var constants = require('./common/constants');
+
 require('angular/angular');
 require('angular-animate');
 require('angular-aria');
 require('angular-material');
 
 require('./users/Users');
-require('./users/UserService');
-require('./users/UserController');
 
-var app = angular.module('starterApp', ['ngMaterial', 'users'])
+require('./games/Games');
+
+angular.module(constants.appTitle, [
+	require('angular-ui-router'),
+	'ngMaterial',
+	'users'
+])
+.constant('settings', require('./common/constants'))
+
 .config(function($mdThemingProvider, $mdIconProvider){
 
 	$mdIconProvider
@@ -23,4 +33,8 @@ var app = angular.module('starterApp', ['ngMaterial', 'users'])
 	.primaryPalette('brown')
 	.accentPalette('red');
 
-});
+})
+.config(require('./common/routes'));
+
+
+

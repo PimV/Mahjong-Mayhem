@@ -1,19 +1,21 @@
 'use strict';
-var name = "users";
+
+var name = "games";
+
 // Prepare the 'users' module for subsequent registration of controllers and delegates
 angular.module(name, [ 
 	'ngMaterial' 
 ])
-.service('userService', [
+.service('gameService', [
 	'$q', 
-	require('./UserService')
+	require('./GameService')
 ])
-.controller('UserController', [
-		'userService', 
+.controller('GameController', [
+		'gameService', 
 		'$mdSidenav', 
 		'$mdBottomSheet', 
 		'$log',
 		'$q',
-		require('./UserController')
+		require('./GameController')
 	]
 );
