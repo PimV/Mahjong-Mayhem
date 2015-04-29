@@ -1,0 +1,18 @@
+<pre>
+	{{vm}}
+</pre>
+<h2>All Games</h2>
+
+<md-list>
+	<md-item ng-repeat="game in vm.games">
+		<h3>{{game.title}}</h3>
+		<p>Created on: {{game.createdOn}}</p>
+		<p>Created by: {{game.createdBy.name}}</p>
+		<md-item ng-repeat="user in game.players">
+			<md-button ui-sref="user.details({userId: user.id})">
+				<md-icon md-svg-icon="{{ user.icon_url }}"></md-icon>
+				{{user.name}}
+			</md-button>
+		</md-item>
+	</md-item>
+</md-list>

@@ -58,7 +58,7 @@ module.exports = function ( userService, $mdSidenav, $mdBottomSheet, $log, $q) {
 
 		$mdBottomSheet.show({
 			parent: angular.element(document.getElementById('content')),
-			templateUrl: '/src/users/view/contactSheet.html',
+			templateUrl: 'views/users/users.contact.html',
 			controller: [ '$mdBottomSheet', UserSheetController],
 			controllerAs: "vm",
 			bindToController : true,

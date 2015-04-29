@@ -7,6 +7,8 @@ require('angular-animate');
 require('angular-aria');
 require('angular-material');
 
+
+
 require('./users/Users');
 
 require('./games/Games');
@@ -16,6 +18,15 @@ angular.module(constants.appTitle, [
 	'ngMaterial',
 	'users',
 	'games'
+])
+.run([
+	'$rootScope', 
+	'$state', 
+	'$stateParams',
+	function ($rootScope, $state, $stateParams) {
+		$rootScope.$state = $state;
+		$rootScope.$stateParams = $stateParams;
+	}
 ])
 .constant('settings', require('./common/constants'))
 
@@ -37,5 +48,5 @@ angular.module(constants.appTitle, [
 })
 .config(require('./common/routes'));
 
-
+require('./directives/directives')(constants);
 

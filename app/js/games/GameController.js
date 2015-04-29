@@ -7,35 +7,31 @@
 * @param  {[type]} $log           [description]
 * @param  {[type]} $q             [description]
 */
-module.exports = function ( gameService, $mdSidenav, $mdBottomSheet, $log, $q) {
+module.exports = function ( gameService, $scope, $stateParams, $log, $q) {
 
 	var self = this;
+
+	console.log($stateParams);
 
 	self.selected     = null;
 	self.games        = [ ];
 	self.selectGame   = selectGame;
-	self.toggleList   = toggleGamesList;
-
+	
 	gameService
-	.get()
+	.all()
 	.then( function( games ) {
 		self.games    = [].concat(games);
 		self.selected = games[0];
+		$scope.games = self.games;
 	});
 
 
-	function toggleGamesList() {
-		var pending = $mdBottomSheet.hide() || $q.when(true);
-
-		pending.then(function(){
-			$mdSidenav('left').toggle();
-		});
-	}
-
-
 	function selectGame ( game ) {
-		self.selected = angular.isNumber(game) ? $scope.games[game] : game;
-		self.toggleList();
-	}
 
+		self.selected = angular.isNumber(game) ? $scope.games[game] : game;
+		$scope.selectedGame = self.selected;
+		console.log(self.selected);
+	}
+	
+	
 };

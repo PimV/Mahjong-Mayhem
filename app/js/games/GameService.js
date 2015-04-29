@@ -5,6 +5,7 @@ module.exports = function ($q){
 
 	service.games = [
 		{
+			"id": 1,
 			"title": "AVANS GAME 1", //zelf erbij gezet (pim), wellicht handig?
 			"layout": "shanghai", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
 			"createdOn": (function(d){ d.setDate(d.getDate()-1); return d})(new Date), // date + time
@@ -37,6 +38,7 @@ module.exports = function ($q){
 			"state": "open" // -> 'open'|'playing'|'finished'
 		},
 		{
+			"id": 2,
 			"title": "AVANS GAME 2",
 			"layout": "shanghai", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
 			"createdOn": Date.now, // date + time
@@ -74,8 +76,16 @@ module.exports = function ($q){
 		service.games.push(obj);
     }
 
-    service.get = function(){
+    service.all = function(){
 		return $q.when(service.games);
+    }
+    
+    service.get = function(id){
+    	if(angular.isNumber(id)){
+	    	return service.games[id];
+	    } else {
+	    	return null;
+	    }
     }
 
     service.remove = function(item){
