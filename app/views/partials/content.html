@@ -1,10 +1,10 @@
 <div flex layout="row">
 	
-	<div flex layout="row" ng-controller="GameController as gc">
+	<div layout="row" ng-controller="GameController as gc">
 		<md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z2" md-component-id="left">
 			<md-list>
 				<md-item ng-repeat="g in gc.games | orderBy:'createdOn'">
-					<md-button ng-click="gc.selectGame(g)" ng-class="{'selected' : g === gc.selected }" ui-sref="games.details({gameId: g.id})">
+					<md-button ui-sref="games.details({gameId: g.id})">
 						{{g.title}} - Players: {{g.players.length}} / {{g.maxPlayers}}
 					</md-button>
 					

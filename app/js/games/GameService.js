@@ -41,7 +41,7 @@ module.exports = function ($q){
 			"id": 2,
 			"title": "AVANS GAME 2",
 			"layout": "shanghai", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
-			"createdOn": Date.now, // date + time
+			"createdOn": (function(d){ d.setDate(d.getDate()-5); return d})(new Date), // date + time
 			"startedOn": Date.now, // date + time
 			"endedOn": Date.now, // date + time
 			"createdBy": {
@@ -77,7 +77,7 @@ module.exports = function ($q){
     }
 
     service.all = function(){
-		return $q.when(service.games);
+		return (service.games.length > 0) ? service.games : $q.when(service.games).then(function(games) { return games; });
     }
     
     service.get = function(id){

@@ -1,15 +1,15 @@
 <md-bottom-sheet class="md-list md-has-header">
     
-    {{selectedGame}}
-    <md-subheader>
+     
+    <md-subheader>   
         Game Details <span class="name">{{ vm.selected.title }}</span>:
     </md-subheader>
 
     <md-list>
-      <md-item ng-repeat="item in vm.items">
+      <md-item ng-repeat="item in vm.selected.players">
         <md-button ng-click="vm.performAction(item)">
             <md-icon md-svg-icon="{{ item.icon_url }}"></md-icon>
-            {{item.name}}
+            {{item.nickname}}
         </md-button>
       </md-item>
     </md-list>

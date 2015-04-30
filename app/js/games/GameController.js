@@ -11,27 +11,37 @@ module.exports = function ( gameService, $scope, $stateParams, $log, $q) {
 
 	var self = this;
 
-	console.log($stateParams);
+	
 
 	self.selected     = null;
 	self.games        = [ ];
 	self.selectGame   = selectGame;
 	
-	gameService
-	.all()
-	.then( function( games ) {
-		self.games    = [].concat(games);
-		self.selected = games[0];
-		$scope.games = self.games;
-	});
+	self.games = gameService.all();
+	if ($stateParams) {
+		selectGameById($stateParams.gameId);
+	} else {
+		self.selected = self.games[0];
+	}
+
+	function selectGameById(id) {
+		console.log(id);
+		self.games.forEach(function(entry, index) {
+			console.log(entry);
+			if (id == entry.id) {
+				self.selected = entry;
+				return;
+			}
+		});
+		// self.selectedGame = self.selected;
+	}
 
 
 	function selectGame ( game ) {
 
 		self.selected = angular.isNumber(game) ? $scope.games[game] : game;
-		$scope.selectedGame = self.selected;
-		console.log(self.selected);
-	}
-	
-	
+	console.log(self.selected);
+}
+
+
 };
