@@ -2,7 +2,7 @@
 
 function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 	//Enable HTML5 mode
-	$locationProvider.html5Mode(true);
+	//$locationProvider.html5Mode(true);
 
 	$stateProvider
 		.state('home', {
@@ -15,23 +15,22 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 			abstract: true,
           	url: '/games',
     		templateUrl: 'views/games/games.html',
-          	controller: 'GameController',
-          	controllerAs: 'vm'
+          	controller: 'GameController as vm'
       	})
 		.state('games.list', {
-			url: '',
+			url: '^',
 			templateUrl: 'views/games/games.list.html',
-			controller: 'GameController',
-          	controllerAs: 'vm',
-			parent: 'games'
+			controller: 'GameController as vm'
+		})
+		.state('games.create', {
+			url: '^/create',
+			templateUrl: 'views/games/games.create.html',
+			controller: 'GameController as vm'
 		})
 		.state('games.details', {
-			url: '/{gameId:[0-9]{1,4}}',
+			url: '^/{gameId:[0-9]{1,4}}',
 			templateUrl: 'views/games/games.details.html',
-	        controller: 'GameController',
-	        controllerAs: 'vm',
-			parent: 'games'
-
+	        controller: 'GameController as vm'
 		});
 
 	$urlRouterProvider.otherwise('/');
