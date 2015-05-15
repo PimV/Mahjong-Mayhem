@@ -11,8 +11,6 @@ module.exports = function ( gameService, $scope, $stateParams, $log, $q) {
 
 	var self = this;
 
-	
-
 	self.selected     = null;
 	self.games        = [ ];
 	self.selectGame   = selectGame;
@@ -27,21 +25,42 @@ module.exports = function ( gameService, $scope, $stateParams, $log, $q) {
 	function selectGameById(id) {
 		console.log(id);
 		self.games.forEach(function(entry, index) {
-			console.log(entry);
 			if (id == entry.id) {
 				self.selected = entry;
 				return;
 			}
 		});
-		// self.selectedGame = self.selected;
 	}
 
 
 	function selectGame ( game ) {
-
 		self.selected = angular.isNumber(game) ? $scope.games[game] : game;
-	console.log(self.selected);
-}
+		console.log(self.selected);
+	}
 
+
+	$scope.addItem = function(index){
+		var _id = self.games.length + 1;
+		var g = $scope.game;
+
+		console.log($scope, _id);
+		console.log($scope.game.title);
+		self.games.push({
+			id: _id,
+			title: g.title,
+			layout: g.layout,
+			minPlayers: g.minPlayers,
+			maxPlayers: g.maxPlayers,
+			createdOn: (function(d){ d.setDate(d.getDate()-1); return d})(new Date),
+			startedOn: Date.now, // date + time
+			createdBy:{
+
+			},
+			players: [
+
+			],
+			state: "open"
+		});
+	}
 
 };
