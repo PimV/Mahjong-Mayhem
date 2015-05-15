@@ -1,0 +1,131 @@
+<md-content layout-padding layout="row">
+
+	<div flex layout="column" layout-fill>
+
+	    <md-input-container flex>
+			<label>Title</label>
+			<input ng-model="game.title">
+	    </md-input-container>
+  	
+  		<div layout="column" layout-align="center center" flex="80" >
+		
+			<md-select placeholder="Layout" ng-model="game.layout" style="height: 100px">
+				<md-option value="shanghai">Shanghai</md-option>
+				<md-option value="snake">Snake</md-option>
+				<md-option value="ox">Ox</md-option>
+				<md-option value="dragon">Dragon</md-option>
+				<md-option value="rooster">Rooster</md-option>
+				<md-option value="monkey">Monkey</md-option>
+			</md-select>
+			{{game.layout}}
+		</div>
+		<md-input-container>
+
+			<div flex="10" layout="" layout-align="center center" style="margin-top: 5px;">
+				<span class="md-body-1">Min Players</span>
+			</div>
+			<md-slider flex="" class="md-primary" md-discrete="" ng-model="game.minPlayers" step="1" min="1" max="35" aria-label="rating">
+     		 </md-slider>
+
+		</md-input-container>
+
+		<md-input-container>
+
+			<div flex="10" layout="" layout-align="center center" style="margin-top: 5px;">
+				<span class="md-body-1">Max Players</span>
+			</div>
+			<md-slider flex="" class="md-primary" md-discrete="" ng-model="game.maxPlayers" step="1" min="1" max="35" aria-label="rating">
+     		 </md-slider>
+
+		</md-input-container>
+		
+		<md-button ng-click="addItem()" class="md-raised md-primary">Create</md-button>
+		
+	</div>
+
+</md-content>
+
+ <!--  <md-content layout-padding="">
+    <form name="userForm">
+
+      <div layout="" layout-sm="column">
+        <md-input-container style="width:80%">
+            <label>Company (Disabled)</label>
+            <input ng-model="user.company" disabled="">
+          </md-input-container>
+
+        <md-input-container flex="">
+          <label>Submission Date</label>
+          <input type="date" ng-model="user.submissionDate">
+        </md-input-container>
+      </div>
+
+      <div layout="" layout-sm="column">
+        <md-input-container flex="">
+          <label>First name</label>
+          <input ng-model="user.firstName">
+        </md-input-container>
+        <md-input-container flex="">
+          <label>Last Name</label>
+          <input ng-model="theMax">
+        </md-input-container>
+      </div>
+
+      <md-input-container flex="">
+        <label>Address</label>
+        <input ng-model="user.address">
+      </md-input-container>
+      <md-input-container md-no-float="">
+        <input ng-model="user.address2" placeholder="Address 2">
+      </md-input-container>
+
+      <div layout="" layout-sm="column">
+        <md-input-container flex="">
+          <label>City</label>
+          <input ng-model="user.city">
+        </md-input-container>
+        <md-input-container flex="">
+          <label>State</label>
+          <input ng-model="user.state">
+        </md-input-container>
+        <md-input-container flex="">
+          <label>Postal Code</label>
+          <input ng-model="user.postalCode">
+        </md-input-container>
+      </div>
+
+      <md-input-container flex="">
+        <label>Biography</label>
+        <textarea ng-model="user.biography" columns="1" md-maxlength="150"></textarea>
+      </md-input-container>
+
+
+    </form>
+</md-content>
+ </md-content>	
+	<md-content md-theme="docs-dark" layout-padding layout="row" layout-sm="column">
+		
+		<md-input-container flex>
+			<label>Title</label>
+			<input ng-model="game.title">
+		</md-input-container>
+		
+		<md-input-container md-no-float>
+			<label>Email</label>
+			<input ng-model="user.email" type="email">
+		</md-input-container>
+<div layout="" layout-sm="column">
+        <md-input-container flex="">
+          <label>First name</label>
+          <input ng-model="user.firstName">
+        </md-input-container>
+        <md-input-container flex="">
+          <label>Last Name</label>
+          <input ng-model="theMax">
+        </md-input-container>
+      </div>
+
+		
+		<md-button ng-click="addItem()" class="md-raised md-primary">Create</md-button>
+	</md-content>
+</div>
