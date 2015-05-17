@@ -1,7 +1,6 @@
 logs/*
 !.gitkeep
 node_modules/
-coverage/
 bower_components/
 tmp
 .DS_Store
@@ -9,3 +8,4 @@ tmp
 app/jspm_packages
 npm-debug.log
 /dist
+/coverage
