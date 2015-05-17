@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for js\games\GameService.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header medium">
+    <h1>Code coverage report for <span class="entity">js\games\GameService.js</span></h1>
+    <h2>
+        Statements: <span class="metric">71.43% <small>(15 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">25% <small>(1 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">62.5% <small>(5 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">72.22% <small>(13 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">js/games/</a> &#187; GameService.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+'use strict';
+module.exports = function ($q){
+	var service = {};
+&nbsp;
+	service.games = [
+		{
+			"id": 1,
+			"title": "AVANS GAME 1", //zelf erbij gezet (pim), wellicht handig?
+			"layout": "shanghai", // -&gt; 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
+			"createdOn": (function(d){ d.setDate(d.getDate()-1); return d})(new Date), // date + time
+			"startedOn": Date.now, // date + time
+			"endedOn": Date.now, // date + time
+			"createdBy": {
+				"id": "tajreynd", // Avans username
+				"name": "Thomas Reynders", // fullname
+				"email": "tajreynd@student.avans.nl", // avans e-mail
+				"nickname": "ninox" // maybe filled later?
+			},
+			"minPlayers": 1, // 35 &lt;= x &gt;= 1, Required number of players to start
+			"maxPlayers": 4,  // 35 &lt;= x &gt;= 1
+			"players": [
+			{
+					"id": "tajreynd", // Avans username
+					"name": "Thomas Reynders", // fullname
+					"email": "tajreynd@student.avans.nl", // avans e-mail
+					"nickname": "ninox" // maybe filled later?
+					// Properties like score and isWinner maybe filled later
+				},
+				{
+					"id": "pimvl", // Avans username
+					"name": "Pim Verlangen", // fullname
+					"email": "pim@student.avans.nl", // avans e-mail
+					"nickname": "The_destoyer" // maybe filled later?
+					// Properties like score and isWinner maybe filled later
+				}
+				],
+			"state": "open" // -&gt; 'open'|'playing'|'finished'
+		},
+		{
+			"id": 2,
+			"title": "AVANS GAME 2",
+			"layout": "shanghai", // -&gt; 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
+			"createdOn": (function(d){ d.setDate(d.getDate()-5); return d})(new Date), // date + time
+			"startedOn": Date.now, // date + time
+			"endedOn": Date.now, // date + time
+			"createdBy": {
+				"id": "tajreynd", // Avans username
+				"name": "Thomas Reynders", // fullname
+				"email": "tajreynd@student.avans.nl", // avans e-mail
+				"nickname": "ninox" // maybe filled later?
+			},
+			"minPlayers": 1, // 35 &lt;= x &gt;= 1, Required number of players to start
+			"maxPlayers": 4,  // 35 &lt;= x &gt;= 1
+			"players": [
+			{
+					"id": "tajreynd", // Avans username
+					"name": "Thomas Reynders", // fullname
+					"email": "tajreynd@student.avans.nl", // avans e-mail
+					"nickname": "ninox" // maybe filled later?
+					// Properties like score and isWinner maybe filled later
+				},
+				{
+					"id": "danieleb", // Avans username
+					"name": "Daniel Eijkelenboom", // fullname
+					"email": "daniel@student.avans.nl", // avans e-mail
+					"nickname": "The_Noob" // maybe filled later?
+					// Properties like score and isWinner maybe filled later
+				}
+				],
+			"state": "open" // -&gt; 'open'|'playing'|'finished'
+		}
+	];
+&nbsp;
+	service.add = function(obj){
+		service.games.push(obj);
+		console.log(service.games.length);
+    }
+&nbsp;
+    service.all = function(){
+		return (service.games.length &gt; 0) ? service.games : <span class="branch-1 cbranch-no" title="branch not covered" >$q.when(service.games).then(<span class="fstat-no" title="function not covered" >function(games) {</span> <span class="cstat-no" title="statement not covered" >return games; </span>});</span>
+    }
+    
+    service.get = <span class="fstat-no" title="function not covered" >function(id){</span>
+<span class="cstat-no" title="statement not covered" >    	if(angular.isNumber(id)){</span>
+<span class="cstat-no" title="statement not covered" >	    	return service.games[id];</span>
+	    } else {
+<span class="cstat-no" title="statement not covered" >	    	return null;</span>
+	    }
+    }
+&nbsp;
+    service.remove = <span class="fstat-no" title="function not covered" >function(item){</span>
+<span class="cstat-no" title="statement not covered" >		var index = service.games.indexOf(item);</span>
+<span class="cstat-no" title="statement not covered" >		service.games.splice(index, 1);</span>
+    }
+    
+	return service;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun May 17 2015 15:30:57 GMT+0200 (West-Europa (zomertijd))</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

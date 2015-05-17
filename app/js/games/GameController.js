@@ -25,23 +25,39 @@ module.exports = function ( gameService, $scope, $stateParams, $log, $q) {
 	}
 
 	function selectGameById(id) {
-		console.log(id);
 		self.games.forEach(function(entry, index) {
-			console.log(entry);
 			if (id == entry.id) {
 				self.selected = entry;
 				return;
 			}
 		});
-		// self.selectedGame = self.selected;
 	}
 
 
 	function selectGame ( game ) {
 
 		self.selected = angular.isNumber(game) ? $scope.games[game] : game;
-	console.log(self.selected);
-}
+	}
+
+	self.add = function(title, layout, createdOn, startedOn, endedOn, createdBy, minPlayers, maxPlayers, players, state) {
+		var game = {};
+		game.title = title;
+		game.layout = layout;
+		game.createdOn = createdOn;
+		game.startedOn = startedOn;
+		game.endedOn = endedOn;
+		game.createdBy = createdBy;
+		game.minPlayers = minPlayers;
+		game.maxPlayers = maxPlayers;
+		game.players = players;
+		game.state = state;
+
+		gameService.add(game);
+
+		// self.games = gameService.all();
+
+		return game;
+	}
 
 
 };

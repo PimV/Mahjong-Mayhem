@@ -1,35 +1,52 @@
-module.exports = function(config){
+
+var istanbul = require('browserify-istanbul');
+
+module.exports = function (config) {
   config.set({
+    basePath: '',
+    frameworks: ['mocha', 'chai', 'sinon', 'browserify'],
+    files: [
 
-    basePath : './',
+    'app/js/app.js',
+    'node_modules/angular-mocks/angular-mocks.js',
+    'app/js/**/*.js',
 
-    files : [
-      'app/bower_components/angular/angular.js',
-      'app/bower_components/angular-route/angular-route.js',
-      'app/bower_components/angular-aria/angular-aria.js',
-      'app/bower_components/angular-mocks/angular-mocks.js',
-      'app/bower_components/angular-material/angular-material.js',
-      'app/components/**/*.js',
-      'app/view*/**/*.js'
+    'test/*.spec.js'
     ],
 
-    autoWatch : true,
+    reporters: ['progress', 'coverage'],
 
-    frameworks: ['jasmine'],
+    preprocessors: {
+            // source files, that you wanna generate coverage for
+            // do not include tests or libraries
+            // (these files will be instrumented by Istanbul)
+            'app/*.js': ['coverage', 'browserify'],
+            'app/**/*.js': ['coverage', 'browserify']
+          },
 
-    browsers : ['Chrome'],
+          browserify: {
+            debug: true,
+            transform: [/*es6ify, brfs, 'browserify-shim',*/ istanbul({
+              ignore: ['**/node_modules/**', '**/test/**'],
+            })],
+          },
 
-    plugins : [
-            'karma-chrome-launcher',
-            'karma-firefox-launcher',
-            'karma-jasmine',
-            'karma-junit-reporter'
-            ],
+          // optionally, configure the reporter
+          coverageReporter: {
+            type : 'html',
+            dir : 'coverage/'
+          },
 
-    junitReporter : {
-      outputFile: 'test_out/unit.xml',
-      suite: 'unit'
-    }
+          port: 9876,
+          colors: true,
+          autoWatch: true,
+          singleRun: false,
 
-  });
+          // level of logging
+          // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+          logLevel: config.LOG_DEBUG,
+
+          browsers: ['Chrome']
+
+        });
 };

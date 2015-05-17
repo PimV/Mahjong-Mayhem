@@ -74,6 +74,7 @@ module.exports = function ($q){
 
 	service.add = function(obj){
 		service.games.push(obj);
+		console.log(service.games.length);
     }
 
     service.all = function(){

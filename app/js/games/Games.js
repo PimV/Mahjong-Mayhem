@@ -10,7 +10,7 @@ angular.module(name, [
 	'$q', 
 	require('./GameService')
 ])
-.controller('GameController', [
+.controller('gameController', [
 		'gameService', 
 		'$scope', 
 		'$stateParams', 
