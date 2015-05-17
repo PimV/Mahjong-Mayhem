@@ -128,6 +128,7 @@ it('should add game (stub)', function() {
 		expectedPlayers,
 		expectedState);
 
+	//Check added game's properties to expected props
 	expect(actual.title).to.equal(expectedTitle);
 	expect(actual.layout).to.equal(expectedLayout);
 	expect(actual.createdOn).to.equal(expectedCreatedOn);
