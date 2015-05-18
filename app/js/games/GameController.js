@@ -7,7 +7,7 @@
 * @param  {[type]} $log           [description]
 * @param  {[type]} $q             [description]
 */
-module.exports = function ( gameService, $scope, $stateParams, $log, $q) {
+module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $q) {
 
 	var self = this;
 
@@ -15,37 +15,49 @@ module.exports = function ( gameService, $scope, $stateParams, $log, $q) {
 	self.games        = [ ];
 	self.selectGame   = selectGame;
 	
-	self.games = gameService.all();
+	self.games = buildGameGrid(gameService.all());
 	if ($stateParams) {
-		selectGameById($stateParams.gameId);
+		selectGame($stateParams.gameId);
 	} else {
 		self.selected = self.games[0];
 	}
 
-	function selectGameById(id) {
-		console.log(id);
-		self.games.forEach(function(entry, index) {
-			if (id == entry.id) {
-				self.selected = entry;
-				return;
-			}
-		});
+
+	function buildGameGrid(games){
+		var result = [];
+		angular.forEach(games, function(value, key) {
+			var g = angular.extend({}, value);
+			g.span = gridRowSpan(g);
+			g.background = colorFactory.random();
+			g.icon = "avatar:svg-"+(key+1);
+			console.log(g.background.index);
+			this.push(g);
+		}, result);
+		console.log(result);
+		return result;
 	}
 
-
+	/**
+	 * Set selected game
+	 * @param  {} game 
+	 */
 	function selectGame ( game ) {
-		self.selected = angular.isNumber(game) ? $scope.games[game] : game;
-		console.log(self.selected);
+		self.selected = angular.isNumber(parseInt(game)) ? self.games[game-1] : game;
 	}
 
-
+	/**
+	 * Add a new game object 
+	 * @param int index
+	 */
 	$scope.addItem = function(index){
 		var _id = self.games.length + 1;
 		var g = $scope.game;
 
 		console.log($scope, _id);
 		console.log($scope.game.title);
-		self.games.push({
+		var tmp = self.games;
+
+		tmp.push({
 			id: _id,
 			title: g.title,
 			layout: g.layout,
@@ -61,6 +73,19 @@ module.exports = function ( gameService, $scope, $stateParams, $log, $q) {
 			],
 			state: "open"
 		});
+		self.games = buildGameGrid(tmp);
+	}
+
+	function gridRowSpan(game){
+		var span = { row: 1, col: 1 };
+		if(game.minPlayers >= 5 || game.maxPlayers >= 10){
+			span.col = 2;
+		}
+		if(game.maxPlayers >= 20){
+			span.row = 2;
+		}
+		
+		return span;
 	}
 
 };
