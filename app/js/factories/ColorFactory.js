@@ -40,16 +40,16 @@ module.exports = function ($mdColorPalette){
 	 */
 	factory.color = function(index)
 	{
-		this.index = index;
-		this.value = $mdColorPalette[index]['400'].value;
-		this.toRGB = function( color ){
-			
-			return 'rgb('+this.value[0]+', '+this.value[1]+', '+this.value[2]+');';
+		var value = $mdColorPalette[index]['400'].value;
+		var toRGB = function( color ){
+			return 'rgb('+value[0]+', '+value[1]+', '+value[2]+');';
 		};
-		this.get = function(){
-			return this.value;
-		}
-		return this;
+		var c = {
+			index: index,
+			value: value,
+			rgb: toRGB()
+		};
+		return c;
 	}
 	
 	return factory;

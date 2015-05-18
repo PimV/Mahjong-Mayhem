@@ -73,6 +73,7 @@ module.exports = function ($q){
 	];
 
 	service.add = function(obj){
+		obj.id = service.games.length + 1;
 		service.games.push(obj);
     }
 

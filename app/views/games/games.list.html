@@ -6,33 +6,24 @@
 		md-cols-sm="1" md-cols-md="2" md-cols-gt-md="6" 
 		md-row-height-gt-md="1:1" md-row-height="4:3" 
 		md-gutter="8px" md-gutter-gt-sm="4px">
-		
-		<md-grid-tile ng-repeat="game in vm.games" 
-		md-rowspan="{{game.span.row}}" 
-		md-colspan="{{game.span.col}}" 
-		md-colspan-sm="1" 
-		style="background-color: {{game.background.toRGB()}}">
-			<md-icon md-svg-icon="{{game.icon}}"></md-icon>
-			<md-grid-tile-footer>
-				<h3>{{game.title}}</h3>
-			</md-grid-tile-footer>
 
-		</md-grid-tile>
+		<a ng-repeat="game in vm.games"
+		   ui-sref="games.details({gameId: game.id})">
+
+			<md-grid-tile  
+				md-rowspan="{{game.span.row}}" 
+				md-colspan="{{game.span.col}}" 
+				md-colspan-sm="1" 
+				style="background-color: {{game.background.rgb}}">
+
+				<md-icon md-svg-icon="{{game.icon}}"></md-icon>
+				<md-grid-tile-footer>
+					<h3>{{game.title}}</h3>
+				</md-grid-tile-footer>
+
+			</md-grid-tile>
+
+		</a>
 
 	</md-grid-list>
 </div>
-
-<!--
-<md-list>
-	<md-item ng-repeat="game in vm.games">
-		<h3>{{game.title}}</h3>
-		<p>Created on: {{game.createdOn}}</p>
-		<p>Created by: {{game.createdBy.name}}</p>
-		<md-item ng-repeat="user in game.players">
-			<md-button ui-sref="user.details({userId: user.id})">
-				<md-icon md-svg-icon="{{ user.icon_url }}"></md-icon>
-				{{user.nickname}}
-			</md-button>
-		</md-item>
-	</md-item>
-</md-list>-->

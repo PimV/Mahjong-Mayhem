@@ -15,7 +15,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.games        = [ ];
 	self.selectGame   = selectGame;
 	
-	self.games = buildGameGrid(gameService.all());
+	reload();
+
 	if ($stateParams) {
 		selectGame($stateParams.gameId);
 	} else {
@@ -24,17 +25,16 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 
 	function buildGameGrid(games){
-		var result = [];
-		angular.forEach(games, function(value, key) {
-			var g = angular.extend({}, value);
+		var promises = [];
+		for (var i = 0; i < games.length; i++) {
+			var g = games[i];
 			g.span = gridRowSpan(g);
 			g.background = colorFactory.random();
-			g.icon = "avatar:svg-"+(key+1);
-			console.log(g.background.index);
-			this.push(g);
-		}, result);
-		console.log(result);
-		return result;
+			g.icon = "avatar:svg-"+(i+1);
+			promises.push(g);
+		};
+		
+		return games;
 	}
 
 	/**
@@ -51,41 +51,54 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 */
 	$scope.addItem = function(index){
 		var _id = self.games.length + 1;
-		var g = $scope.game;
+		var newGame = $scope.game;
 
-		console.log($scope, _id);
-		console.log($scope.game.title);
-		var tmp = self.games;
-
-		tmp.push({
+		var game = {
 			id: _id,
-			title: g.title,
-			layout: g.layout,
-			minPlayers: g.minPlayers,
-			maxPlayers: g.maxPlayers,
+			title: newGame.title,
+			layout: newGame.layout,
+			minPlayers: newGame.minPlayers,
+			maxPlayers: newGame.maxPlayers,
 			createdOn: (function(d){ d.setDate(d.getDate()-1); return d})(new Date),
+			endedOn: null,
 			startedOn: Date.now, // date + time
-			createdBy:{
-
-			},
-			players: [
-
-			],
+			createdBy:{ },
+			players: [ ],
 			state: "open"
-		});
-		self.games = buildGameGrid(tmp);
+		};
+		gameService.add(game);
+
+		reload();
 	}
 
 	function gridRowSpan(game){
-		var span = { row: 1, col: 1 };
-		if(game.minPlayers >= 5 || game.maxPlayers >= 10){
-			span.col = 2;
+		var span = { row: 2, col: 2 },
+			col = function(){
+				span.col += 1;
+			},
+			row = function(){
+				span.row +=1;
+			};
+		if(game.minPlayers >= 4 || game.maxPlayers >= 10){
+			col();
 		}
 		if(game.maxPlayers >= 20){
-			span.row = 2;
+			row();
+		}
+		if(game.maxPlayers >= 30){
+			row();
+			col();
 		}
 		
 		return span;
+	}
+
+	/**
+	 * Reload all game items from gameService
+	 * @uses gameService 
+	 */
+	function reload(){
+		self.games = buildGameGrid(gameService.all());
 	}
 
 };
