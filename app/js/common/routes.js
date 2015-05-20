@@ -31,6 +31,22 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 			url: '^/{gameId:[0-9]{1,4}}',
 			templateUrl: 'views/games/games.details.html',
 	        controller: 'GameController as vm'
+		})
+		.state('users', {
+			abstract: true,
+          	url: '/users',
+    		templateUrl: 'views/users/users.html',
+          	controller: 'UserController as vm_users'
+      	})
+		.state('users.list', {
+			url: '^',
+			templateUrl: 'views/users/users.list.html',
+			controller: 'UserController as vm_users'
+		})
+		.state('users.create', {
+			url: '^/create',
+			templateUrl: 'views/users/users.create.html',
+			controller: 'UserController as vm_users' 
 		});
 
 	$urlRouterProvider.otherwise('/');

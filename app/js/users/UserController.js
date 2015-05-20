@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function ( userService, $mdSidenav, $mdBottomSheet, $log, $q) {
+module.exports = function ( userService, $scope, $mdSidenav, $mdBottomSheet, $log, $q) {
 	/**
 	 * Main Controller for the Angular Material Starter App
 	 * @param $scope
@@ -18,12 +18,14 @@ module.exports = function ( userService, $mdSidenav, $mdBottomSheet, $log, $q) {
 	self.share        = share;
 
 	// Load all registered users
-	userService
-	.get()
-	.then( function( users ) {
-		self.users    = [].concat(users);
-		self.selected = users[0];
-	});
+	self.users = userService.all();
+	self.selected = self.users[0];
+	// userService
+	// .get()
+	// .then( function( users ) {
+	// 	self.users    = [].concat(users);
+	// 	self.selected = users[0];
+	// });
 
 	// *********************************
 	// Internal methods
@@ -82,6 +84,10 @@ module.exports = function ( userService, $mdSidenav, $mdBottomSheet, $log, $q) {
 		 		$mdBottomSheet.hide(action);
 		 	};
 		}
+	}
+
+	self.addUser = function(){
+		console.log("new user added");
 	}
 };
 
