@@ -1,0 +1,19 @@
+<h2>New User</h2>
+<md-input-container>
+    <label>Id</label>
+    <input ng-model="user.id">
+</md-input-container>
+<md-input-container>
+    <label>Name</label>
+    <input ng-model="user.name">
+</md-input-container>
+<md-input-container>
+    <label>Email</label>
+    <input ng-model="user.email">
+</md-input-container>
+<md-input-container>
+    <label>Nickname</label>
+    <input ng-model="user.nickname">
+</md-input-container>
+<md-button ng-click="vm_users.addUser()" class="md-raised md-primary">Create</md-button>
+<md-button ui-sref="users.list" class="md-raised md-primary">Cancel</md-button>

@@ -1,16 +1,12 @@
-<md-bottom-sheet class="md-list md-has-header">
 
-    <md-subheader>
-        All users <span class="name">{{ vm.user.name }}</span>:
-    </md-subheader>
-
-    <md-list>
-      <md-item ng-repeat="item in vm.items">
-        <md-button ng-click="vm.performAction(item)">
-            <md-icon md-svg-icon="{{ item.icon_url }}"></md-icon>
-            {{item.name}}
+<h2>All Users</h2>
+<md-list>    
+    <md-item ng-repeat="user in vm_users.users">
+        <md-button>
+            {{user.name}}
         </md-button>
-      </md-item>
-    </md-list>
+    </md-item>
+</md-item>
+<md-divider/>
+<md-button ui-sref="users.create" class="md-raised md-primary">New User</md-button>
 
-</md-bottom-sheet>
