@@ -2,6 +2,8 @@
 	
 	<div layout="row" ng-controller="GameController as gc" >
 		<md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z2" md-component-id="left">
+		<h3>Open Games:</h3>
+		<md-divider/>
 			<md-list>
 				<md-item ng-repeat="g in gc.games | orderBy:'createdOn'">
 					<md-button ui-sref="games.details({gameId: g.id})">
