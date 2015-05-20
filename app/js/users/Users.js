@@ -10,6 +10,8 @@ angular.module(name, [
 ])
 .controller('UserController', [
 		'userService', 
+		'$scope',
+		'$location',
 		'$mdSidenav', 
 		'$mdBottomSheet', 
 		'$log',
