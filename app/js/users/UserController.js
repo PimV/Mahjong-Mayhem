@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function ( userService, $scope, $mdSidenav, $mdBottomSheet, $log, $q) {
+module.exports = function ( userService, $scope, $location, $mdSidenav, $mdBottomSheet, $log, $q) {
 	/**
 	 * Main Controller for the Angular Material Starter App
 	 * @param $scope
@@ -87,8 +87,9 @@ module.exports = function ( userService, $scope, $mdSidenav, $mdBottomSheet, $lo
 	}
 
 	self.addUser = function(){
-		var user = $scope.user;
-		console.log("new user added", user); 
+		userService.add($scope.user);
+		console.log("new user added", $scope.user); 
+		$location.path('/');
 	}
 };
 
