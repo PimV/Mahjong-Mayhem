@@ -3,10 +3,18 @@
 function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 	//Enable HTML5 mode
 	//$locationProvider.html5Mode(true);
-
+	/*$urlRouterProvider.when('/',[
+		'$routeParams',
+		//'AuthController'
+		require('../auth/AuthController')
+	]);*/
+	$urlRouterProvider.when('/authcallback', ['$state', function($state){
+		console.log("AUTH");
+		$state.go('auth');
+	}]);
 	$stateProvider
 		.state('home', {
-			url: '/',
+			url: '',
 			controller: 'GameController as vm',
 			templateUrl: 'views/games/games.list.html',
 			title: 'Home'
@@ -18,21 +26,25 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
           	controller: 'GameController as vm'
       	})
 		.state('games.list', {
-			url: '^',
+			url: '/',
 			templateUrl: 'views/games/games.list.html',
 			controller: 'GameController as vm'
 		})
 		.state('games.create', {
-			url: '^/create',
+			url: '/create',
 			templateUrl: 'views/games/games.create.html',
 			controller: 'GameController as vm'
 		})
 		.state('games.details', {
-			url: '^/{gameId:[0-9]{1,4}}',
+			url: '/{gameId:[0-9]{1,4}}',
 			templateUrl: 'views/games/games.details.html',
 	        controller: 'GameController as vm'
+		})
+		.state('auth',{
+			url: '/authcallback?username&token',
+			controller: 'AuthController'
 		});
-
+	
 	$urlRouterProvider.otherwise('/');
 }
 

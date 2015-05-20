@@ -1,34 +1,25 @@
 'use strict';
 
 var constants = require('./common/constants');
-
 require('angular/angular');
 require('angular-animate');
 require('angular-aria');
 require('angular-material');
 
-
+require('./auth/Auth');
 
 require('./users/Users');
 
 require('./games/Games');
 
+
 angular.module(constants.appTitle, [
 	require('angular-ui-router'),
 	'ngMaterial',
+	'auth',
 	'users',
 	'games'
 ])
-.run([
-	'$rootScope', 
-	'$state', 
-	'$stateParams',
-	function ($rootScope, $state, $stateParams) {
-		$rootScope.$state = $state;
-		$rootScope.$stateParams = $stateParams;
-	}
-])
-.constant('settings', require('./common/constants'))
 
 .config(function($mdThemingProvider, $mdIconProvider){
 
@@ -46,7 +37,11 @@ angular.module(constants.appTitle, [
 	.accentPalette('red');
 
 })
+
 .config(require('./common/routes'))
+
+.constant('settings', require('./common/constants'))
+
 .factory('colorFactory', ['$mdColorPalette', require('./factories/ColorFactory')]);
 
 require('./directives/directives')(constants);
