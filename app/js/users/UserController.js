@@ -87,7 +87,8 @@ module.exports = function ( userService, $scope, $mdSidenav, $mdBottomSheet, $lo
 	}
 
 	self.addUser = function(){
-		console.log("new user added");
+		var user = $scope.user;
+		console.log("new user added", user); 
 	}
 };
 
