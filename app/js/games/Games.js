@@ -12,8 +12,9 @@ angular.module(name, [
 ])
 .controller('GameController', [
 		'gameService', 
-		'$mdSidenav', 
-		'$mdBottomSheet', 
+		'colorFactory',
+		'$scope', 
+		'$stateParams', 
 		'$log',
 		'$q',
 		require('./GameController')
