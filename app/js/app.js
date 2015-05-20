@@ -13,6 +13,8 @@ require('./users/Users');
 
 require('./games/Games');
 
+require('./users/Users');
+
 angular.module(constants.appTitle, [
 	require('angular-ui-router'),
 	'ngMaterial',
