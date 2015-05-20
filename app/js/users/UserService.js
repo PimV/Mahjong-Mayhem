@@ -37,6 +37,10 @@ module.exports = function($q){
       }
     ];
 
+    service.all = function(){
+      return (service.users.length > 0) ? service.users : $q.when(service.users).then(function(users) { return users; });
+    }
+
     service.add = function(obj){
       service.users.push(obj);
     }
@@ -44,6 +48,7 @@ module.exports = function($q){
     service.get = function(){
       return $q.when(service.users);
     }
+
 
     service.remove = function(item){
       var index = service.users.indexOf(item);
