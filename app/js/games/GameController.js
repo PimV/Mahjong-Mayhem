@@ -48,7 +48,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Add a new game object 
 	 * @param int index
 	 */
-	self.addItem = function(index){
+	self.addItem = function(){
 		var _id = self.games.length + 1;
 		var newGame = $scope.game;
 
@@ -62,12 +62,14 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 			endedOn: null,
 			startedOn: Date.now, // date + time
 			createdBy:{ },
-			players: [ ],
+			players: [],
 			state: "open"
 		};
 		gameService.add(game);
 
 		reload();
+
+		return game;
 	}
 
 	function gridRowSpan(game){
