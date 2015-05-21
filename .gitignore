@@ -7,5 +7,6 @@ tmp
 .idea
 app/jspm_packages
 npm-debug.log
-/dist
-/coverage
+dist/
+coverage/
+

@@ -12,6 +12,7 @@ angular.module(name, [
 ])
 .controller('gameController', [
 		'gameService', 
+		'colorFactory',
 		'$scope', 
 		'$stateParams', 
 		'$log',
