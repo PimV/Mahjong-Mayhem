@@ -49,7 +49,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Add a new game object 
 	 * @param int index
 	 */
-	$scope.addItem = function(index){
+	self.addItem = function(index){
 		var _id = self.games.length + 1;
 		var newGame = $scope.game;
 
