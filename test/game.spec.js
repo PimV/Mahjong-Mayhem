@@ -11,8 +11,8 @@ describe('GameController test1', function() {
 	beforeEach(inject(function($rootScope, $controller, $injector) {
 		scope = $rootScope.$new();
 
-		gameService = $injector.get('gameService');
-		gameController = $controller('gameController', {$scope: scope});
+		gameService = $injector.get('GameService');
+		gameController = $controller('GameController', {$scope: scope});
 
 	}));
 
@@ -24,120 +24,75 @@ describe('GameController test1', function() {
 		var currentLength = gameController.games.length;
 		var expectedLength = currentLength + 1;
 
-		var expectedId = 3;
+		var expectedId = expectedLength;
 		var expectedTitle = "AVANS GAME 3";
 		var expectedLayout = "snake";
-		var expectedCreatedOn = (function(d){ d.setDate(d.getDate()-10); return d})(new Date);
-		var expectedStartedOn = (function(d){ d.setDate(d.getDate()-5); return d})(new Date);
-		var expectedEndedOn = (function(d){ d.setDate(d.getDate()-2); return d})(new Date);
-		var expectedCreatedBy = {
-			id: "rmbverla",
-			name: "Pim Verlangen",
-			email: "rmbverla@student.avans.nl",
-			nickname: "PimV"
-		};
 		var expectedMinPlayers = 2;
 		var expectedMaxPlayers = 5;
-		var expectedPlayers = [];
-		var expectedState = "finished";
 
-		var actual = gameController.add(
-			expectedTitle,
-			expectedLayout,
-			expectedCreatedOn,
-			expectedStartedOn,
-			expectedEndedOn,
-			expectedCreatedBy,
-			expectedMinPlayers,
-			expectedMaxPlayers,
-			expectedPlayers,
-			expectedState);
+		var game = {
+			title: expectedTitle,
+			layout: expectedLayout,
+			minPlayers: expectedMinPlayers,
+			maxPlayers: expectedMaxPlayers
+		};
+
+		scope.game = game;
+		var actual = gameController.addItem(game);
 
 		//Check added game's properties
+		expect(actual.id).to.equal(expectedId);
 		expect(actual.title).to.equal(expectedTitle);
 		expect(actual.layout).to.equal(expectedLayout);
-		expect(actual.createdOn).to.equal(expectedCreatedOn);
-		expect(actual.startedOn).to.equal(expectedStartedOn);
-		expect(actual.endedOn).to.equal(expectedEndedOn);
-		expect(actual.createdBy).to.equal(expectedCreatedBy);
 		expect(actual.minPlayers).to.equal(expectedMinPlayers);
 		expect(actual.maxPlayers).to.equal(expectedMaxPlayers);
-		expect(actual.players).to.equal(expectedPlayers);
-		expect(actual.state).to.equal(expectedState);
 
 		//Check if game added to controller
 		expect(gameController.games.length).to.equal(expectedLength);
 	});
 
-it('should add game (stub)', function() {
-	var currentLength = gameController.games.length;
-	var expectedLength = currentLength + 1;
+	it('should add game (stub)', function() {
+		var currentLength = gameController.games.length;
+		var expectedLength = currentLength + 1;
 
-	var expectedId = 3;
-	var expectedTitle = "AVANS GAME 3";
-	var expectedLayout = "snake";
-	var expectedCreatedOn = (function(d){ d.setDate(d.getDate()-10); return d})(new Date);
-	var expectedStartedOn = (function(d){ d.setDate(d.getDate()-5); return d})(new Date);
-	var expectedEndedOn = (function(d){ d.setDate(d.getDate()-2); return d})(new Date);
-	var expectedCreatedBy = {
-		id: "rmbverla",
-		name: "Pim Verlangen",
-		email: "rmbverla@student.avans.nl",
-		nickname: "PimV"
-	};
-	var expectedMinPlayers = 2;
-	var expectedMaxPlayers = 5;
-	var expectedPlayers = [];
-	var expectedState = "finished";
+		var expectedId = 3;
+		var expectedTitle = "AVANS GAME 3";
+		var expectedLayout = "snake";
+		var expectedMinPlayers = 2;
+		var expectedMaxPlayers = 5;
+		var expectedState = "open";
+		var expectedPlayers = [];
+		var expectedCreatedBy = {};
 
-	gameService.add = sinon.stub();
-	gameService.add.withArgs({
-		title: expectedTitle,
-		layout: expectedLayout,
-		createdOn: expectedCreatedOn,
-		startedOn: expectedStartedOn,
-		endedOn: expectedEndedOn,
-		createdBy: expectedCreatedBy,
-		minPlayers: expectedMinPlayers,
-		maxPlayers: expectedMaxPlayers,
-		players: expectedPlayers,
-		state: expectedState
-	}).returns({
-		id: expectedId,
-		title: expectedTitle,
-		layout: expectedLayout,
-		createdOn: expectedCreatedOn,
-		startedOn: expectedStartedOn,
-		endedOn: expectedEndedOn,
-		createdBy: expectedCreatedBy,
-		minPlayers: expectedMinPlayers,
-		maxPlayers: expectedMaxPlayers,
-		players: expectedPlayers,
-		state: expectedState
-	});
+		gameService.add = sinon.stub();
+		gameService.add.withArgs().returns({
+			id: expectedId,
+			title: expectedTitle,
+			layout: expectedLayout,
+			createdBy: expectedCreatedBy,
+			minPlayers: expectedMinPlayers,
+			maxPlayers: expectedMaxPlayers,
+			players: expectedPlayers,
+			state: expectedState
+		});
 
-	var actual = gameController.add(
-		expectedTitle,
-		expectedLayout,
-		expectedCreatedOn,
-		expectedStartedOn,
-		expectedEndedOn,
-		expectedCreatedBy,
-		expectedMinPlayers,
-		expectedMaxPlayers,
-		expectedPlayers,
-		expectedState);
+		var game = {
+			title: expectedTitle,
+			layout: expectedLayout,
+			minPlayers: expectedMinPlayers,
+			maxPlayers: expectedMaxPlayers
+		};
+
+		scope.game = game;
+		var actual = gameController.addItem(game);
 
 	//Check added game's properties to expected props
 	expect(actual.title).to.equal(expectedTitle);
 	expect(actual.layout).to.equal(expectedLayout);
-	expect(actual.createdOn).to.equal(expectedCreatedOn);
-	expect(actual.startedOn).to.equal(expectedStartedOn);
-	expect(actual.endedOn).to.equal(expectedEndedOn);
-	expect(actual.createdBy).to.equal(expectedCreatedBy);
+	expect(actual.createdBy.length).to.equal(expectedCreatedBy.length);
 	expect(actual.minPlayers).to.equal(expectedMinPlayers);
 	expect(actual.maxPlayers).to.equal(expectedMaxPlayers);
-	expect(actual.players).to.equal(expectedPlayers);
+	expect(actual.players.length).to.equal(expectedPlayers.length);
 	expect(actual.state).to.equal(expectedState);
 
 	//Chec kif gameService.add has only been called once (because of stub);
