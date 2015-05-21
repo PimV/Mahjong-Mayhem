@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function ( userService, $scope, $location, $mdSidenav, $mdBottomSheet, $log, $q) {
+module.exports = function ( userService, $scope, $location, $stateParams,  $mdSidenav, $mdBottomSheet, $log, $q) {
 	/**
 	 * Main Controller for the Angular Material Starter App
 	 * @param $scope
@@ -19,7 +19,13 @@ module.exports = function ( userService, $scope, $location, $mdSidenav, $mdBotto
 
 	// Load all registered users
 	self.users = userService.all();
-	self.selected = self.users[0];
+	if (typeof $stateParams.userId !== 'undefined') {
+		selectUser($stateParams.userId);
+	} else {
+		self.selected = self.users[0];
+	}
+	
+	// console.log(self.selected);
 	// userService
 	// .get()
 	// .then( function( users ) {
@@ -48,8 +54,7 @@ module.exports = function ( userService, $scope, $location, $mdSidenav, $mdBotto
 	* @param menuId
 	*/
 	function selectUser ( user ) {
-		self.selected = angular.isNumber(user) ? $scope.users[user] : user;
-		self.toggleList();
+		self.selected = angular.isNumber(parseInt(user)) ? self.users[user] : user;
 	}
 
 	/**
@@ -89,7 +94,11 @@ module.exports = function ( userService, $scope, $location, $mdSidenav, $mdBotto
 	self.addUser = function(){
 		userService.add($scope.user);
 		console.log("new user added", $scope.user); 
-		$location.path('/');
+		$location.path('/users');
+	}
+
+	self.showUser = function($index){
+		$location.path("/users/" + $index);	
 	}
 };
 

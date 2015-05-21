@@ -12,6 +12,7 @@ angular.module(name, [
 		'userService', 
 		'$scope',
 		'$location',
+		'$stateParams',
 		'$mdSidenav', 
 		'$mdBottomSheet', 
 		'$log',

@@ -2,7 +2,7 @@
 <h2>All Users</h2>
 <md-list>    
     <md-item ng-repeat="user in vm_users.users">
-        <md-button>
+        <md-button ng-click="vm_users.showUser($index)" >
             {{user.name}}
         </md-button>
     </md-item>
