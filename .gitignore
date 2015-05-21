@@ -7,4 +7,4 @@ tmp
 .idea
 app/jspm_packages
 npm-debug.log
-/dist
+dist/**
