@@ -1,26 +1,31 @@
 'use strict';
 
 var constants = require('./common/constants');
+
 require('angular/angular');
 require('angular-animate');
 require('angular-aria');
 require('angular-material');
 
+
 require('./auth/Auth');
-
 require('./users/Users');
-
 require('./games/Games');
 
 
 angular.module(constants.appTitle, [
 	require('angular-ui-router'),
+	require('angular-route'),
 	'ngMaterial',
 	'auth',
 	'users',
 	'games'
 ])
-
+/*.config(function($routeProvider){
+	$routeProvider.when("/authcallback:username:token", {
+		controller: "AuthController"
+	});
+})*/
 .config(function($mdThemingProvider, $mdIconProvider){
 
 	$mdIconProvider

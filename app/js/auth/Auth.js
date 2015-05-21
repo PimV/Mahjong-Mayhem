@@ -7,7 +7,9 @@ angular.module(name, [
 	'ngMaterial' 
 ])
 .controller('AuthController', [
-		'$routeParams',
+		'$scope', 
+		'$stateParams', 
+		'$state',
 		require('./AuthController')
 	]
 );
