@@ -21,8 +21,20 @@ angular.module(constants.appTitle, [
 	'auth',
 	'users',
 	'games'
-])
+	])
+.factory('httpRequestInterceptor', function ($cookies) {  
+	return {    
+		request: function (config) { 
 
+			config.headers['x-username'] = $cookies.oauth_username;
+			config.headers['x-token'] = $cookies.oauth_access_token;
+			return config;
+		} 
+	}
+})
+.config(function($httpProvider) {
+	$httpProvider.interceptors.push('httpRequestInterceptor');
+})
 .config(function($mdThemingProvider, $mdIconProvider){
 
 	$mdIconProvider
@@ -33,7 +45,7 @@ angular.module(constants.appTitle, [
 	.icon("hangouts"   , "./assets/svg/hangouts.svg"    , 512)
 	.icon("twitter"    , "./assets/svg/twitter.svg"     , 512)
 	.icon("phone"      , "./assets/svg/phone.svg"       , 512);
-	
+
 	$mdThemingProvider.theme('default')
 	.primaryPalette('brown')
 	.accentPalette('red');

@@ -12,13 +12,13 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 		// 	title: 'Auth'
 		// })
 		.state('authcallback', {
-			url: '/authcallback?username={user_name}&token={my_token}',
+			url: '/authcallback?username&token',
 			controller: 'AuthController',
 			templateUrl: 'views/games/games.list.html',
 			title: 'Auth'
 		})
 		.state('home', {
-			url: '',
+			url: '/',
 			controller: 'GameController as vm',
 			templateUrl: 'views/games/games.list.html',
 			title: 'Home'

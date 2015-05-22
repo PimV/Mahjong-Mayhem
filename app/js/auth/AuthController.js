@@ -2,8 +2,6 @@
 
 module.exports = function ( $scope,  $stateParams, $state, $cookies) {
 
-	console.log("HOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOI");
-
 	var self = this;
 
 	var storedUsername = $cookies.oauth_username;
@@ -24,5 +22,5 @@ module.exports = function ( $scope,  $stateParams, $state, $cookies) {
 	// console.log(username, token);
 
 	//Redirect
-	// $state.go('games.list');
+	$state.go('games.list');
 }
