@@ -1,23 +1,14 @@
 'use strict';
 
-function Routes($stateProvider, $locationProvider, $urlRouterProvider, $routeProvider) {
+function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 	//Enable HTML5 mode
 	$locationProvider.html5Mode(true);
-	/*$urlRouterProvider.when('/',[
-		'$routeParams',
-		//'AuthController'
-		require('../auth/AuthController')
-	]);*/
-	/*$urlRouterProvider.when('/authcallback?username&token', ['$state', '$stateParams', function($state, $stateParams){
-		console.log("AUTH", $state.parrams);
-		var username = $state.params.username;
-		console.log($stateParams);
-		$state.go('auth', {username: 'appel', token: 'null'});
-	}]);*/
-	$routeProvider.when("/authcallback", {
-		controller: "AuthController"
-	});
+
 	$stateProvider
+		.state('authcallback', {
+			url: '/authcallback?username&token',
+			controller: 'AuthController'
+		})
 		.state('home', {
 			url: '',
 			controller: 'GameController as vm',
