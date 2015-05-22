@@ -2,7 +2,7 @@
 
 var name = "auth";
 
-// Prepare the 'users' module for subsequent registration of controllers and delegates
+// Prepare the 'auth' module for subsequent registration of controllers and delegates
 angular.module(name, [ 
 	'ngMaterial' 
 ])

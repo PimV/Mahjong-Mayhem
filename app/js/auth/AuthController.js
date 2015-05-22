@@ -10,5 +10,5 @@ module.exports = function ( $scope,  $stateParams, $state ) {
 	console.log(username, token);
 
 	//Redirect
-	$state.go('games.list');
+	// $state.go('games.list');
 }

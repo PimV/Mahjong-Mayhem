@@ -7,7 +7,9 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 	$stateProvider
 		.state('authcallback', {
 			url: '/authcallback?username&token',
-			controller: 'AuthController'
+			controller: 'AuthController',
+			templateUrl: 'views/games/games.list.html',
+			title: 'Auth'
 		})
 		.state('home', {
 			url: '',
