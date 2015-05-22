@@ -7,7 +7,7 @@
 * @param  {[type]} $log           [description]
 * @param  {[type]} $q             [description]
 */
-module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $q) {
+module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $q, $filter) {
 
 	var self = this;
 
@@ -20,11 +20,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	
 	self.reload();
 
-	if ($stateParams) {
-		selectGame($stateParams.gameId);
-	} else {
-		self.selected = self.games[0];
-	}
+	
 
 
 	function buildGameGrid(games){
@@ -45,7 +41,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * @param  {} game 
 	 */
 	 function selectGame ( game ) {
-	 	self.selected = angular.isNumber(parseInt(game)) ? self.games[game-1] : game;
+	 	self.selected = $filter('filter')(self.games, {id: game})[0];
 	 }
 
 	/**
@@ -108,6 +104,11 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	promise.then(function(payload) { 
 	 		// console.log(payload);
 	 		self.games = buildGameGrid(gameService.all());
+	 		if ($stateParams) {
+	 			selectGame($stateParams.gameId);
+	 		} else {
+	 			self.selected = self.games[0];
+	 		}
 	 	},
 	 	function(errorPayload) {
 	 		console.log("then error");

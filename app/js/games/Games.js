@@ -18,6 +18,7 @@ angular.module(name, [
 		'$stateParams', 
 		'$log',
 		'$q',
+		'$filter',
 		require('./GameController')
 	]
 );

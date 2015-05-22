@@ -8,7 +8,7 @@
       <md-item ng-repeat="item in vm.selected.players">
         <md-button ng-click="vm.performAction(item)">
             <md-icon md-svg-icon="{{ item.icon_url }}"></md-icon>
-            {{item.nickname}}
+            {{item.name}}
         </md-button>
       </md-item>
     </md-list>

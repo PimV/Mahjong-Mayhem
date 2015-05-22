@@ -58,5 +58,6 @@ angular.module(constants.appTitle, [
 
 .factory('colorFactory', ['$mdColorPalette', require('./factories/ColorFactory')]);
 
+
 require('./directives/directives')(constants);
 

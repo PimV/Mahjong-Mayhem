@@ -59,6 +59,7 @@ angular.module(constants.appTitle, [
 
 .factory('colorFactory', ['$mdColorPalette', require('./factories/ColorFactory')]);
 
+
 require('./directives/directives')(constants);
 
 
@@ -124,12 +125,6 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 	$locationProvider.html5Mode(true);
 
 	$stateProvider
-		// .state('authcallback', {
-		// 	url: '/authcallback?username&token',
-		// 	controller: 'AuthController',
-		// 	templateUrl: 'views/games/games.list.html',
-		// 	title: 'Auth'
-		// })
 		.state('authcallback', {
 			url: '/authcallback?username&token',
 			controller: 'AuthController',
@@ -141,27 +136,31 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 			controller: 'GameController as vm',
 			templateUrl: 'views/games/games.list.html',
 			title: 'Home'
-		})
-		.state('games', {
+		});
+		$stateProvider.state('games', {
 			abstract: true,
           	url: '/games',
     		templateUrl: 'views/games/games.html',
-          	controller: 'GameController as vm'
+          	controller: 'GameController as vm',
+          	title: 'Game'
       	})
 		.state('games.list', {
 			url: '/',
 			templateUrl: 'views/games/games.list.html',
-			controller: 'GameController as vm'
+			controller: 'GameController as vm',
+			title: 'Games'
 		})
 		.state('games.create', {
 			url: '/create',
 			templateUrl: 'views/games/games.create.html',
-			controller: 'GameController as vm'
+			controller: 'GameController as vm',
+			title: 'Create Game'
 		})
 		.state('games.details', {
-			url: '/{gameId:[0-9]{1,4}}',
+			url: '/:gameId',
 			templateUrl: 'views/games/games.details.html',
-	        controller: 'GameController as vm'
+	        controller: 'GameController as vm',
+	        title: 'Game Details'
 		});
 
 	
@@ -177,6 +176,23 @@ module.exports = function(constants){
 	angular.module(constants.appTitle)
 	.directive('header', require('./header'))
 	.directive('main', require('./main'))
+	.directive('updateTitle', ['$rootScope', '$timeout',
+		function($rootScope, $timeout) {
+			return {
+				link: function(scope, element) {
+
+					var listener = function(event, toState) {
+						var title = (toState.title) ? toState.title : 'Default title';
+						$timeout(function() {
+							element.text(title);
+						},0,false);
+					};
+
+					$rootScope.$on('$stateChangeSuccess', listener);
+				}
+			};
+		}
+		]);
 }
 
 },{"./header":7,"./main":8}],7:[function(require,module,exports){
@@ -263,7 +279,7 @@ module.exports = function ($mdColorPalette){
 * @param  {[type]} $log           [description]
 * @param  {[type]} $q             [description]
 */
-module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $q) {
+module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $q, $filter) {
 
 	var self = this;
 
@@ -276,11 +292,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	
 	self.reload();
 
-	if ($stateParams) {
-		selectGame($stateParams.gameId);
-	} else {
-		self.selected = self.games[0];
-	}
+	
 
 
 	function buildGameGrid(games){
@@ -301,7 +313,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * @param  {} game 
 	 */
 	 function selectGame ( game ) {
-	 	self.selected = angular.isNumber(parseInt(game)) ? self.games[game-1] : game;
+	 	self.selected = $filter('filter')(self.games, {id: game})[0];
 	 }
 
 	/**
@@ -364,6 +376,11 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	promise.then(function(payload) { 
 	 		// console.log(payload);
 	 		self.games = buildGameGrid(gameService.all());
+	 		if ($stateParams) {
+	 			selectGame($stateParams.gameId);
+	 		} else {
+	 			self.selected = self.games[0];
+	 		}
 	 	},
 	 	function(errorPayload) {
 	 		console.log("then error");
@@ -378,77 +395,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 'use strict';
 module.exports = function ($q, $http){
 	var service = {};
-
-	// service.games = [
-	// {
-	// 	"id": 1,
-	// 		"title": "AVANS GAME 1", //zelf erbij gezet (pim), wellicht handig?
-	// 		"layout": "shanghai", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
-	// 		"createdOn": (function(d){ d.setDate(d.getDate()-1); return d})(new Date), // date + time
-	// 		"startedOn": Date.now, // date + time
-	// 		"endedOn": Date.now, // date + time
-	// 		"createdBy": {
-	// 			"id": "tajreynd", // Avans username
-	// 			"name": "Thomas Reynders", // fullname
-	// 			"email": "tajreynd@student.avans.nl", // avans e-mail
-	// 			"nickname": "ninox" // maybe filled later?
-	// 		},
-	// 		"minPlayers": 1, // 35 <= x >= 1, Required number of players to start
-	// 		"maxPlayers": 4,  // 35 <= x >= 1
-	// 		"players": [
-	// 		{
-	// 				"id": "tajreynd", // Avans username
-	// 				"name": "Thomas Reynders", // fullname
-	// 				"email": "tajreynd@student.avans.nl", // avans e-mail
-	// 				"nickname": "ninox" // maybe filled later?
-	// 				// Properties like score and isWinner maybe filled later
-	// 			},
-	// 			{
-	// 				"id": "pimvl", // Avans username
-	// 				"name": "Pim Verlangen", // fullname
-	// 				"email": "pim@student.avans.nl", // avans e-mail
-	// 				"nickname": "The_destoyer" // maybe filled later?
-	// 				// Properties like score and isWinner maybe filled later
-	// 			}
-	// 			],
-	// 		"state": "open" // -> 'open'|'playing'|'finished'
-	// 	},
-	// 	{
-	// 		"id": 2,
-	// 		"title": "AVANS GAME 2",
-	// 		"layout": "shanghai", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
-	// 		"createdOn": (function(d){ d.setDate(d.getDate()-5); return d})(new Date), // date + time
-	// 		"startedOn": Date.now, // date + time
-	// 		"endedOn": Date.now, // date + time
-	// 		"createdBy": {
-	// 			"id": "tajreynd", // Avans username
-	// 			"name": "Thomas Reynders", // fullname
-	// 			"email": "tajreynd@student.avans.nl", // avans e-mail
-	// 			"nickname": "ninox" // maybe filled later?
-	// 		},
-	// 		"minPlayers": 1, // 35 <= x >= 1, Required number of players to start
-	// 		"maxPlayers": 4,  // 35 <= x >= 1
-	// 		"players": [
-	// 		{
-	// 				"id": "tajreynd", // Avans username
-	// 				"name": "Thomas Reynders", // fullname
-	// 				"email": "tajreynd@student.avans.nl", // avans e-mail
-	// 				"nickname": "ninox" // maybe filled later?
-	// 				// Properties like score and isWinner maybe filled later
-	// 			},
-	// 			{
-	// 				"id": "danieleb", // Avans username
-	// 				"name": "Daniel Eijkelenboom", // fullname
-	// 				"email": "daniel@student.avans.nl", // avans e-mail
-	// 				"nickname": "The_Noob" // maybe filled later?
-	// 				// Properties like score and isWinner maybe filled later
-	// 			}
-	// 			],
-	// 		"state": "open" // -> 'open'|'playing'|'finished'
-	// 	}
-	// 	];
-
-
 
 		service.add = function(obj){
 			obj.id = service.games.length + 1;
@@ -513,6 +459,7 @@ angular.module(name, [
 		'$stateParams', 
 		'$log',
 		'$q',
+		'$filter',
 		require('./GameController')
 	]
 );

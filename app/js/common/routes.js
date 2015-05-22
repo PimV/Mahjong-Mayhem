@@ -5,12 +5,6 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 	$locationProvider.html5Mode(true);
 
 	$stateProvider
-		// .state('authcallback', {
-		// 	url: '/authcallback?username&token',
-		// 	controller: 'AuthController',
-		// 	templateUrl: 'views/games/games.list.html',
-		// 	title: 'Auth'
-		// })
 		.state('authcallback', {
 			url: '/authcallback?username&token',
 			controller: 'AuthController',
@@ -22,27 +16,31 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 			controller: 'GameController as vm',
 			templateUrl: 'views/games/games.list.html',
 			title: 'Home'
-		})
-		.state('games', {
+		});
+		$stateProvider.state('games', {
 			abstract: true,
           	url: '/games',
     		templateUrl: 'views/games/games.html',
-          	controller: 'GameController as vm'
+          	controller: 'GameController as vm',
+          	title: 'Game'
       	})
 		.state('games.list', {
 			url: '/',
 			templateUrl: 'views/games/games.list.html',
-			controller: 'GameController as vm'
+			controller: 'GameController as vm',
+			title: 'Games'
 		})
 		.state('games.create', {
 			url: '/create',
 			templateUrl: 'views/games/games.create.html',
-			controller: 'GameController as vm'
+			controller: 'GameController as vm',
+			title: 'Create Game'
 		})
 		.state('games.details', {
-			url: '/{gameId:[0-9]{1,4}}',
+			url: '/:gameId',
 			templateUrl: 'views/games/games.details.html',
-	        controller: 'GameController as vm'
+	        controller: 'GameController as vm',
+	        title: 'Game Details'
 		});
 
 	
