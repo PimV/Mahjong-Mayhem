@@ -3,6 +3,7 @@
 var constants = require('./common/constants');
 
 require('angular/angular');
+require('angular-cookies');
 require('angular-animate');
 require('angular-aria');
 require('angular-material');
@@ -16,6 +17,7 @@ require('./games/Games');
 angular.module(constants.appTitle, [
 	require('angular-ui-router'),
 	'ngMaterial',
+	'ngCookies',
 	'auth',
 	'users',
 	'games'

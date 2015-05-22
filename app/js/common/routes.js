@@ -5,8 +5,14 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 	$locationProvider.html5Mode(true);
 
 	$stateProvider
+		// .state('authcallback', {
+		// 	url: '/authcallback?username&token',
+		// 	controller: 'AuthController',
+		// 	templateUrl: 'views/games/games.list.html',
+		// 	title: 'Auth'
+		// })
 		.state('authcallback', {
-			url: '/authcallback?username&token',
+			url: '/authcallback?username={user_name}&token={my_token}',
 			controller: 'AuthController',
 			templateUrl: 'views/games/games.list.html',
 			title: 'Auth'
