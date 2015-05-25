@@ -1,2 +1,19 @@
 <h1>User Details</h1>
- {{vm_users.selected.name}}
+<md-input-container>
+    <label>Id</label>
+    <input ng-model="vm_users.selected.id">
+</md-input-container>
+<md-input-container>
+    <label>Name</label>
+    <input ng-model="vm_users.selected.name">
+</md-input-container>
+<md-input-container>
+    <label>Email</label>
+    <input ng-model="vm_users.selected.email">
+</md-input-container>
+<md-input-container>
+    <label>Nickname</label>
+    <input ng-model="vm_users.selected.nickname">
+</md-input-container>
+<md-button ng-click="vm_users.editUser()" class="md-raised md-primary">Save</md-button>
+<md-button ui-sref="users.list" class="md-raised md-primary">Cancel</md-button>

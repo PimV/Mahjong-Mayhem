@@ -97,6 +97,10 @@ module.exports = function ( userService, $scope, $location, $stateParams,  $mdSi
 		$location.path('/users');
 	}
 
+	self.editUser = function(){
+		$location.path('/users');
+	}
+
 	self.showUser = function($index){
 		$location.path("/users/" + $index);	
 	}
