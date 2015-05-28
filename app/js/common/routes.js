@@ -46,22 +46,26 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 			abstract: true,
           	url: '/users',
     		templateUrl: 'views/users/users.html',
-          	controller: 'UserController as vm_users'
+          	controller: 'UserController as vm_users',
+          	title: 'User'
       	})
 		.state('users.list', {
 			url: '',
 			templateUrl: 'views/users/users.list.html',
-			controller: 'UserController as vm_users'
+			controller: 'UserController as vm_users',
+			title: 'Users'
 		})
 		.state('users.create', {
 			url: '/create',
 			templateUrl: 'views/users/users.create.html',
-			controller: 'UserController as vm_users' 
+			controller: 'UserController as vm_users',
+			title: 'Create User' 
 		})
 		.state('users.details', {
-			url: '/{userId:[0-9]{1,4}}',
+			url: '/:userId',
 			templateUrl: 'views/users/users.detail.html',
-	        controller: 'UserController as vm_users'
+	        controller: 'UserController as vm_users',
+	        title: 'User Details'
 		});
 
 	
