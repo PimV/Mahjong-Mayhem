@@ -10,6 +10,9 @@
 						{{g.title}} - Players: {{g.players.length}} / {{g.maxPlayers}}
 					</md-button>
 				</md-item>
+					<md-button ng-click="gc.reload()">
+						reload
+					</md-button>
 			</md-list>
 			<md-button ui-sref="users.list" class="md-raised md-primary">Join Game</md-button>
 		</md-sidenav>

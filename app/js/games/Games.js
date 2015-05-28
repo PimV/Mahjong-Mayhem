@@ -8,6 +8,7 @@ angular.module(name, [
 ])
 .service('gameService', [
 	'$q', 
+	'$http',
 	require('./GameService')
 ])
 .controller('GameController', [
@@ -17,6 +18,7 @@ angular.module(name, [
 		'$stateParams', 
 		'$log',
 		'$q',
+		'$filter',
 		require('./GameController')
 	]
 );

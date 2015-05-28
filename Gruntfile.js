@@ -6,8 +6,8 @@ module.exports = function(grunt) {
 				dest: 'dist/js/app.js',
 				options: {
 					external: ['angular'],
-					debug: true,
-					browserifyOptions: { debug: true }
+					debug: false,
+					browserifyOptions: { debug: false }
 				}
 			}},
 			copy: {

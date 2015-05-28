@@ -3,35 +3,37 @@
 var constants = require('./common/constants');
 
 require('angular/angular');
+require('angular-cookies');
 require('angular-animate');
 require('angular-aria');
 require('angular-material');
 
 
-
+require('./auth/Auth');
 require('./users/Users');
-
 require('./games/Games');
-
-require('./users/Users');
 
 angular.module(constants.appTitle, [
 	require('angular-ui-router'),
 	'ngMaterial',
+	'ngCookies',
+	'auth',
 	'users',
 	'games'
-])
-.run([
-	'$rootScope', 
-	'$state', 
-	'$stateParams',
-	function ($rootScope, $state, $stateParams) {
-		$rootScope.$state = $state;
-		$rootScope.$stateParams = $stateParams;
-	}
-])
-.constant('settings', require('./common/constants'))
+	])
+.factory('httpRequestInterceptor', function ($cookies) {  
+	return {    
+		request: function (config) { 
 
+			config.headers['x-username'] = $cookies.oauth_username;
+			config.headers['x-token'] = $cookies.oauth_access_token;
+			return config;
+		} 
+	}
+})
+.config(function($httpProvider) {
+	$httpProvider.interceptors.push('httpRequestInterceptor');
+})
 .config(function($mdThemingProvider, $mdIconProvider){
 
 	$mdIconProvider
@@ -42,14 +44,19 @@ angular.module(constants.appTitle, [
 	.icon("hangouts"   , "./assets/svg/hangouts.svg"    , 512)
 	.icon("twitter"    , "./assets/svg/twitter.svg"     , 512)
 	.icon("phone"      , "./assets/svg/phone.svg"       , 512);
-	
+
 	$mdThemingProvider.theme('default')
 	.primaryPalette('brown')
 	.accentPalette('red');
 
 })
+
 .config(require('./common/routes'))
+
+.constant('settings', require('./common/constants'))
+
 .factory('colorFactory', ['$mdColorPalette', require('./factories/ColorFactory')]);
+
 
 require('./directives/directives')(constants);
 
