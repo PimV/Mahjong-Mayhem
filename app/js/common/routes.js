@@ -17,7 +17,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 			templateUrl: 'views/games/games.list.html',
 			title: 'Home'
 		});
-		$stateProvider.state('games', {
+	$stateProvider.state('games', {
 			abstract: true,
           	url: '/games',
     		templateUrl: 'views/games/games.html',

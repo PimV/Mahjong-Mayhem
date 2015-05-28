@@ -8,11 +8,9 @@ require('angular-animate');
 require('angular-aria');
 require('angular-material');
 
-
 require('./auth/Auth');
 require('./users/Users');
 require('./games/Games');
-
 
 angular.module(constants.appTitle, [
 	require('angular-ui-router'),
@@ -21,8 +19,9 @@ angular.module(constants.appTitle, [
 	'auth',
 	'users',
 	'games'
-	])
-.factory('httpRequestInterceptor', function ($cookies) {  
+])
+.factory('httpRequestInterceptor', function ($cookies) {
+console.log($cookies);  
 	return {    
 		request: function (config) { 
 
