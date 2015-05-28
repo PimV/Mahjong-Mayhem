@@ -145,3 +145,7 @@ md-grid-tile md-icon svg {
 md-grid-tile {
   transition: all 300ms ease-out 50ms;
 }
+
+.tile {
+  position: absolute;
+}

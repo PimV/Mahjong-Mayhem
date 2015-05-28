@@ -19,6 +19,7 @@ angular.module(name, [
 		'$log',
 		'$q',
 		'$filter',
+		'$mdSidenav',
 		require('./GameController')
 	]
 );

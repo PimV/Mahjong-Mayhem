@@ -7,7 +7,7 @@
 * @param  {[type]} $log           [description]
 * @param  {[type]} $q             [description]
 */
-module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $q, $filter) {
+module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $q, $filter, $mdSidenav) {
 
 	var self = this;
 
@@ -17,6 +17,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.games        = [ ];
 	self.reload 	  = reload;
 	self.selectGame   = selectGame;
+	self.loadTiles 	  = loadTiles;
 	
 	self.reload();
 
@@ -42,6 +43,44 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 */
 	 function selectGame ( game ) {
 	 	self.selected = $filter('filter')(self.games, {id: game})[0];
+	 	loadTiles();
+	 }
+
+	 function loadTiles() {
+	 	var promise = gameService.loadTiles(self.selected.id);
+	 	promise.then(function(payload) { 
+	 		self.selected.tiles = payload.data;
+	 		processTiles();
+	 	},
+	 	function(errorPayload) {
+	 		console.log("then error");
+	 		
+	 	});
+	 }
+
+	 function processTiles() {
+	 	if (self.selected && self.selected.tiles) {
+	 		self.selected.tiles.forEach(function(tile) {
+	 			var name = tile.tile.suit.toLowerCase() + "_" + tile.tile.name.toLowerCase();
+	 			// console.log(gameService.tileSet[0]);
+	 			for (var y = 0; y < 3; y++) {
+	 				for (var x = 0; x < 14; x++) {
+	 					if (gameService.tileSet[y][x] == name) {
+	 						tile.sheetX = -(x * 73);
+	 						tile.sheetY = -(y * 90);
+
+	 						tile.boardX = (tile.xPos * 36.5 ) - 36.5;
+	 						tile.boardY = (tile.yPos * 45 ) - 45;
+	 						tile.boardZ = tile.zPos;
+
+	 						return;
+	 					}
+	 				}	
+	 			}
+
+
+	 		});
+	 	}
 	 }
 
 	/**
@@ -102,7 +141,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	 	var promise = gameService.loadFromApi();
 	 	promise.then(function(payload) { 
-	 		// console.log(payload);
 	 		self.games = buildGameGrid(gameService.all());
 	 		if ($stateParams) {
 	 			selectGame($stateParams.gameId);

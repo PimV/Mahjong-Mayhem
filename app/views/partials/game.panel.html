@@ -1,0 +1,24 @@
+<md-card>
+
+
+<div class="tile" ng-repeat="tile in vm.selected.tiles"
+	 style="
+	 height: 90px;
+	 width:73px;
+	 background: url(/assets/tile_sheet_73x90.png) {{tile.sheetX}}px {{tile.sheetY}}px;
+	 transform-style: preserve-3d;
+	 -webkit-transform-style: preserve-3d;
+	 -webkit-backface-visibility:hidden;
+	 -webkit-transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);
+
+	 transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);"></div>
+
+<!-- <div ng-repeat="tile in vm.selected.tiles">
+		<div style="height: 90px; width:73px; background: url(/assets/tile_sheet_73x90.png) {{tile.sheetX}}px {{tile.sheetY}}px; transform: translate3d({{tile.boardX}}, {{tile.boardY}}, {{tile.boardZ}});"></div>
+</md-item> -->
+
+
+
+
+
+</md-card>
