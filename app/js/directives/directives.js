@@ -5,6 +5,7 @@ module.exports = function(constants){
 	angular.module(constants.appTitle)
 	.directive('header', require('./header'))
 	.directive('main', require('./main'))
+	.directive('gameMenu', require('./gameSidebar'))
 	.directive('updateTitle', ['$rootScope', '$timeout',
 		function($rootScope, $timeout) {
 			return {
@@ -21,5 +22,6 @@ module.exports = function(constants){
 				}
 			};
 		}
-		]);
+		]
+	);
 }

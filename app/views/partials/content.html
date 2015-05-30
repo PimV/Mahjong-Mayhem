@@ -1,21 +1,5 @@
 <div flex layout="row">
-	
-	<div layout="row" ng-controller="GameController as gc" >
-		<md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z2" md-component-id="left">
-			<md-list>
-				<md-item ng-repeat="g in gc.games | orderBy:'createdOn'">
-					<md-button ui-sref="games.details({gameId: g.id})">
-						{{g.title}} - Players: {{g.players.length}} / {{g.maxPlayers}}
-					</md-button>
-				</md-item>
-					<md-button ng-click="gc.reload()">
-						reload
-					</md-button>
-			</md-list>
-		</md-sidenav>
-
-	</div>
-	<!-- END FLEX -->
+	<game-menu></game-menu>
 
 	<!-- BEGIN MD-CONTENT -->
 	<md-content flex id="content">

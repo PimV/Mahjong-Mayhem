@@ -7,20 +7,16 @@
 * @param  {[type]} $log           [description]
 * @param  {[type]} $q             [description]
 */
-module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $q, $filter) {
+module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $q, $filter, $mdBottomSheet) {
 
 	var self = this;
-
-
 
 	self.selected     = null;
 	self.games        = [ ];
 	self.reload 	  = reload;
 	self.selectGame   = selectGame;
-	
+	//self.showDetails  = showDetails;
 	self.reload();
-
-	
 
 
 	function buildGameGrid(games){
@@ -114,6 +110,28 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		console.log("then error");
 	 		$log.error('failure loading games', errorPayload);
 	 	});
-	 }
+	}
 
-	};
+
+	/**
+	 * Show $mdBottomSheet
+	 * @return {[type]} [description]
+	 */
+	/*function showDetails () {
+		$mdBottomSheet.show({
+			parent: angular.element(document.getElementById('content')),
+			templateUrl: 'views/games/games.bottomSheet.html'
+			controller: ['$mdBottomSheet', DetailsController],
+			controllerAs: 'vm'
+		});
+		function DetailsController($mdBottomSheet){
+			this.selected = self.selected;
+			this.close = close;
+
+
+			function close(){
+				$mdBottomSheet.hide();
+			}
+		}
+	}*/
+};
