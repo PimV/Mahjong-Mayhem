@@ -17,8 +17,11 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.reload 	  = reload;
 	self.selectGame   = selectGame;
 	self.loadTiles 	  = loadTiles;
+	self.start 		  = start;
 	self.tile 		  = {width: 73, height: 90};
+
 	self.reload();
+
 
 	/**
 	 * Setter Games
@@ -28,6 +31,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		self.games = value;
 	}
 
+
 	/**
 	 * Getter Games
 	 * @return {} self.games
@@ -35,6 +39,26 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	function getGames(){
 		return self.games;
 	}
+
+
+	/**
+	 * Start selected game
+	 */
+	function start(){
+		console.log('start');
+		if(self.selected.state !== "open") return;
+		console.log('start != open');
+		var promise = gameService.start(self.selected.id);
+
+	 	promise.then(function(payload) { 
+	 		//self.selected.tiles = payload.data;
+	 		$state.reload();
+	 	},
+	 	function(errorPayload) {
+	 		console.log("then error");
+	 	});
+	}
+
 
 	/**
 	 * Set selected game
@@ -44,7 +68,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	self.selected = $filter('filter')(getGames(), {id: game})[0];
 	 	console.log(self.selected.players);
 	 	loadTiles();
-	 }
+	}
+
 
 	function buildGameGrid(games){
 		var promises = [];
@@ -71,17 +96,18 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * @uses GameService 
 	 */
 	function loadTiles() {
+		if(self.selected.state === "open") return;
 	 	var promise = gameService.loadTiles(self.selected.id);
 
 	 	promise.then(function(payload) { 
 	 		self.selected.tiles = payload.data;
-	 		console.log(self.selected.tiles);
 	 		processTiles();
 	 	},
 	 	function(errorPayload) {
 	 		console.log("then error");
 	 	});
 	}
+
 
 	/**
 	 * Create Tile variables
@@ -109,24 +135,33 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 			}
 	 		});
 	 	}
-	 }
+	}
+
 
 	/**
 	 * Add a new game object 
 	 * @param int index
 	 */
 	self.addItem = function(index){
-	 	
-	 	console.log(self.newGame, $scope);
 	 	var game = {
-	 		layout: self.newGame.layout,
+	 		templateName: self.newGame.layout,
 	 		minPlayers: self.newGame.minPlayers,
 	 		maxPlayers: self.newGame.maxPlayers
 		};
-		var result = gameService.add(game);
-		console.log(result);
-		//$state.go('lab-details', {id: id});
+		//Post the new game
+		var promise = gameService.add(game);
+
+		//Wait for the promise
+		promise.then(function(payload) {
+			//redirect to the new game
+			reload();
+	 		$state.go('games.details', {gameId: payload.data.id});
+	 	},
+	 	function(errorPayload) {
+	 		console.log("then error");
+	 	});
 	}
+
 
 	/**
 	 * Define the column and row width of a grid element
@@ -154,17 +189,19 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		return span;
 	}
 
+
 	/**
 	 * Reload all game items from gameService
 	 * @uses gameService 
 	 */
-	 function reload() {
+	function reload() {
 	 	console.log("calling reload");
 
 	 	var promise = gameService.loadFromApi();
 	 	
  		promise.then(function(payload) 
  		{
+ 			console.log(payload.data);
  			setGames(buildGameGrid(gameService.all()));
 
  			if ($stateParams) {
@@ -180,13 +217,11 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
  	}
 
 
-
-
 	/**-
 	 * Show $mdBottomSheet
 	 * @return {[type]} [description]
 	 */
-	 function showDetails () {
+	function showDetails () {
 	 	$mdBottomSheet.show({
 	 		parent: angular.element(document.getElementById('content')),
 	 		templateUrl: 'views/games/games.bottomSheet.html',
@@ -202,5 +237,5 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 			$mdBottomSheet.hide();
 	 		}
 	 	}
-	 }
+	}
 };

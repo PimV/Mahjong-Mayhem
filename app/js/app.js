@@ -14,6 +14,7 @@ angular.module(constants.appTitle, [
 	require('angular-material'),
 	require('angular-ui-router'),
 	require('angular-cookies'),
+	'head',
 	'theme',
 	'nav',
 	'auth',

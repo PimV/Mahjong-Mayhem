@@ -24,7 +24,36 @@ module.exports = function ($q, $http){
 			console.log(data);
 		});
 	}
+	
 
+	/**
+	 * Returns a game object 
+	 * @param  string id 
+	 * @return {}
+	 */
+	service.get = function(id){
+		if(angular.isNumber(id)){
+			return service.games[id];
+		} else {
+			return null;
+		}
+	}
+
+
+	/**
+	 * Removes a game from the array
+	 * @param  {} item game object
+	 */
+	service.remove = function(item){
+		var index = service.games.indexOf(item);
+		service.games.splice(index, 1);
+	}
+
+
+	/**
+	 * Returns all loaded game objects
+	 * @return {} games collection
+	 */
 	service.all = function(){
 		if (service.games && service.games.length > 0) {
 			console.log("sg");
@@ -35,6 +64,35 @@ module.exports = function ($q, $http){
 		}
 	}
 
+
+	/**
+	 * Use a http request to 
+	 * Start a single game
+	 * NOTE: There need to be enough players
+	 * NOTE: Logged in user is the owner of the game
+	 *
+	 * 
+	 * @param  {[type]} gameId [description]
+	 * @return {[type]}        [description]
+	 */
+	service.start = function(gameId){
+		return $http.post(service.baseUrl+'/games/'+gameId+'/start', {})
+		.success(function(data,status,headers,config) {
+			console.log(data);
+		})
+		.error(function(data,status,headers,config) {
+			console.log(data);
+		});
+	}
+
+
+	/**
+	 * Use a http request to retrieve 
+	 * all game objects from the server
+	 * 
+	 * @uses $http
+	 * @return {} promise
+	 */
 	service.loadFromApi = function() {
 		return $http.get(service.baseUrl+'/games')
 		.success(function(data,status,headers,config) {
@@ -45,6 +103,14 @@ module.exports = function ($q, $http){
 		});
 	}
 
+
+	/**
+	 * Use a http request to retrieve all 
+	 * tiles from a single game
+	 * @param String gameId
+	 * @uses $http
+	 * @return {} promise
+	 */
 	service.loadTiles = function(gameId) {
 		return $http.get(service.baseUrl+'/games/' + gameId + '/tiles')
 		.success(function(data,status,headers,config) {
@@ -55,6 +121,15 @@ module.exports = function ($q, $http){
 		});
 	}
 
+
+	/**
+	 * Use a http request to retrieve all 
+	 * Players from a single game
+	 * 
+	 * @param String gameId
+	 * @uses $http
+	 * @return {} promise
+	 */
 	service.loadPlayers = function(gameId){
 		return $http.get(service.baseUrl+'/games/' + gameId + '/players')
 		.success(function(data,status,headers,config) {
@@ -63,19 +138,6 @@ module.exports = function ($q, $http){
 		.error(function(data,status,headers,config) {
 			console.log(data);
 		});
-	}
-
-	service.get = function(id){
-		if(angular.isNumber(id)){
-			return service.games[id];
-		} else {
-			return null;
-		}
-	}
-
-	service.remove = function(item){
-		var index = service.games.indexOf(item);
-		service.games.splice(index, 1);
 	}
 
 	return service;
