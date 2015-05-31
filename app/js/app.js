@@ -1,14 +1,8 @@
-'use strict';
-
-var constants = require('./common/constants');
-
+//'use strict';
 require('angular/angular');
-require('angular-cookies');
+var constants = require('./common/constants');
 require('angular-animate');
-require('angular-aria');
-require('angular-material');
-
-
+require('angular-aria');	
 
 require('./app/Theme');
 require('./app/Nav');
@@ -16,11 +10,10 @@ require('./app/Head');
 require('./auth/Auth');
 require('./users/Users');
 require('./games/Games');
-
 angular.module(constants.appTitle, [
+	require('angular-material'),
 	require('angular-ui-router'),
-	'ngMaterial',
-	'ngCookies',
+	require('angular-cookies'),
 	'theme',
 	'nav',
 	'auth',

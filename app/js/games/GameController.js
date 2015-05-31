@@ -21,11 +21,17 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	function buildGameGrid(games){
 		var promises = [];
+		var svgMin = 1;
+		var svgCount = svgMin;
+		var maxCount = 16;
 		for (var i = 0; i < games.length; i++) {
 			var g = games[i];
 			g.span = gridRowSpan(g);
 			g.background = colorFactory.random();
-			g.icon = "avatar:svg-"+(i+1);
+			g.icon = "avatar:svg-"+(svgCount);
+			svgCount++;
+			svgCount = svgCount > maxCount ? svgMin : svgCount;
+			
 			promises.push(g);
 		};
 		
@@ -67,7 +73,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	}
 
 	function gridRowSpan(game){
-		var span = { row: 2, col: 2 },
+		var span = { row: 1, col: 1 },
 		col = function(){
 			span.col += 1;
 		},
@@ -82,7 +88,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		}
 		if(game.maxPlayers >= 30){
 			row();
-			col();
+			//col();
 		}
 		
 		return span;
@@ -117,10 +123,10 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Show $mdBottomSheet
 	 * @return {[type]} [description]
 	 */
-	/*function showDetails () {
+	function showDetails () {
 		$mdBottomSheet.show({
 			parent: angular.element(document.getElementById('content')),
-			templateUrl: 'views/games/games.bottomSheet.html'
+			templateUrl: 'views/games/games.bottomSheet.html',
 			controller: ['$mdBottomSheet', DetailsController],
 			controllerAs: 'vm'
 		});
@@ -133,5 +139,5 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 				$mdBottomSheet.hide();
 			}
 		}
-	}*/
+	}
 };

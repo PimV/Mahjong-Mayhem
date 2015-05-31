@@ -1,15 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-
-var constants = require('./common/constants');
-
+//'use strict';
 require('angular/angular');
-require('angular-cookies');
+var constants = require('./common/constants');
 require('angular-animate');
-require('angular-aria');
-require('angular-material');
-
-
+require('angular-aria');	
 
 require('./app/Theme');
 require('./app/Nav');
@@ -17,11 +11,10 @@ require('./app/Head');
 require('./auth/Auth');
 require('./users/Users');
 require('./games/Games');
-
 angular.module(constants.appTitle, [
+	require('angular-material'),
 	require('angular-ui-router'),
-	'ngMaterial',
-	'ngCookies',
+	require('angular-cookies'),
 	'theme',
 	'nav',
 	'auth',
@@ -83,18 +76,14 @@ angular.module(name, [
 module.exports = function ( $mdSidenav ) {
 
 	var self = this;
-	self.items = ['nav'];
 	self.toggleLeft = toggleNavLeft;
 	self.toggleRight = toggleNavRight;
 
 
 	function toggleNavLeft(){
-		console.log('toggle left');
 		$mdSidenav('left').toggle();
 	}
 	function toggleNavRight(){
-		console.log('toggle Right');
-
 		$mdSidenav('right').toggle();
 	}
 };
@@ -372,11 +361,17 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	function buildGameGrid(games){
 		var promises = [];
+		var svgMin = 1;
+		var svgCount = svgMin;
+		var maxCount = 16;
 		for (var i = 0; i < games.length; i++) {
 			var g = games[i];
 			g.span = gridRowSpan(g);
 			g.background = colorFactory.random();
-			g.icon = "avatar:svg-"+(i+1);
+			g.icon = "avatar:svg-"+(svgCount);
+			svgCount++;
+			svgCount = svgCount > maxCount ? svgMin : svgCount;
+			
 			promises.push(g);
 		};
 		
@@ -418,7 +413,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	}
 
 	function gridRowSpan(game){
-		var span = { row: 2, col: 2 },
+		var span = { row: 1, col: 1 },
 		col = function(){
 			span.col += 1;
 		},
@@ -433,7 +428,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		}
 		if(game.maxPlayers >= 30){
 			row();
-			col();
+			//col();
 		}
 		
 		return span;
@@ -468,10 +463,10 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Show $mdBottomSheet
 	 * @return {[type]} [description]
 	 */
-	/*function showDetails () {
+	function showDetails () {
 		$mdBottomSheet.show({
 			parent: angular.element(document.getElementById('content')),
-			templateUrl: 'views/games/games.bottomSheet.html'
+			templateUrl: 'views/games/games.bottomSheet.html',
 			controller: ['$mdBottomSheet', DetailsController],
 			controllerAs: 'vm'
 		});
@@ -484,7 +479,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 				$mdBottomSheet.hide();
 			}
 		}
-	}*/
+	}
 };
 
 },{}],16:[function(require,module,exports){
