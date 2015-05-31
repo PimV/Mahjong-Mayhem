@@ -1,62 +1,32 @@
-'use strict';
-
-var constants = require('./common/constants');
-
+//'use strict';
 require('angular/angular');
-require('angular-cookies');
+var constants = require('./common/constants');
 require('angular-animate');
-require('angular-aria');
-require('angular-material');
+require('angular-aria');	
 
+require('./app/Theme');
+require('./app/Nav');
+require('./app/Head');
 require('./auth/Auth');
 require('./users/Users');
 require('./games/Games');
-
 angular.module(constants.appTitle, [
+	require('angular-material'),
 	require('angular-ui-router'),
-	'ngMaterial',
-	'ngCookies',
+	require('angular-cookies'),
+	'theme',
+	'nav',
 	'auth',
 	'users',
 	'games'
 ])
-.factory('httpRequestInterceptor', function ($cookies) {
-console.log($cookies);  
-	return {    
-		request: function (config) { 
 
-			config.headers['x-username'] = $cookies.oauth_username;
-			config.headers['x-token'] = $cookies.oauth_access_token;
-			return config;
-		} 
-	}
-})
-.config(function($httpProvider) {
-	$httpProvider.interceptors.push('httpRequestInterceptor');
-})
-.config(function($mdThemingProvider, $mdIconProvider){
-
-	$mdIconProvider
-	.iconSet("avatar", "./assets/svg/avatars.svg", 128)
-	.icon("menu"       , "./assets/svg/menu.svg"        , 24)
-	.icon("share"      , "./assets/svg/share.svg"       , 24)
-	.icon("google_plus", "./assets/svg/google_plus.svg" , 512)
-	.icon("hangouts"   , "./assets/svg/hangouts.svg"    , 512)
-	.icon("twitter"    , "./assets/svg/twitter.svg"     , 512)
-	.icon("phone"      , "./assets/svg/phone.svg"       , 512);
-
-	$mdThemingProvider.theme('default')
-	.primaryPalette('brown')
-	.accentPalette('red');
-
-})
-
+//Ui-router Routes
 .config(require('./common/routes'))
 
+//Constants
 .constant('settings', require('./common/constants'))
 
-.factory('colorFactory', ['$mdColorPalette', require('./factories/ColorFactory')]);
-
-
+//Directives
 require('./directives/directives')(constants);
 
