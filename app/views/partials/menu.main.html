@@ -7,8 +7,8 @@
     </md-toolbar>
     <md-content layout-padding>
       <md-list>
-        <md-item ng-repeat="g in vm.games | orderBy:'createdOn'">
-          <md-button ui-sref="games.details({gameId: g.id})">
+        <md-item ng-repeat="g in gc.games | orderBy:'createdOn'">
+          <md-button ng-click="gc.selectGame(g.id)" ui-sref="games.details({gameId: g.id})" >
             {{g.title}} - Players: {{g.players.length}} / {{g.maxPlayers}}
           </md-button>
         </md-item>
@@ -25,12 +25,9 @@
     </md-toolbar>
     <md-content layout-padding>
       <md-list>
-      <md-subheader class="md-no-sticky">Players</md-subheader>
-        <md-item ng-repeat="item in vm.selected.players">
-          <md-button ng-click="vm.performAction(item)">
-              <md-icon md-svg-icon="{{ item.icon_url }}"></md-icon>
-              {{item.name}}
-          </md-button>
+      <md-subheader class="md-no-sticky">Players ({{gc.selected.players.length}} - {{gc.selected.maxPlayers}})</md-subheader>
+        <md-item ng-repeat="player in gc.selected.players">
+          <i class="icon icon-person icon-2x"></i> {{player.name}}
         </md-item>
       </md-list>
 
