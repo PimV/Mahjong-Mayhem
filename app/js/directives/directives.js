@@ -6,6 +6,6 @@ module.exports = function(constants){
 	.directive('header', require('./header'))
 	.directive('main', require('./main'))
 	.directive('gamePanel', require('./gamePanel'))
-	.directive('updateTitle', ['$rootScope', '$timeout', require('./updateTitle')]);
-	.directive('gameMenu', require('./gameSidebar'))
+	.directive('updateTitle', ['$rootScope', '$timeout', require('./updateTitle')])
+	.directive('gameMenu', require('./gameSidebar'));
 }
