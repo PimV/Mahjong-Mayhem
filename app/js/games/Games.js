@@ -17,9 +17,12 @@ angular.module(name, [
 		'$scope', 
 		'$stateParams', 
 		'$log',
-		'$q',
 		'$filter',
-		'$mdSidenav',
+		'$mdBottomSheet',
 		require('./GameController')
 	]
-);
+);/*
+.controller('DetailsController',[ 
+		'$mdBottomSheet'
+	]
+)*/

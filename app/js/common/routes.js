@@ -5,6 +5,10 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 	$locationProvider.html5Mode(true);
 
 	$stateProvider
+		.state('login', {
+			url: 'http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://angular.local/authcallback'
+			
+		})
 		.state('authcallback', {
 			url: '/authcallback?username&token',
 			controller: 'AuthController',
@@ -13,7 +17,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 		})
 		.state('home', {
 			url: '/',
-			controller: 'GameController as vm',
+			//controller: 'GameController as vm',
 			templateUrl: 'views/games/games.list.html',
 			title: 'Home'
 		});
@@ -21,25 +25,23 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 			abstract: true,
           	url: '/games',
     		templateUrl: 'views/games/games.html',
-          	controller: 'GameController as vm',
+    		//This is loaded for all children
+          	//controller: 'GameController as vm',
           	title: 'Game'
       	})
 		.state('games.list', {
 			url: '/',
 			templateUrl: 'views/games/games.list.html',
-			controller: 'GameController as vm',
 			title: 'Games'
 		})
 		.state('games.create', {
 			url: '/create',
 			templateUrl: 'views/games/games.create.html',
-			controller: 'GameController as vm',
 			title: 'Create Game'
 		})
 		.state('games.details', {
 			url: '/:gameId',
 			templateUrl: 'views/games/games.details.html',
-	        controller: 'GameController as vm',
 	        title: 'Game Details'
 		});
 

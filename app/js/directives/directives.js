@@ -7,4 +7,5 @@ module.exports = function(constants){
 	.directive('main', require('./main'))
 	.directive('gamePanel', require('./gamePanel'))
 	.directive('updateTitle', ['$rootScope', '$timeout', require('./updateTitle')]);
+	.directive('gameMenu', require('./gameSidebar'))
 }

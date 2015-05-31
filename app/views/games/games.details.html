@@ -1,18 +1,6 @@
+<md-button class="md-primary md-fab md-fab-top-right" ng-click="nav.toggleRight()" aria-label="">
+	<i class="icon icon-info-outline icon-2x"></i>
+</md-button>
+
 <div game-panel></div>
 
-<md-bottom-sheet class="md-list md-has-header">
-    
-    <md-subheader>
-        Game Details <span class="name">{{ vm.selected.title }}</span>:
-    </md-subheader>
-
-    <md-list>
-      <md-item ng-repeat="item in vm.selected.players">
-        <md-button ng-click="vm.performAction(item)">
-            <md-icon md-svg-icon="{{ item.icon_url }}"></md-icon>
-            {{item.name}}
-        </md-button>
-      </md-item>
-    </md-list>
-
-</md-bottom-sheet>

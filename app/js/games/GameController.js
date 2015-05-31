@@ -1,84 +1,109 @@
 'use strict';
+
 /**
 * Game Controller
 * @param  {[type]} gameService    [description]
 * @param  {[type]} $mdSidenav     [description]
 * @param  {[type]} $mdBottomSheet [description]
 * @param  {[type]} $log           [description]
-* @param  {[type]} $q             [description]
 */
-module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $q, $filter, $mdSidenav) {
+module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $filter, $mdBottomSheet) {
 
 	var self = this;
-
-
 
 	self.selected     = null;
 	self.games        = [ ];
 	self.reload 	  = reload;
 	self.selectGame   = selectGame;
 	self.loadTiles 	  = loadTiles;
-	
+	self.tile 		  = {width: 73, height: 90};
 	self.reload();
 
-	
+	/**
+	 * Setter Games
+	 * @param {} value
+	 */
+	function setGames(value){
+		self.games = value;
+	}
 
-
-	function buildGameGrid(games){
-		var promises = [];
-		for (var i = 0; i < games.length; i++) {
-			var g = games[i];
-			g.span = gridRowSpan(g);
-			g.background = colorFactory.random();
-			g.icon = "avatar:svg-"+(i+1);
-			promises.push(g);
-		};
-		
-		return games;
+	/**
+	 * Getter Games
+	 * @return {} self.games
+	 */
+	function getGames(){
+		return self.games;
 	}
 
 	/**
 	 * Set selected game
 	 * @param  {} game 
 	 */
-	 function selectGame ( game ) {
-	 	self.selected = $filter('filter')(self.games, {id: game})[0];
+	function selectGame ( game ) {
+	 	self.selected = $filter('filter')(getGames(), {id: game})[0];
 	 	loadTiles();
 	 }
 
-	 function loadTiles() {
+	function buildGameGrid(games){
+		var promises = [];
+		var svgMin = 1;
+		var svgCount = svgMin;
+		var maxCount = 16;
+		for (var i = 0; i < games.length; i++) {
+			var g = games[i];
+			g.span = gridRowSpan(g);
+			g.background = colorFactory.random();
+			g.icon = "avatar:svg-"+(svgCount);
+			svgCount++;
+			svgCount = svgCount > maxCount ? svgMin : svgCount;
+			
+			promises.push(g);
+		};
+		
+		return games;
+	}
+
+	
+	/**
+	 * Load Tiles from GameService
+	 * @uses GameService 
+	 */
+	function loadTiles() {
 	 	var promise = gameService.loadTiles(self.selected.id);
+
 	 	promise.then(function(payload) { 
 	 		self.selected.tiles = payload.data;
 	 		processTiles();
 	 	},
 	 	function(errorPayload) {
 	 		console.log("then error");
-	 		
 	 	});
-	 }
+	}
 
-	 function processTiles() {
+	/**
+	 * Create Tile variables
+	 * @return {[type]} [description]
+	 */
+	function processTiles() {
+
 	 	if (self.selected && self.selected.tiles) {
 	 		self.selected.tiles.forEach(function(tile) {
 	 			var name = tile.tile.suit.toLowerCase() + "_" + tile.tile.name.toLowerCase();
-	 			// console.log(gameService.tileSet[0]);
+	 			
 	 			for (var y = 0; y < 3; y++) {
 	 				for (var x = 0; x < 14; x++) {
 	 					if (gameService.tileSet[y][x] == name) {
-	 						tile.sheetX = -(x * 73);
-	 						tile.sheetY = -(y * 90);
+	 						tile.sheetX = -(x * self.tile.width);
+	 						tile.sheetY = -(y * self.tile.height);
 
-	 						tile.boardX = (tile.xPos * 36.5 ) - 36.5;
-	 						tile.boardY = (tile.yPos * 45 ) - 45;
+	 						tile.boardX = (tile.xPos * (self.tile.width/2) ) - (self.tile.width/2);
+	 						tile.boardY = (tile.yPos * (self.tile.height/2) ) - (self.tile.height/2);
 	 						tile.boardZ = tile.zPos;
 
 	 						return;
 	 					}
 	 				}	
 	 			}
-
-
 	 		});
 	 	}
 	 }
@@ -87,9 +112,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Add a new game object 
 	 * @param int index
 	 */
-	 self.addItem = function(index){
+	self.addItem = function(index){
 	 	var _id = self.games.length + 1;
-	 	var newGame = $scope.game;
+	 	var newGame = $scope.game;//retrieve Game variables
 
 	 	var game = {
 	 		id: _id,
@@ -109,8 +134,13 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		reload();
 	}
 
+	/**
+	 * Define the column and row width of a grid element
+	 * @param  {} game Single Game object
+	 * @return {row, span}
+	 */
 	function gridRowSpan(game){
-		var span = { row: 2, col: 2 },
+		var span = { row: 1, col: 1 },
 		col = function(){
 			span.col += 1;
 		},
@@ -125,7 +155,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		}
 		if(game.maxPlayers >= 30){
 			row();
-			col();
 		}
 		
 		return span;
@@ -137,21 +166,47 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 */
 	 function reload() {
 	 	console.log("calling reload");
-	 	// self.games = buildGameGrid(gameService.all());
 
 	 	var promise = gameService.loadFromApi();
-	 	promise.then(function(payload) { 
-	 		self.games = buildGameGrid(gameService.all());
-	 		if ($stateParams) {
-	 			selectGame($stateParams.gameId);
-	 		} else {
-	 			self.selected = self.games[0];
-	 		}
-	 	},
-	 	function(errorPayload) {
-	 		console.log("then error");
-	 		$log.error('failure loading games', errorPayload);
-	 	});
-	 }
+	 	
+ 		promise.then(function(payload) 
+ 		{
+ 			setGames(buildGameGrid(gameService.all()));
 
-	};
+ 			if ($stateParams) {
+ 				selectGame($stateParams.gameId);
+ 			} else {
+ 				self.selected = getGames()[0];
+ 			}
+ 		},
+ 		function(errorPayload) {
+ 			console.log("then error");
+ 			$log.error('Failure loading games', errorPayload);
+ 		});
+ 	}
+
+
+
+
+	/**-
+	 * Show $mdBottomSheet
+	 * @return {[type]} [description]
+	 */
+	 function showDetails () {
+	 	$mdBottomSheet.show({
+	 		parent: angular.element(document.getElementById('content')),
+	 		templateUrl: 'views/games/games.bottomSheet.html',
+	 		controller: ['$mdBottomSheet', DetailsController],
+	 		controllerAs: 'vm'
+	 	});
+	 	function DetailsController($mdBottomSheet){
+	 		this.selected = self.selected;
+	 		this.close = close;
+
+
+	 		function close(){
+	 			$mdBottomSheet.hide();
+	 		}
+	 	}
+	 }
+};
