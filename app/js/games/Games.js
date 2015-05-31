@@ -19,6 +19,7 @@ angular.module(name, [
 		'$log',
 		'$filter',
 		'$mdBottomSheet',
+		'$state',
 		require('./GameController')
 	]
 );/*

@@ -7,12 +7,13 @@
 * @param  {[type]} $mdBottomSheet [description]
 * @param  {[type]} $log           [description]
 */
-module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $filter, $mdBottomSheet) {
+module.exports = function ( gameService, colorFactory, $scope, $stateParams, $log, $filter, $mdBottomSheet, $state) {
 
 	var self = this;
 
 	self.selected     = null;
 	self.games        = [ ];
+	self.newGame	  = null;
 	self.reload 	  = reload;
 	self.selectGame   = selectGame;
 	self.loadTiles 	  = loadTiles;
@@ -41,6 +42,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 */
 	function selectGame ( game ) {
 	 	self.selected = $filter('filter')(getGames(), {id: game})[0];
+	 	console.log(self.selected.players);
 	 	loadTiles();
 	 }
 
@@ -73,6 +75,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	 	promise.then(function(payload) { 
 	 		self.selected.tiles = payload.data;
+	 		console.log(self.selected.tiles);
 	 		processTiles();
 	 	},
 	 	function(errorPayload) {
@@ -113,25 +116,16 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * @param int index
 	 */
 	self.addItem = function(index){
-	 	var _id = self.games.length + 1;
-	 	var newGame = $scope.game;//retrieve Game variables
-
+	 	
+	 	console.log(self.newGame, $scope);
 	 	var game = {
-	 		id: _id,
-	 		title: newGame.title,
-	 		layout: newGame.layout,
-	 		minPlayers: newGame.minPlayers,
-	 		maxPlayers: newGame.maxPlayers,
-	 		createdOn: (function(d){ d.setDate(d.getDate()-1); return d})(new Date),
-	 		endedOn: null,
-			startedOn: Date.now, // date + time
-			createdBy:{ },
-			players: [ ],
-			state: "open"
+	 		layout: self.newGame.layout,
+	 		minPlayers: self.newGame.minPlayers,
+	 		maxPlayers: self.newGame.maxPlayers
 		};
-		gameService.add(game);
-
-		reload();
+		var result = gameService.add(game);
+		console.log(result);
+		//$state.go('lab-details', {id: id});
 	}
 
 	/**

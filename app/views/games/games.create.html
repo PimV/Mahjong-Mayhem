@@ -1,46 +1,63 @@
 <md-content layout-padding layout="row">
 
 	<div flex layout="column" layout-fill>
-
-	    <md-input-container flex>
-			<label>Title</label>
-			<input ng-model="game.title">
-	    </md-input-container>
-  	
-  		<div layout="column" layout-align="center center" flex="80" >
-		
-			<md-select placeholder="Layout" ng-model="game.layout" style="height: 100px">
-				<md-option value="shanghai">Shanghai</md-option>
-				<md-option value="snake">Snake</md-option>
-				<md-option value="ox">Ox</md-option>
-				<md-option value="dragon">Dragon</md-option>
-				<md-option value="rooster">Rooster</md-option>
-				<md-option value="monkey">Monkey</md-option>
-			</md-select>
-			{{game.layout}}
-		</div>
-		<md-input-container>
-
-			<div flex="10" layout="" layout-align="center center" style="margin-top: 5px;">
-				<span class="md-body-1">Min Players</span>
+  		<form name="newgame">
+	  		<div layout>
+				<div flex="15" layout layout-align="center center">
+					<span class="md-body-1">Layout</span>
+				</div>
+				<md-select flex placeholder="Layout" name="layout" ng-model="gc.newGame.layout" required>
+					<md-option value="shanghai">Shanghai</md-option>
+					<md-option value="snake">Snake</md-option>
+					<md-option value="ox">Ox</md-option>
+					<md-option value="dragon">Dragon</md-option>
+					<md-option value="rooster">Rooster</md-option>
+					<md-option value="monkey">Monkey</md-option>
+				</md-select>
 			</div>
-			<md-slider flex="" class="md-primary" md-discrete="" ng-model="game.minPlayers" step="1" min="1" max="35" aria-label="rating">
-     		 </md-slider>
+			<div layout>
 
-		</md-input-container>
-
-		<md-input-container>
-
-			<div flex="10" layout="" layout-align="center center" style="margin-top: 5px;">
-				<span class="md-body-1">Max Players</span>
+				<div flex="15" layout layout-align="center center">
+					<span class="md-body-1">Min Players</span>
+				</div>
+				<md-slider 
+					name="minPlayers" 
+					flex 
+					class="md-primary" 
+					md-discrete 
+					ng-model="gc.newGame.minPlayers" 
+					step="1" 
+					min="1" 
+					max="35" 
+					aria-valuenow="1" 
+					aria-label="minPlayers"
+					required>
+	     		 </md-slider>
 			</div>
-			<md-slider flex="" class="md-primary" md-discrete="" ng-model="game.maxPlayers" step="1" min="1" max="35" aria-label="rating">
-     		 </md-slider>
 
-		</md-input-container>
-		
-		<md-button ng-click="gc.addItem()" class="md-raised md-primary">Create</md-button>
-		
+			<div layout>
+
+				<div flex="15" layout layout-align="center center">
+					<span class="md-body-1">Max Players</span>
+				</div>
+				<md-slider 
+					name="maxPlayers" 
+					flex
+					class="md-primary" 
+					md-discrete 
+					ng-model="gc.newGame.maxPlayers" 
+					step="1" 
+					min="1" 
+					max="35" 
+					aria-valuenow="1" 
+					aria-label="maxPlayers" 
+					required>
+	     		 </md-slider>
+
+			</div>
+			
+			<md-button ng-click="gc.addItem()" class="md-raised md-primary" ng-disabled="newgame.$invalid">Create</md-button>
+		</form>
 	</div>
 
 </md-content>

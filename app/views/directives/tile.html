@@ -1,0 +1,10 @@
+<div class="tile"
+	style="
+	height: {{gc.tile.height}}px;
+	width:{{gc.tile.width}}px;
+	background: url(/assets/tile_sheet_73x90.png) {{tile.sheetX}}px {{tile.sheetY}}px;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility:hidden;
+	-webkit-transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);
+	transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);">[{{$index + 1}}]</div> 

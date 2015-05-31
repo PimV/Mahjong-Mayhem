@@ -1,4 +1,4 @@
-<md-toolbar layout="row">
+<md-toolbar layout="row" ng-controller="AuthController as auth">
 	<md-button class="menu" hide-gt-md ng-click="nav.toggleLeft()" aria-label="Show User List">
 		<md-icon md-svg-icon="menu"></md-icon>
 	</md-button>
@@ -9,8 +9,11 @@
 		Games
 	</md-button>
 	
-	<h1>Mah-jong Mayhem - By us</h1>
-	<md-button ng-href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://angular.local/authcallback" aria-label="Login">
+	<h1>Mah-jong Mayhem </h1>
+	<span flex></span>
+	<h6 ng-show="auth.username">{{auth.username}}</h6>
+	<md-button ng-hide="auth.username" ng-href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://angular.local/authcallback" aria-label="Login">
 		<i class="icon icon-exit-to-app icon-3x"></i>
 	</md-button>
+	
 </md-toolbar>
