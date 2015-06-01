@@ -7,4 +7,6 @@
 	-webkit-transform-style: preserve-3d;
 	-webkit-backface-visibility:hidden;
 	-webkit-transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);
-	transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);">[{{$index + 1}}]</div> 
+	transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);"
+	ng-click="gc.tileClicked($index + 1)"
+	>[{{$index + 1}}]</div> 

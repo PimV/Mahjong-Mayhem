@@ -11,14 +11,16 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	var self = this;
 
-	self.selected     = null;
-	self.games        = [ ];
-	self.newGame	  = null;
-	self.reload 	  = reload;
-	self.selectGame   = selectGame;
-	self.loadTiles 	  = loadTiles;
-	self.start 		  = start;
-	self.tile 		  = {width: 73, height: 90};
+	self.selected     	= null;
+	self.firstClick 	= true;
+	self.games        	= [ ];
+	self.newGame	  	= null;
+	self.reload 	 	= reload;
+	self.selectGame   	= selectGame;
+	self.loadTiles 	  	= loadTiles;
+	self.start 		  	= start;
+	self.tile 		  	= {width: 73, height: 90};
+	self.tileClicked	= tileClicked;
 
 	self.reload();
 
@@ -238,4 +240,20 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		}
 	 	}
 	}
+
+	function tileClicked(index) {
+		console.log('tile clicked: ' + index);		
+		console.log(self.selected.tiles[index-1]);
+
+		if(self.firstClick)
+		{
+			console.log("first click");
+			self.firstClick = false;
+		}
+		else
+		{
+			console.log("second click");
+			self.firstClick = true;
+		}
+	}	 	
 };
