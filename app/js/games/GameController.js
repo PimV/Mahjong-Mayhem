@@ -13,6 +13,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	self.selected     	= null;
 	self.firstClick 	= true;
+	self.first 			= null;
+	self.second 		= null;
+
 	self.games        	= [ ];
 	self.newGame	  	= null;
 	self.reload 	 	= reload;
@@ -20,6 +23,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.loadTiles 	  	= loadTiles;
 	self.start 		  	= start;
 	self.tile 		  	= {width: 73, height: 90};
+	self.compareTiles 	= compareTiles;
 	self.tileClicked	= tileClicked;
 
 	self.reload();
@@ -241,6 +245,43 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	}
 	}
 
+	function compareTiles(first, second)	{
+		if(first != null && first != undefined && second != null && second != undefined)
+		{
+			switch(first.tile.suit) {
+			    case "Season":
+			    	if(first.tile.suit == second.tile.suit)
+			    	{
+			    		console.log("We have a match!");
+			    	}
+			        console.log("Season");
+			        break;
+			    case "Flower":
+			    	if(first.tile.suit == second.tile.suit)
+			    	{
+			    		console.log("We have a match!");
+			    	}
+			        console.log("Flower");
+			        break;
+			    default:
+			    	console.log("comparing: ");
+			    	console.log(first.tile.suit);
+			    	console.log(second.tile.suit);
+
+			    	if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name)
+			        {
+			        	console.log("we have a match");
+			        }
+			        break;
+			}
+
+			return true
+		}
+		else {
+			return false;
+		}
+	}
+
 	function tileClicked(index) {
 		console.log('tile clicked: ' + index);		
 		console.log(self.selected.tiles[index-1]);
@@ -248,11 +289,14 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		if(self.firstClick)
 		{
 			console.log("first click");
+			self.first = self.selected.tiles[index-1];
 			self.firstClick = false;
 		}
 		else
 		{
 			console.log("second click");
+			self.second = self.selected.tiles[index-1];
+			compareTiles(self.first, self.second);
 			self.firstClick = true;
 		}
 	}	 	
