@@ -13,14 +13,14 @@ module.exports = function ( $scope,  $stateParams, $state, $cookies) {
 
 	//Make username publicly available
 	self.username = storedUsername;
-	//console.log(storedUsername, storedToken, $stateParams.username, $stateParams.token);
+	console.log(typeof storedUsername,typeof storedToken, $stateParams.username, $stateParams.token);
 
 	if(typeof pUsername !== 'undefined' && typeof pToken !== 'undefined') {
 		console.log("Cookies can be set !!!");
 		$cookies.oauth_username = pUsername;
 		$cookies.oauth_access_token = pToken;
 		console.log('Cookies overwritten: ', pUsername, pToken);
-	} else if(storedUsername && storedToken){
+	} else if(storedUsername !== 'undefined' && storedToken !== 'undefined'){
 		console.log("There are still some cookies left.", storedUsername, storedToken);
 	} else {
 		console.log('No cookies available, please login.');

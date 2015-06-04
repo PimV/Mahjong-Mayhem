@@ -11,7 +11,7 @@
 	
 	<h1>Mah-jong Mayhem </h1>
 	<span flex></span>
-	<h6 ng-show="auth.username">{{auth.username}}</h6>
+	<h6 ng-model="auth.username">{{auth.username}}</h6>
 	<md-button ng-hide="auth.username" ng-href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://angular.local/authcallback" aria-label="Login">
 		<i class="icon icon-exit-to-app icon-3x"></i>
 	</md-button>
