@@ -14,6 +14,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.selected     	= null;
 	self.firstClick 	= true;
 	self.first 			= null;
+	self.firstindex		= 0;
 	self.second 		= null;
 
 	self.games        	= [ ];
@@ -254,27 +255,20 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 			    	{
 			    		console.log("We have a match!");
 			    	}
-			        console.log("Season");
 			        break;
 			    case "Flower":
 			    	if(first.tile.suit == second.tile.suit)
 			    	{
 			    		console.log("We have a match!");
 			    	}
-			        console.log("Flower");
 			        break;
 			    default:
-			    	console.log("comparing: ");
-			    	console.log(first.tile.suit);
-			    	console.log(second.tile.suit);
-
 			    	if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name)
 			        {
 			        	console.log("we have a match");
 			        }
 			        break;
 			}
-
 			return true
 		}
 		else {
@@ -282,21 +276,56 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		}
 	}
 
+	function checkSurroundings(tile) {
+		console.log(leftHasTile(tile));
+	}
+
+	function leftHasTile(tile) {
+		var result = false;
+
+		angular.forEach(self.selected.tiles, function(value, key) {
+  			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
+
+  			if( tile.xPos -2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
+  			{
+  				result = true;
+  			}
+		});
+	}
+
+	function rightHasTile(tile) {
+		return true;
+	}
+
+	function topHasTile(tile) {
+		return true;
+	}
+
 	function tileClicked(index) {
-		console.log('tile clicked: ' + index);		
-		console.log(self.selected.tiles[index-1]);
+		console.log('tile index: ' + index + " object: " + self.selected[index-1]);
 
 		if(self.firstClick)
 		{
 			console.log("first click");
+			self.firstindex = index;
 			self.first = self.selected.tiles[index-1];
 			self.firstClick = false;
+			checkSurroundings(self.first);
 		}
 		else
 		{
 			console.log("second click");
-			self.second = self.selected.tiles[index-1];
-			compareTiles(self.first, self.second);
+			if(self.firstindex != index)
+			{				
+				self.second = self.selected.tiles[index-1];
+				checkSurroundings(self.second);
+				compareTiles(self.first, self.second);		
+			}
+			else
+			{
+				console.log("You clicked the same tile twice, YOU CHEATAAAH");
+			}
+			self.firstindex = 0;
 			self.firstClick = true;
 		}
 	}	 	
