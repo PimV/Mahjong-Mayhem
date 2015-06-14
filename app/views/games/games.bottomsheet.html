@@ -1,0 +1,19 @@
+
+<md-bottom-sheet class="md-list md-has-header" >
+
+    <md-subheader>
+        {{gc}}
+        Game Details <span class="name">{{ gc.selected.title }}</span>:
+        
+    </md-subheader>
+
+    <md-list>
+      <md-item ng-repeat="item in gc.selected.players">
+        <md-button ng-click="gc.performAction(item)">
+            <md-icon md-svg-icon="{{ item.icon_url }}"></md-icon>
+            {{item.name}}
+        </md-button>
+      </md-item>
+    </md-list>
+
+</md-bottom-sheet>

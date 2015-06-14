@@ -5,4 +5,8 @@ module.exports = function(constants){
 	angular.module(constants.appTitle)
 	.directive('header', require('./header'))
 	.directive('main', require('./main'))
+	.directive('gamePanel', require('./gamePanel'))
+	.directive('tile', require('./tile'))
+	.directive('updateTitle', ['$rootScope', '$timeout', require('./updateTitle')])
+	.directive('gameMenu', require('./gameSidebar'));
 }

@@ -8,6 +8,7 @@ angular.module(name, [
 ])
 .service('GameService', [
 	'$q', 
+	'$http',
 	require('./GameService')
 ])
 .controller('GameController', [
@@ -16,7 +17,13 @@ angular.module(name, [
 		'$scope', 
 		'$stateParams', 
 		'$log',
-		'$q',
+		'$filter',
+		'$mdBottomSheet',
+		'$state',
 		require('./GameController')
 	]
-);
+);/*
+.controller('DetailsController',[ 
+		'$mdBottomSheet'
+	]
+)*/

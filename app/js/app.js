@@ -1,53 +1,33 @@
-'use strict';
-
-var constants = require('./common/constants');
-
+//'use strict';
 require('angular/angular');
+var constants = require('./common/constants');
 require('angular-animate');
-require('angular-aria');
-require('angular-material');
+require('angular-aria');	
 
-
-
+require('./app/Theme');
+require('./app/Nav');
+require('./app/Head');
+require('./auth/Auth');
 require('./users/Users');
-
 require('./games/Games');
-
 angular.module(constants.appTitle, [
+	require('angular-material'),
 	require('angular-ui-router'),
-	'ngMaterial',
+	require('angular-cookies'),
+	'head',
+	'theme',
+	'nav',
+	'auth',
 	'users',
 	'games'
 ])
-.run([
-	'$rootScope', 
-	'$state', 
-	'$stateParams',
-	function ($rootScope, $state, $stateParams) {
-		$rootScope.$state = $state;
-		$rootScope.$stateParams = $stateParams;
-	}
-])
+
+//Ui-router Routes
+.config(require('./common/routes'))
+
+//Constants
 .constant('settings', require('./common/constants'))
 
-.config(function($mdThemingProvider, $mdIconProvider){
-
-	$mdIconProvider
-	.iconSet("avatar", "./assets/svg/avatars.svg", 128)
-	.icon("menu"       , "./assets/svg/menu.svg"        , 24)
-	.icon("share"      , "./assets/svg/share.svg"       , 24)
-	.icon("google_plus", "./assets/svg/google_plus.svg" , 512)
-	.icon("hangouts"   , "./assets/svg/hangouts.svg"    , 512)
-	.icon("twitter"    , "./assets/svg/twitter.svg"     , 512)
-	.icon("phone"      , "./assets/svg/phone.svg"       , 512);
-	
-	$mdThemingProvider.theme('default')
-	.primaryPalette('brown')
-	.accentPalette('red');
-
-})
-.config(require('./common/routes'))
-.factory('colorFactory', ['$mdColorPalette', require('./factories/ColorFactory')]);
-
+//Directives
 require('./directives/directives')(constants);
 

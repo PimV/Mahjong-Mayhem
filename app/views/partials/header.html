@@ -1,6 +1,6 @@
-<md-toolbar layout="row">
-	<md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">
-		<md-icon md-svg-icon="menu" ></md-icon>
+<md-toolbar layout="row" ng-controller="AuthController as auth">
+	<md-button class="menu" show-gt-sm ng-click="nav.toggleLeft()" aria-label="Show User List">
+		<md-icon md-svg-icon="menu"></md-icon>
 	</md-button>
 	<md-button ui-sref="home">
 		Home
@@ -8,5 +8,12 @@
 	<md-button ui-sref="games.list">
 		Games
 	</md-button>
-	<h1>Mah-jong Mayhem - By us</h1>
+	
+	<h1>Mah-jong Mayhem </h1>
+	<span flex></span>
+	<h6 ng-model="auth.username">{{auth.username}}</h6>
+	<md-button ng-hide="auth.username" ng-href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://angular.local/authcallback" aria-label="Login">
+		<i class="icon icon-exit-to-app icon-3x"></i>
+	</md-button>
+	
 </md-toolbar>
