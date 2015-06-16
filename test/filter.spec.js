@@ -21,17 +21,10 @@ describe("Game state Filter", function() {
 	];
 	beforeEach(module('MahjongMayhem'));
 
-	/*
-		We kunnen verchillende dingen van de app opvragen.
-		Services, filters, directives, controllers, scopes, etc
 
-		Angular-mocks gebruikt de inject functie hiervoor.
-
-		We kunnen underscores voor en achter de providers zetten, angular weet dan nog steeds welke providers het zijn
-	*/
-	beforeEach(inject(function(_StateFilter_){
-		//GVDOMME HIER LOOPT IE VAST AAAAAAAAAAAAAAAAH
-		stateFilter = _StateFilter_;//$injector.get('stateFilter');
+	beforeEach(inject(function($injector){
+		console.log($injector);
+		stateFilter = $injector.get('$filter')('stateFilter');
 		console.log("STATE FILTER!!!!!!!!!!!!!!!!!!!!!!!!!");
 		console.log(stateFilter);
 	}));
