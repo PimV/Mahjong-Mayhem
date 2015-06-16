@@ -1,10 +1,13 @@
 describe("Game state Filter", function() {
 	var stateFilter;
+
 	var states = {
 		open: 'open',
 		playing: 'playing',
-		finished: 'finished'
-	}
+		finished: 'finished',
+		none: null
+	};
+
 	var input = [
 		{
 			id: 1,
@@ -19,14 +22,11 @@ describe("Game state Filter", function() {
 			state: 'finished'
 		},
 	];
+
 	beforeEach(module('MahjongMayhem'));
 
-
 	beforeEach(inject(function($injector){
-		console.log($injector);
 		stateFilter = $injector.get('$filter')('stateFilter');
-		console.log("STATE FILTER!!!!!!!!!!!!!!!!!!!!!!!!!");
-		console.log(stateFilter);
 	}));
 
 	it("should filter on state 'open' ", function(done){
@@ -38,7 +38,7 @@ describe("Game state Filter", function() {
 
 		done();
 	});
-/*
+
 	it("should filter on state 'playing' ", function(done){
 		// Filters zijn het gemakkelijkst te testen omdat ze jouw zelf gemaakte functie returnen.
 		var result = stateFilter(input, states.playing);
@@ -57,6 +57,14 @@ describe("Game state Filter", function() {
 		expect(result[0].id).to.equal(3);
 
 		done();
-	});*/
+	});
 
+	it("should return the previous input ", function(done){
+		// Filters zijn het gemakkelijkst te testen omdat ze jouw zelf gemaakte functie returnen.
+		var result = stateFilter(input, states.none);
+
+		expect(result).to.equal(input);
+
+		done();
+	});
 });
