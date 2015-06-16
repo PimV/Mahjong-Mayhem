@@ -20,6 +20,11 @@ module.exports = function (config) {
       'app/**/*.js': ['coverage', 'browserify'],
       'app/**/*.html': ['ng-html2js']
     },
+    
+    ngHtml2JsPreprocessor: {
+      // strip this from the file path
+      stripPrefix: 'app/'
+    },
 
     browserify: {
       debug: true,
