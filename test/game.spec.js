@@ -1,27 +1,52 @@
-// require('angular/angular');
 
 describe('GameController test1', function() {
 
 	var scope;
 	var gameController;
 	var gameService;
+	var httpBackend;
 
 	beforeEach(module('MahjongMayhem'));
 
-	beforeEach(inject(function($rootScope, $controller, $injector) {
+	beforeEach(inject(function($rootScope, $controller, $httpBackend, $injector) {
+		// The scope for the controller
 		scope = $rootScope.$new();
-
+		// Get the service which will be injected
 		gameService = $injector.get('GameService');
-		gameController = $controller('GameController', {$scope: scope});
+		gameService.add = function(obj){
+			gameService.games.push(obj);			
+		}
+		
+		// For mocking the backend
+		httpBackend = $httpBackend;
 
+		gameController = $controller('GameController', {$scope: scope, gameService: gameService});
 	}));
 
-	it('should contain something', function() {
-		expect(gameController.games.length).to.equal(2);
+	it('should contain no games', function() {
+		expect(gameController.games.length).to.equal(0);
+	});
+	it('should add a game', function () {
+		
+	});
+	it('should select increase the row-span', function () {
+		var expected = {row: 1, col: 3};
+		var game = {
+			title: "test",
+			layout: "dragon",
+			minPlayers: 1,
+			maxPlayers: 11
+		};
+
 	});
 
-	it('should add game', function() {
-		var currentLength = gameController.games.length;
+
+
+	//it('should add game', function() {
+		//var games = gameController.getGames();
+		// /console.log(gameController.getGames());
+
+		/*var currentLength = gameController.games.length;
 		var expectedLength = currentLength + 1;
 
 		var expectedId = expectedLength;
@@ -48,10 +73,10 @@ describe('GameController test1', function() {
 		expect(actual.maxPlayers).to.equal(expectedMaxPlayers);
 
 		//Check if game added to controller
-		expect(gameController.games.length).to.equal(expectedLength);
-	});
+		expect(gameController.games.length).to.equal(expectedLength);*/
+	//});
 
-	it('should add game (stub)', function() {
+	/*it('should add game (stub)', function() {
 		var currentLength = gameController.games.length;
 		var expectedLength = currentLength + 1;
 
@@ -97,6 +122,6 @@ describe('GameController test1', function() {
 
 	//Chec kif gameService.add has only been called once (because of stub);
 	assert(gameService.add.calledOnce);
-});
+});*/
 });
 

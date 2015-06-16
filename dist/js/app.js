@@ -380,22 +380,14 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	self.games        	= [ ];
 	self.newGame	  	= null;
-	self.reload 	 	= reload;
-	self.selectGame   	= selectGame;
-	self.loadTiles 	  	= loadTiles;
-	self.start 		  	= start;
 	self.tile 		  	= {width: 73, height: 90};
-	self.compareTiles 	= compareTiles;
-	self.tileClicked	= tileClicked;
-
-	self.reload();
 
 
 	/**
 	 * Setter Games
 	 * @param {} value
 	 */
-	function setGames(value){
+	self.setGames = function (value){
 		self.games = value;
 	}
 
@@ -404,7 +396,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Getter Games
 	 * @return {} self.games
 	 */
-	function getGames(){
+	self.getGames = function (){
 		return self.games;
 	}
 
@@ -412,14 +404,12 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	/**
 	 * Start selected game
 	 */
-	function start(){
-		console.log('start');
+	self.start = function (){
 		if(self.selected.state !== "open") return;
-		console.log('start != open');
+
 		var promise = gameService.start(self.selected.id);
 
-	 	promise.then(function(payload) { 
-	 		//self.selected.tiles = payload.data;
+	 	promise.then(function(payload) {
 	 		$state.reload();
 	 	},
 	 	function(errorPayload) {
@@ -432,9 +422,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Set selected game
 	 * @param  {} game 
 	 */
-	function selectGame ( game ) {
-	 	self.selected = $filter('filter')(getGames(), {id: game})[0];
-	 	console.log(self.selected.players);
+	self.selectedGame = function ( game ) {
+	 	self.selected = $filter('filter')(self.getGames(), {id: game})[0];
 	 	loadTiles();
 	}
 
@@ -510,7 +499,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * @param int index
 	 */
 
-	self.addItem = function(index){
+	self.addItem = function(){
 	 	var game = {
 	 		templateName: self.newGame.layout,
 	 		minPlayers: self.newGame.minPlayers,
@@ -562,18 +551,16 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Reload all game items from gameService
 	 * @uses gameService 
 	 */
-	function reload() {
+	self.reload = function () {
 	 	console.log("calling reload");
 
 	 	var promise = gameService.loadFromApi();
 	 	
  		promise.then(function(payload) 
  		{
- 			console.log(payload.data);
- 			setGames(buildGameGrid(gameService.all()));
-
+ 			self.setGames(buildGameGrid(gameService.all()));
  			if ($stateParams) {
- 				selectGame($stateParams.gameId);
+ 				self.selectedGame($stateParams.gameId);
  			} else {
  				self.selected = getGames()[0];
  			}
@@ -644,9 +631,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		}
 	}
 
-	function tileClicked(index) {
-		console.log('tile clicked: ' + index);		
-		console.log(self.selected.tiles[index-1]);
+	self.tileClicked = function (index) {
+		console.log('tile clicked: ' + index);
 
 		if(self.firstClick)
 		{
@@ -662,6 +648,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 			self.firstClick = true;
 		}
 	}	 	
+
+	self.reload();
 };
 
 },{}],19:[function(require,module,exports){
@@ -670,6 +658,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 module.exports = function ($q, $http){
 	var service = {};
 	service.baseUrl = "http://mahjongmayhem.herokuapp.com";
+	service.games = [];
 	service.tileSet = [
 		['character_1', 'character_2', 'character_3', 'character_4','character_5','character_6','character_7','character_8','character_9','wind_north', 'wind_south', 'wind_east', 'wind_west', 'dragon_green'],
 		['bamboo_1', 'bamboo_2', 'bamboo_3', 'bamboo_4','bamboo_5','bamboo_6','bamboo_7','bamboo_8','bamboo_9','season_spring', 'season_summer', 'season_autumn', 'season_winter', 'dragon_red'],
