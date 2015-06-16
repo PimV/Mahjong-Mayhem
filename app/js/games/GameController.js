@@ -277,7 +277,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	}
 
 	function checkSurroundings(tile) {
-		console.log(leftHasTile(tile));
+		leftHasTile(tile);
 	}
 
 	function leftHasTile(tile) {
@@ -291,14 +291,35 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
   				result = true;
   			}
 		});
+		console.log(result);
 	}
 
 	function rightHasTile(tile) {
-		return true;
+		var result = false;
+
+		angular.forEach(self.selected.tiles, function(value, key) {
+  			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
+
+  			if( tile.xPos +2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
+  			{
+  				result = true;
+  			}
+		});
+		console.log(result);
 	}
 
 	function topHasTile(tile) {
-		return true;
+		var result = false;
+
+		angular.forEach(self.selected.tiles, function(value, key) {
+  			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
+
+  			if( tile.xPos +2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
+  			{
+  				result = true;
+  			}
+		});
+		console.log(result);
 	}
 
 	function tileClicked(index) {
