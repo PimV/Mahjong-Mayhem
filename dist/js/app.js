@@ -198,7 +198,6 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 		})
 		.state('home', {
 			url: '/',
-			//controller: 'GameController as vm',
 			templateUrl: 'views/games/games.list.html',
 			title: 'Home'
 		});
@@ -208,8 +207,6 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 			abstract: true,
           	url: '/games',
     		templateUrl: 'views/games/games.html',
-    		//This is loaded for all children
-          	//controller: 'GameController as vm',
           	title: 'Game'
       	})
 		.state('games.list', {
