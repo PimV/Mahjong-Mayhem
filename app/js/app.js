@@ -14,6 +14,7 @@ angular.module(constants.appTitle, [
 	require('angular-material'),
 	require('angular-ui-router'),
 	require('angular-cookies'),
+	'head',
 	'theme',
 	'nav',
 	'auth',
@@ -29,4 +30,6 @@ angular.module(constants.appTitle, [
 
 //Directives
 require('./directives/directives')(constants);
+
+require('./filters/filters')(constants);
 

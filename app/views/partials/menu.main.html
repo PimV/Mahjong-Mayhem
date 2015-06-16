@@ -1,6 +1,6 @@
 <section layout="row" ng-controller="NavController as nav">
 
-  <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+  <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('')">
 
     <md-toolbar class="md-theme-indigo">
       <h1 class="md-toolbar-tools">Games</h1>
@@ -9,7 +9,7 @@
       <md-list>
         <md-item ng-repeat="g in gc.games | orderBy:'createdOn'">
           <md-button ng-click="gc.selectGame(g.id)" ui-sref="games.details({gameId: g.id})" >
-            {{g.title}} - Players: {{g.players.length}} / {{g.maxPlayers}}
+            {{g.gameTemplate.id}} ({{g.players.length}} - {{g.maxPlayers}}) - {{g.state}}
           </md-button>
         </md-item>
       </md-list>
@@ -23,11 +23,17 @@
     <md-toolbar class="md-theme-light">
       <h1 class="md-toolbar-tools">Details</h1>
     </md-toolbar>
+
     <md-content layout-padding>
+      <md-button class="md-raised md-primary" ng-show="gc.selected.state == 'open'" ng-click="gc.start()">Start</md-button>
+      <md-button class="md-raised md-primary" ng-show="gc.selected.state != 'finished'">Join</md-button>
+      <md-button class="md-raised md-primary" ng-show="gc.selected.state != 'finished'">Leave</md-button>
       <md-list>
       <md-subheader class="md-no-sticky">Players ({{gc.selected.players.length}} - {{gc.selected.maxPlayers}})</md-subheader>
         <md-item ng-repeat="player in gc.selected.players">
-          <i class="icon icon-person icon-2x"></i> {{player.name}}
+          <p>
+            <md-icon md-font-icon="icon-person"></md-icon> {{player.name}}
+          </p>
         </md-item>
       </md-list>
 

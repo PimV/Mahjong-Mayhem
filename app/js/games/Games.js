@@ -17,9 +17,9 @@ angular.module(name, [
 		'$scope', 
 		'$stateParams', 
 		'$log',
-		'$q',
 		'$filter',
 		'$mdBottomSheet',
+		'$state',
 		require('./GameController')
 	]
 );/*

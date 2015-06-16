@@ -1,5 +1,10 @@
 <h2>All Games</h2>
+
 <md-button ui-sref="games.create" class="md-raised md-primary">New Game</md-button>
+<md-button ng-model="state" ng-click="state = null" class="md-raised md-primary">All</md-button>
+<md-button ng-model="state" ng-click="state = 'open'" class="md-raised md-primary">Open</md-button>
+<md-button ng-model="state" ng-click="state = 'playing'" class="md-raised md-primary">Playing</md-button>
+<md-button ng-model="state" ng-click="state = 'finished'" class="md-raised md-primary">Finished</md-button>
 
 <div flex layout-fill>
 	<md-grid-list 
@@ -7,7 +12,7 @@
 		md-row-height-gt-md="1:1" md-row-height="4:3" 
 		md-gutter="8px" md-gutter-gt-sm="4px">
 
-		<a ng-repeat="game in gc.games"
+		<a ng-repeat="game in gc.games | state:state"
 		   ui-sref="games.details({gameId: game.id})">
 
 			<md-grid-tile  
@@ -18,7 +23,7 @@
 
 				<md-icon md-svg-icon="{{game.icon}}"></md-icon>
 				<md-grid-tile-footer>
-					<h3>{{game.title}}</h3>
+					<h3>{{game.gameTemplate.id}} ({{game.players.length}} - {{game.maxPlayers}})</h3>
 				</md-grid-tile-footer>
 
 			</md-grid-tile>

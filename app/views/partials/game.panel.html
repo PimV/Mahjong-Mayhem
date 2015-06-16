@@ -1,0 +1,19 @@
+<section class="md-whiteframe-z1">
+	<md-toolbar class="md-tall md-accent top-toolbar">
+		<div class="md-toolbar-tools">
+			<h2>
+				<span>Owner: {{gc.selected.createdBy.name}}</span>
+			</h2>
+			
+			<span flex></span>
+
+			<md-button class="md-hue-1" ng-click="nav.toggleRight()" aria-label="">
+				<i class="icon icon-info-outline icon-2x"></i>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<md-card class="game-container">
+		<h2 ng-show="gc.selected.state == 'open'"><md-button ng-click="gc.start(gc.selected.id)">Start game</md-button></h2>
+		<tile ng-repeat="tile in gc.selected.tiles | filter:tile.matched"></tile>
+	</md-card>
+</section>
