@@ -31,3 +31,5 @@ angular.module(constants.appTitle, [
 //Directives
 require('./directives/directives')(constants);
 
+require('./filters/filters')(constants);
+
