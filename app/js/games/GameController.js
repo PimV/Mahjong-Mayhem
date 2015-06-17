@@ -278,6 +278,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	function checkSurroundings(tile) {
 		leftHasTile(tile);
+		rightHasTile(tile);
+		topHasTile(tile);
 	}
 
 	function leftHasTile(tile) {
@@ -291,6 +293,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
   				result = true;
   			}
 		});
+		console.log("Has tiles left: ");
 		console.log(result);
 	}
 
@@ -305,6 +308,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
   				result = true;
   			}
 		});
+		console.log("Has tiles right: ");
 		console.log(result);
 	}
 
@@ -313,12 +317,14 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 		angular.forEach(self.selected.tiles, function(value, key) {
   			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
+  			var xPositions = [tile.xPos, tile.xPos-1, tile.xPos+1];
 
-  			if( tile.xPos +2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
+  			if( yPositions.indexOf(value.yPos) > -1 && xPositions.indexOf(value.xPos) > -1 && tile.zPos +1 === value.zPos )
   			{
   				result = true;
   			}
 		});
+		console.log("Has tiles top: ");
 		console.log(result);
 	}
 
