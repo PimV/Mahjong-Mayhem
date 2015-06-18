@@ -12,7 +12,7 @@
 		md-row-height-gt-md="1:1" md-row-height="4:3" 
 		md-gutter="8px" md-gutter-gt-sm="4px">
 
-		<a ng-repeat="game in gc.games | stateFilter:state" ng-click="gc.selectedGame(game.id)" ui-sref="games.details({gameId: game.id})">
+		<a ng-repeat="game in gc.games | stateFilter:state" ng-click="gc.selectGame(game.id)" ui-sref="games.details({gameId: game.id})">
 
 
 			<md-grid-tile  
