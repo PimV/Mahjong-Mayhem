@@ -8,4 +8,4 @@ tmp
 app/jspm_packages
 npm-debug.log
 /dist
-dist/index.html
+coverage/

@@ -1,0 +1,65 @@
+﻿Merge remote-tracking branch 'origin/master' into feature/gamepanel
+
+Conflicts:
+	.gitignore
+	app/js/games/GameController.js
+	app/views/games/games.list.html
+	dist/index.html
+	dist/js/app.js
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch feature/gamepanel
+# Your branch is up-to-date with 'origin/feature/gamepanel'.
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   .gitignore
+#	modified:   app/index.html
+#	modified:   app/js/app.js
+#	modified:   app/js/common/routes.js
+#	new file:   app/js/filters/filters.js
+#	new file:   app/js/filters/stateFilter.js
+#	modified:   app/js/games/GameController.js
+#	modified:   app/js/games/GameService.js
+#	modified:   app/js/games/Games.js
+#	modified:   app/views/games/games.list.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/base.css
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/index.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/app.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/common/constants.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/common/index.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/common/routes.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/directives/directives.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/directives/header.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/directives/index.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/directives/main.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/games/GameController.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/games/GameService.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/games/Games.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/games/index.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/index.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/users/UserController.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/users/UserService.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/users/Users.js.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/js/users/index.html
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/prettify.css
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/prettify.js
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/sort-arrow-sprite.png
+#	new file:   coverage/Chrome 42.0.2311 (Windows 7)/sorter.js
+#	modified:   karma.conf.js
+#	modified:   package.json
+#	new file:   test/filter.spec.js
+#	new file:   test/game.spec.js
+#	new file:   test/service.spec.js
+#	new file:   test/testdata.js
+#	new file:   yg5aj0we.is5.txt
+#
+

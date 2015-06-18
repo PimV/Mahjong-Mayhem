@@ -7,7 +7,6 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 	$stateProvider
 		.state('login', {
 			url: 'http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://angular.local/authcallback'
-			
 		})
 		.state('authcallback', {
 			url: '/authcallback?username&token',
@@ -17,16 +16,15 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 		})
 		.state('home', {
 			url: '/',
-			//controller: 'GameController as vm',
 			templateUrl: 'views/games/games.list.html',
 			title: 'Home'
 		});
+
+
 	$stateProvider.state('games', {
 			abstract: true,
           	url: '/games',
     		templateUrl: 'views/games/games.html',
-    		//This is loaded for all children
-          	//controller: 'GameController as vm',
           	title: 'Game'
       	})
 		.state('games.list', {

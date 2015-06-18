@@ -35,7 +35,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Setter Games
 	 * @param {} value
 	 */
-	 function setGames(value){
+	 self.setGames = function (value){
 	 	self.games = value;
 	 }
 
@@ -44,22 +44,22 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Getter Games
 	 * @return {} self.games
 	 */
-	 function getGames(){
+	 self.getGames = function (){
 	 	return self.games;
 	 }
+
 
 
 	/**
 	 * Start selected game
 	 */
-	 function start(){
-	 	console.log('start');
+	 self.start = function (){
 	 	if(self.selected.state !== "open") return;
-	 	console.log('start != open');
+
 	 	var promise = gameService.start(self.selected.id);
 
-	 	promise.then(function(payload) { 
-	 		//self.selected.tiles = payload.data;
+
+	 	promise.then(function(payload) {
 	 		$state.reload();
 	 	},
 	 	function(errorPayload) {
@@ -72,13 +72,10 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Set selected game
 	 * @param  {} game 
 	 */
-	 function selectGame ( game ) {
-	 	self.selected = $filter('filter')(getGames(), {id: game})[0];
-	 	// console.log(self.selected.players);
+	 self.selectedGame = function ( game ) {
+	 	self.selected = $filter('filter')(self.getGames(), {id: game})[0];
 	 	loadTiles();
 	 }
-
-
 	 function buildGameGrid(games){
 	 	var promises = [];
 	 	var svgMin = 1;
@@ -130,12 +127,12 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 			for (var i = 0; i < 144; i++) {
 	 				if (gameService.tileSet[i] == name) {
 	 					tile.sheetX = self.tile.width;
-		 				tile.sheetY = (i * self.tile.height);
+	 					tile.sheetY = (i * self.tile.height);
 
-		 				tile.boardX = (tile.xPos * (self.tile.width/2) ) - (self.tile.width/2);
-		 				tile.boardY = (tile.yPos * (self.tile.height/2) ) - (self.tile.height/2);
-		 				tile.boardZ = tile.zPos;
-		 				return;
+	 					tile.boardX = (tile.xPos * (self.tile.width/2) ) - (self.tile.width/2);
+	 					tile.boardY = (tile.yPos * (self.tile.height/2) ) - (self.tile.height/2);
+	 					tile.boardZ = tile.zPos;
+	 					return;
 	 				}
 	 				
 
@@ -164,7 +161,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Add a new game object 
 	 * @param int index
 	 */
-	 self.addItem = function(index){
+
+	 self.addItem = function(){
 	 	var game = {
 	 		templateName: self.newGame.layout,
 	 		minPlayers: self.newGame.minPlayers,
@@ -216,18 +214,16 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Reload all game items from gameService
 	 * @uses gameService 
 	 */
-	 function reload() {
+	 self.reload = function () {
 	 	console.log("calling reload");
 
 	 	var promise = gameService.loadFromApi();
 	 	
 	 	promise.then(function(payload) 
 	 	{
-	 		console.log(payload.data);
-	 		setGames(buildGameGrid(gameService.all()));
-
+	 		self.setGames(buildGameGrid(gameService.all()));
 	 		if ($stateParams) {
-	 			selectGame($stateParams.gameId);
+	 			self.selectedGame($stateParams.gameId);
 	 		} else {
 	 			self.selected = getGames()[0];
 	 		}
@@ -298,9 +294,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	}
 	 }
 
-	 function tileClicked(index) {
-	 	console.log('tile clicked: ' + index);		
-	 	console.log(self.selected.tiles[index-1]);
+	 self.tileClicked = function (index) {
+	 	console.log('tile clicked: ' + index);
 
 	 	if(self.firstClick)
 	 	{
@@ -316,4 +311,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		self.firstClick = true;
 	 	}
 	 }	 	
+
+	 self.reload();
+	 
 	};
