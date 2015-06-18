@@ -18,17 +18,17 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	self.games        	= [ ];
 	self.newGame	  	= null;
-	self.reload 	 	= reload;
-	self.selectGame   	= selectGame;
-	self.loadTiles 	  	= loadTiles;
-	self.start 		  	= start;
+	// self.reload 	 	= reload;
+	// self.selectGame   	= selectGame;
+	// self.loadTiles 	  	= loadTiles;
+	// self.start 		  	= start;
 	// self.tileSheetTile 		  	= {width: 349, height: 480};
 	self.tile 		  			= {width: 73, height: 100};
 	// self.tile 		  	= {width: 349, height: 480};
-	self.compareTiles 	= compareTiles;
-	self.tileClicked	= tileClicked;
+	// self.compareTiles 	= compareTiles;
+	// self.tileClicked	= tileClicked;
 
-	self.reload();
+
 
 
 	/**
@@ -72,18 +72,18 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Set selected game
 	 * @param  {} game 
 	 */
-	 self.selectedGame = function ( game ) {
+	 self.selectGame = function ( game ) {
 	 	self.selected = $filter('filter')(self.getGames(), {id: game})[0];
-	 	loadTiles();
+	 	self.loadTiles();
 	 }
-	 function buildGameGrid(games){
+	 self.buildGameGrid = function(games) {
 	 	var promises = [];
 	 	var svgMin = 1;
 	 	var svgCount = svgMin;
 	 	var maxCount = 16;
 	 	for (var i = 0; i < games.length; i++) {
 	 		var g = games[i];
-	 		g.span = gridRowSpan(g);
+	 		g.span = self.gridRowSpan(g);
 	 		g.background = colorFactory.random();
 	 		g.icon = "avatar:svg-"+(svgCount);
 	 		svgCount++;
@@ -100,13 +100,13 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Load Tiles from GameService
 	 * @uses GameService 
 	 */
-	 function loadTiles() {
+	 self.loadTiles = function() {
 	 	if(self.selected.state === "open") return;
 	 	var promise = gameService.loadTiles(self.selected.id);
 
 	 	promise.then(function(payload) { 
 	 		self.selected.tiles = payload.data;
-	 		processTiles();
+	 		self.processTiles();
 	 	},
 	 	function(errorPayload) {
 	 		console.log("then error");
@@ -118,7 +118,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Create Tile variables
 	 * @return {[type]} [description]
 	 */
-	 function processTiles() {
+	 self.processTiles = function() {
 
 	 	if (self.selected && self.selected.tiles) {
 	 		self.selected.tiles.forEach(function(tile) {
@@ -137,21 +137,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 				
 
 	 			}
-
-	 			// for (var y = 0; y < 3; y++) {
-	 			// 	for (var x = 0; x < 14; x++) {
-	 			// 		if (gameService.tileSet[y][x] == name) {
-	 			// 			tile.sheetX = -(x * self.tile.width);
-	 			// 			tile.sheetY = -(y * self.tile.height);
-
-	 			// 			tile.boardX = (tile.xPos * (self.tile.width/2) ) - (self.tile.width/2);
-	 			// 			tile.boardY = (tile.yPos * (self.tile.height/2) ) - (self.tile.height/2);
-	 			// 			tile.boardZ = tile.zPos;
-
-	 			// 			return;
-	 			// 		}
-	 			// 	}	
-	 			// }
 	 		});
 	 	}
 	 }
@@ -188,7 +173,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * @param  {} game Single Game object
 	 * @return {row, span}
 	 */
-	 function gridRowSpan(game){
+	 self.gridRowSpan = function(game) {
 	 	var span = { row: 1, col: 1 },
 	 	col = function(){
 	 		span.col += 1;
@@ -221,9 +206,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	
 	 	promise.then(function(payload) 
 	 	{
-	 		self.setGames(buildGameGrid(gameService.all()));
+	 		self.setGames(self.buildGameGrid(gameService.all()));
 	 		if ($stateParams) {
-	 			self.selectedGame($stateParams.gameId);
+	 			self.selectGame($stateParams.gameId);
 	 		} else {
 	 			self.selected = getGames()[0];
 	 		}
@@ -239,7 +224,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Show $mdBottomSheet
 	 * @return {[type]} [description]
 	 */
-	 function showDetails () {
+	 self.showDetails = function() {
 	 	$mdBottomSheet.show({
 	 		parent: angular.element(document.getElementById('content')),
 	 		templateUrl: 'views/games/games.bottomSheet.html',
@@ -257,7 +242,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	}
 	 }
 
-	 function compareTiles(first, second)	{
+	 self.compareTiles = function(first, second)	{
 	 	if(first != null && first != undefined && second != null && second != undefined)
 	 	{
 	 		switch(first.tile.suit) {
@@ -282,6 +267,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	 			if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name)
 	 			{
+	 				second.tile.height = 0;
+	 				first.tile.height = 0;
 	 				console.log("we have a match");
 	 			}
 	 			break;
@@ -307,11 +294,11 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	{
 	 		console.log("second click");
 	 		self.second = self.selected.tiles[index-1];
-	 		compareTiles(self.first, self.second);
+	 		self.compareTiles(self.first, self.second);
 	 		self.firstClick = true;
 	 	}
 	 }	 	
 
 	 self.reload();
-	 
+
 	};
