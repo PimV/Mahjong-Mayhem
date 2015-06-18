@@ -1,12 +1,15 @@
 <div class="tile"
 	style="
 	height: {{gc.tile.height}}px;
-	width:{{gc.tile.width}}px;
-	background: url(/assets/tile_sheet_73x90.png) {{tile.sheetX}}px {{tile.sheetY}}px;
+	width: {{gc.tile.width}}px;
+	background: url(/assets/spritesdsmall.png) {{tile.sheetX}}px {{tile.sheetY}}px;
 	transform-style: preserve-3d;
 	-webkit-transform-style: preserve-3d;
 	-webkit-backface-visibility:hidden;
+	background-size:cover;
 	-webkit-transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);
 	transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);"
 	ng-click="gc.tileClicked($index + 1)"
-	>[{{$index + 1}}]</div> 
+	><!-- [{{$index + 1}}] --></div> 
+
+	<!-- box-shadow: {{tile.boardZ}}px {{tile.boardZ}}px 5px 5px black; -->

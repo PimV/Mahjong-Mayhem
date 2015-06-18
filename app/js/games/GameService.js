@@ -9,6 +9,17 @@ module.exports = function ($q, $http){
 		['circle_1', 'circle_2', 'circle_3', 'circle_4','circle_5','circle_6','circle_7','circle_8','circle_9','flower_bamboo', 'flower_orchid', 'flower_chrysantememum', 'flower_plum', 'dragon_white']
 	];
 
+	service.tileSet = 
+		[
+		'bamboo_1', 'bamboo_2', 'bamboo_3', 'bamboo_4','bamboo_5','bamboo_6','bamboo_7','bamboo_8','bamboo_9', 
+		'character_1', 'character_2', 'character_3', 'character_4','character_5','character_6','character_7','character_8','character_9',
+		'circle_1', 'circle_2', 'circle_3', 'circle_4','circle_5','circle_6','circle_7','circle_8','circle_9', 
+		'dragon_green', 'dragon_red', 'dragon_white', 
+		'flower_bamboo', 'flower_orchid', 'flower_chrysantememum', 'flower_plum',
+		'season_spring', 'season_summer', 'season_autumn', 'season_winter',
+		'wind_north', 'wind_south', 'wind_east', 'wind_west'
+		];
+
 	/**
 	 * Create a new Game
 	 * @param {} obj Game object
