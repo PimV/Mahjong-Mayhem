@@ -247,6 +247,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	}
 
 	function compareTiles(first, second)	{
+		var match = false;
 		if(first != null && first != undefined && second != null && second != undefined)
 		{
 			switch(first.tile.suit) {
@@ -254,32 +255,52 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 			    	if(first.tile.suit == second.tile.suit)
 			    	{
 			    		console.log("We have a match!");
+			    		match = true;
 			    	}
 			        break;
 			    case "Flower":
 			    	if(first.tile.suit == second.tile.suit)
 			    	{
 			    		console.log("We have a match!");
+			    		match = true;
 			    	}
 			        break;
 			    default:
 			    	if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name)
 			        {
 			        	console.log("we have a match");
+			        	match = true;
 			        }
 			        break;
 			}
-			return true
 		}
-		else {
-			return false;
-		}
+		return match;
 	}
 
 	function checkSurroundings(tile) {
-		leftHasTile(tile);
-		rightHasTile(tile);
-		topHasTile(tile);
+		var left = leftHasTile(tile);
+		var right =  rightHasTile(tile);
+		var top = topHasTile(tile);
+
+		console.log("Has tiles left: ");
+		console.log(left);
+
+		console.log("Has tiles right: ");
+		console.log(right);
+
+		console.log("Has tiles top: ");
+		console.log(top);
+
+		if((!left || !right) && !top)
+		{
+			console.log("tile is free");
+			return true;
+		}
+		else
+		{
+			console.log("tile is blocked");
+			return false;
+		}
 	}
 
 	function leftHasTile(tile) {
@@ -293,8 +314,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
   				result = true;
   			}
 		});
-		console.log("Has tiles left: ");
-		console.log(result);
+		return result;
 	}
 
 	function rightHasTile(tile) {
@@ -308,8 +328,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
   				result = true;
   			}
 		});
-		console.log("Has tiles right: ");
-		console.log(result);
+
+		return result;
 	}
 
 	function topHasTile(tile) {
@@ -324,33 +344,28 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
   				result = true;
   			}
 		});
-		console.log("Has tiles top: ");
-		console.log(result);
+
+		return result;
 	}
 
 	function tileClicked(index) {
-		console.log('tile index: ' + index + " object: " + self.selected[index-1]);
+		var clickedTile = self.selected.tiles[index-1];
+		console.log(clickedTile);
 
-		if(self.firstClick)
+		if(self.firstClick && checkSurroundings(clickedTile))
 		{
-			console.log("first click");
+			console.log("first tile selected");
 			self.firstindex = index;
-			self.first = self.selected.tiles[index-1];
+			self.first = clickedTile;
 			self.firstClick = false;
-			checkSurroundings(self.first);
 		}
 		else
-		{
-			console.log("second click");
-			if(self.firstindex != index)
-			{				
-				self.second = self.selected.tiles[index-1];
-				checkSurroundings(self.second);
+		{			
+			if(self.firstindex != index && checkSurroundings(clickedTile))
+			{		
+				console.log("second tile selected");		
+				self.second = clickedTile;
 				compareTiles(self.first, self.second);		
-			}
-			else
-			{
-				console.log("You clicked the same tile twice, YOU CHEATAAAH");
 			}
 			self.firstindex = 0;
 			self.firstClick = true;
