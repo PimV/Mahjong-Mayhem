@@ -125,6 +125,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 					tile.boardX = (tile.xPos * (self.tile.width/2) ) - (self.tile.width/2);
 	 					tile.boardY = (tile.yPos * (self.tile.height/2) ) - (self.tile.height/2);
 	 					tile.boardZ = tile.zPos;
+	 					tile.matched = false;
 	 					return;
 	 				}
 	 				
@@ -235,7 +236,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	}
 	 }
 
-	function compareTiles(first, second)	{
+	self.compareTiles = function(first, second)	{
 		var match = false;
 		if(first != null && first != undefined && second != null && second != undefined)
 		{
@@ -264,41 +265,12 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 			}
 		}
 		return match;
-	}
+	}	
 
-	 self.tileClicked = function (index) {
-		console.log('tile index: ' + index + " object: " + self.selected[index-1]);
-
-		if(self.firstClick)
-		{
-			console.log("first click");
-			self.firstindex = index;
-			self.first = self.selected.tiles[index-1];
-			self.firstClick = false;
-			checkSurroundings(self.first);
-		}
-		else
-		{
-			console.log("second click");
-			if(self.firstindex != index)
-			{				
-				self.second = self.selected.tiles[index-1];
-				checkSurroundings(self.second);
-				self.compareTiles(self.first, self.second);		
-			}
-			else
-			{
-				console.log("You clicked the same tile twice, YOU CHEATAAAH");
-			}
-			self.firstindex = 0;
-			self.firstClick = true;
-		}
-	 }	 	
-
-	function checkSurroundings(tile) {
-		var left = leftHasTile(tile);
-		var right =  rightHasTile(tile);
-		var top = topHasTile(tile);
+	self.checkSurroundings = function(tile) {
+		var left = self.leftHasTile(tile);
+		var right =   self.rightHasTile(tile);
+		var top =  self.topHasTile(tile);
 
 		console.log("Has tiles left: ");
 		console.log(left);
@@ -321,7 +293,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		}
 	}
 
-	function leftHasTile(tile) {
+	self.leftHasTile = function(tile) {
 		var result = false;
 
 		angular.forEach(self.selected.tiles, function(value, key) {
@@ -335,7 +307,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		return result;
 	}
 
-	function rightHasTile(tile) {
+	self.rightHasTile = function(tile) {
 		var result = false;
 
 		angular.forEach(self.selected.tiles, function(value, key) {
@@ -350,7 +322,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		return result;
 	}
 
-	function topHasTile(tile) {
+	self.topHasTile = function(tile) {
 		var result = false;
 
 		angular.forEach(self.selected.tiles, function(value, key) {
@@ -366,11 +338,11 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		return result;
 	}
 
-	function tileClicked(index) {
+	self.tileClicked = function(index) {
 		var clickedTile = self.selected.tiles[index-1];
 		console.log(clickedTile);
-
-		if(self.firstClick && checkSurroundings(clickedTile))
+		var match = false;
+		if(self.firstClick && self.checkSurroundings(clickedTile))
 		{
 			console.log("first tile selected");
 			self.firstindex = index;
@@ -379,14 +351,21 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		}
 		else
 		{			
-			if(self.firstindex != index && checkSurroundings(clickedTile))
+			if(self.firstindex != index && self.checkSurroundings(clickedTile))
 			{		
 				console.log("second tile selected");		
 				self.second = clickedTile;
-				compareTiles(self.first, self.second);		
+				match = self.compareTiles(self.first, self.second);		
 			}
 			self.firstindex = 0;
 			self.firstClick = true;
 		}
-	}	 	
+
+		if (match === true) {
+			self.first.matched = true;
+			self.second.matched = true;
+		}
+	}
+
+	self.reload();	 	
 };
