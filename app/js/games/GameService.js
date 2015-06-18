@@ -4,11 +4,11 @@ module.exports = function ($q, $http){
 	var service = {};
 	service.baseUrl = "http://mahjongmayhem.herokuapp.com";
 	service.games = [];
-	service.tileSet = [
-		['character_1', 'character_2', 'character_3', 'character_4','character_5','character_6','character_7','character_8','character_9','wind_north', 'wind_south', 'wind_east', 'wind_west', 'dragon_green'],
-		['bamboo_1', 'bamboo_2', 'bamboo_3', 'bamboo_4','bamboo_5','bamboo_6','bamboo_7','bamboo_8','bamboo_9','season_spring', 'season_summer', 'season_autumn', 'season_winter', 'dragon_red'],
-		['circle_1', 'circle_2', 'circle_3', 'circle_4','circle_5','circle_6','circle_7','circle_8','circle_9','flower_bamboo', 'flower_orchid', 'flower_chrysantememum', 'flower_plum', 'dragon_white']
-	];
+	// service.tileSet = [
+	// 	['character_1', 'character_2', 'character_3', 'character_4','character_5','character_6','character_7','character_8','character_9','wind_north', 'wind_south', 'wind_east', 'wind_west', 'dragon_green'],
+	// 	['bamboo_1', 'bamboo_2', 'bamboo_3', 'bamboo_4','bamboo_5','bamboo_6','bamboo_7','bamboo_8','bamboo_9','season_spring', 'season_summer', 'season_autumn', 'season_winter', 'dragon_red'],
+	// 	['circle_1', 'circle_2', 'circle_3', 'circle_4','circle_5','circle_6','circle_7','circle_8','circle_9','flower_bamboo', 'flower_orchid', 'flower_chrysantememum', 'flower_plum', 'dragon_white']
+	// ];
 
 	service.tileSet = 
 		[

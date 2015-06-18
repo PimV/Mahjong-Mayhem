@@ -272,14 +272,14 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		var right =   self.rightHasTile(tile);
 		var top =  self.topHasTile(tile);
 
-		console.log("Has tiles left: ");
-		console.log(left);
+		// console.log("Has tiles left: ");
+		// console.log(left);
 
-		console.log("Has tiles right: ");
-		console.log(right);
+		// console.log("Has tiles right: ");
+		// console.log(right);
 
-		console.log("Has tiles top: ");
-		console.log(top);
+		// console.log("Has tiles top: ");
+		// console.log(top);
 
 		if((!left || !right) && !top)
 		{
@@ -340,31 +340,39 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	self.tileClicked = function(index) {
 		var clickedTile = self.selected.tiles[index-1];
+		console.log(index);
 		console.log(clickedTile);
-		var match = false;
-		if(self.firstClick && self.checkSurroundings(clickedTile))
-		{
-			console.log("first tile selected");
-			self.firstindex = index;
-			self.first = clickedTile;
-			self.firstClick = false;
-		}
-		else
-		{			
-			if(self.firstindex != index && self.checkSurroundings(clickedTile))
-			{		
-				console.log("second tile selected");		
-				self.second = clickedTile;
-				match = self.compareTiles(self.first, self.second);		
-			}
-			self.firstindex = 0;
-			self.firstClick = true;
-		}
+		angular.forEach(self.selected.tiles, function(value, key) {
+				console.log(value.tile.suit + value.tile.name);
+		});
+		// var match = false;
+		// if(self.firstClick && self.checkSurroundings(clickedTile))
+		// {
+		// 	console.log("first tile selected");
+		// 	self.firstindex = index;
+		// 	self.first = clickedTile;
+		// 	self.firstClick = false;
+		// }
+		// else
+		// {			
+		// 	if(self.firstindex != index && self.checkSurroundings(clickedTile))
+		// 	{		
+		// 		console.log("second tile selected");		
+		// 		self.second = clickedTile;
+		// 		match = self.compareTiles(self.first, self.second);		
+		// 	}
+		// 	self.firstindex = 0;
+		// 	self.firstClick = true;
+		// }
 
-		if (match === true) {
-			self.first.matched = true;
-			self.second.matched = true;
-		}
+		// if (match === true) {
+		// 	self.first.matched = true;
+		// 	self.second.matched = true;
+		// }
+		// else
+		// {
+		// 	console.log("No possible match");
+		// }
 	}
 
 	self.reload();	 	
