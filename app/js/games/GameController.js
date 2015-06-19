@@ -109,8 +109,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	 	self.socketio.on('playerJoined', function() {
 	 		console.log("A player has joined");
-	 		// self.fullReload();
-	 		self.reload();
+	 		self.fullReload();
+	 		// self.reload();
 	 		// $state.reload();
 
 
