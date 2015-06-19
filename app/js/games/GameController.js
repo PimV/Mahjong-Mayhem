@@ -69,6 +69,23 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	self.selected = $filter('filter')(self.getGames(), {id: game})[0];
 	 	self.loadTiles();
 	 }
+
+	 self.join = function() {
+	 	if (self.selected) {
+	 		var promise = gameService.join(self.selected.id);
+
+	 		promise.then(function(payload) {
+
+	 		}, function(errorPayload) {
+	 			console.log(errorPayload);
+	 		});
+	 	} else {
+	 		console.log("No game selected.");
+	 	}
+
+	 	
+	 }
+
 	 self.buildGameGrid = function(games) {
 	 	var promises = [];
 	 	var svgMin = 1;
@@ -125,6 +142,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 					tile.boardX = (tile.xPos * (self.tile.width/2) ) - (self.tile.width/2);
 	 					tile.boardY = (tile.yPos * (self.tile.height/2) ) - (self.tile.height/2);
 	 					tile.boardZ = tile.zPos;
+	 					console.log(tile.zPos);
 	 					tile.matched = false;
 	 					return;
 	 				}

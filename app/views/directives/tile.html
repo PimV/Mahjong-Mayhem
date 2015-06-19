@@ -8,7 +8,8 @@
 	-webkit-backface-visibility:hidden;
 	background-size:cover;
 	-webkit-transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);
-	transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);"
+	transform: translate3d({{tile.boardX}}px, {{tile.boardY}}px, {{tile.boardZ}}px);
+	z-index: {{tile.boardZ}}"
 	ng-click="gc.tileClicked(tile)"
 	></div> 
 
