@@ -21,6 +21,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.newGame	  	= null;
 	self.tile 		  	= {width: 73, height: 100};
 
+	self.socketio 		= null;
+
 
 
 
@@ -53,12 +55,18 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 
 	 	promise.then(function(payload) {
-	 		$state.reload();
+	 		self.reload();
+	 		// $state.reload();
 	 	},
 	 	function(errorPayload) {
 	 		console.log("then error");
 	 	});
 	 }
+
+	 self.fullReload = function() {
+	 		self.reload();
+	 		$state.reload();
+	 };
 
 
 	/**
@@ -68,6 +76,30 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 self.selectGame = function ( game ) {
 	 	self.selected = $filter('filter')(self.getGames(), {id: game})[0];
 	 	self.loadTiles();
+
+	 	self.enableSocketIO(game);
+
+	 }
+
+	 self.enableSocketIO = function(game) {
+	 	//disconnect previous connections
+	 	if (self.socketio) {
+	 		console.log("disconnecting");
+	 		self.socketio.disconnect();
+	 	}
+
+	 	self.socketio =  io('http://mahjongmayhem.herokuapp.com?gameId=' + game);
+
+	 	self.socketio.on('start', function() {
+	 		self.fullReload();
+	 		console.log("This game has been started!");
+	 	});
+
+	 	self.socketio.on('playerJoined', function() {
+	 		self.fullReload();
+	 		console.log("A player has joined");
+
+	 	});
 	 }
 
 	 self.join = function() {
@@ -386,35 +418,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	return result;
 	 }
 
-	// self.tileClicked = function(index) {
-	// 	var clickedTile = self.selected.tiles[index-1];
-	// 	console.log(clickedTile);
-	// 	var match = false;
-	// 	if(self.firstClick && self.checkSurroundings(clickedTile))
-	// 	{
-	// 		console.log("first tile selected");
-	// 		self.firstindex = index;
-	// 		self.first = clickedTile;
-	// 		self.firstClick = false;
-	// 	}
-	// 	else
-	// 	{			
-	// 		if(self.firstindex != index && self.checkSurroundings(clickedTile))
-	// 		{		
-	// 			console.log("second tile selected");		
-	// 			self.second = clickedTile;
-	// 			match = self.compareTiles(self.first, self.second);		
-	// 		}
-	// 		self.firstindex = 0;
-	// 		self.firstClick = true;
-	// 	}
-
-	// 	if (match === true) {
-	// 		self.first.matched = true;
-	// 		self.second.matched = true;
-	// 	}
-	// }
-
 	self.tileClicked = function(selectedTile) {
 		console.log(selectedTile);
 		var clickedTile;
@@ -455,5 +458,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		}
 	}
 
-	 self.reload();	 	
+	if(self.games.length === 0) {
+		self.reload();	 
+	}
+
+		
 	};
