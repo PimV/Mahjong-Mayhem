@@ -64,11 +64,15 @@ module.exports = function ($q, $http){
 	 * @return {}
 	 */
 	service.get = function(id){
-		if(angular.isNumber(id)){
-			return service.games[id];
-		} else {
+		return $http.get(service.baseUrl+'/games/' + id)
+		.success(function(data,status,headers,config) {
+			// service.games = data;
+			return data;
+		})
+		.error(function(data,status,headers,config) {
+			console.log(data);
 			return null;
-		}
+		});
 	}
 
 

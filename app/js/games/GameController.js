@@ -56,7 +56,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	 	promise.then(function(payload) {
 	 		self.reload();
-	 		// $state.reload();
+	 		$state.reload();
 	 	},
 	 	function(errorPayload) {
 	 		console.log("then error");
@@ -64,8 +64,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 }
 
 	 self.fullReload = function() {
-	 		self.reload();
-	 		$state.reload();
+	 	self.reload();
+	 	$state.reload();
 	 };
 
 
@@ -74,48 +74,77 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * @param  {} game 
 	 */
 	 self.selectGame = function ( game ) {
-	 	self.selected = $filter('filter')(self.getGames(), {id: game})[0];
-	 	self.loadTiles();
+	 	console.log("Selecting game with id: " + game);
+	 	var promise = gameService.get(game);
 
-	 	// if (typeof game !== 'undefined') {
+	 	promise.then(function(payload) {
+	 		console.log("Selected game:");
+	 		console.log(payload.data);
+	 		self.selected = payload.data;
+	 		self.loadTiles();
 	 		self.enableSocketIO(game);
-	 	// }
+	 		$state.go('games.details', {gameId: game});
+	 	}, function(errorPayload) {
+	 		console.log("Could not load game.");
+	 	});
+	 	
+
 	 	
 
 	 }
 
+	 self.disableSocketIO = function(game) {
+	 	// console.log("Disabling sockets...");
+	 	// console.log(self.socketio);
+	 	var currentUrl = 'http://mahjongmayhem.herokuapp.com?gameId=' + game;
+
+	 	if (self.socketio !== null) {
+	 		if (self.socketio.io.uri === currentUrl) {
+	 			console.log("Already connected to same uri. Not disconnecting.");
+	 			return;
+	 		}
+	 		// console.log(currentUrl, self.socketio.io.uri);
+	 		console.log("Disconnected: " + self.socketio.io.uri);
+	 		self.socketio.disconnect();	 
+	 	}	 	
+	 }
+
+	 self.isAlreadyEnabled = function(game) {
+	 	var currentUrl = 'http://mahjongmayhem.herokuapp.com?gameId=' + game;	 	
+	 	if (self.socketio !== null) {
+	 		if (self.socketio.io.uri === currentUrl) {
+	 			console.log("Already connected to same uri. Not disconn.");
+	 			return true;
+	 		}
+	 	}
+	 	
+	 	return false;
+	 };
+
 	 self.enableSocketIO = function(game) {
+	 	console.log("Enabling socketio for game id: " + game);
+	 	self.disableSocketIO(game);
+
 	 	if (typeof game === 'undefined') {
+	 		console.log("Game undefined, stopping.");
 	 		return;
 	 	}
 
-	 	//disconnect previous connections
-	 	if (self.socketio) {
-	 		console.log("disconnecting " + game);
-	 		console.log(self.socketio);
-	 		self.socketio.disconnect();
-	 	}
+	 	if (self.isAlreadyEnabled(game)) {
+	 		console.log("Not connecting again.");
+	 		return;
+	 	}	 	
 	 	var socketUrl = 'http://mahjongmayhem.herokuapp.com?gameId=' + game;
-	 	self.socketio =  io(socketUrl);
-	 	console.log("Connected to socket io: " + socketUrl);
+	 	self.socketio =  io(socketUrl, {'force new connection': true});
+	 	console.log("Connected: " + self.socketio.io.uri);
 	 	self.socketio.on('start', function() {
-	 		console.log("This game has been started!");
-	 		// $state.reload();
-	 		self.fullReload();
-	 		
-	 		
-
+	 		console.log("This game has been started!");	
+	 		self.selectGame(game);	
 	 	});
 
 	 	self.socketio.on('playerJoined', function() {
 	 		console.log("A player has joined");
-	 		self.fullReload();
-	 		// self.reload();
-	 		// $state.reload();
-
-
-	 		
-
+	 		self.selectGame(game);	
 	 	});
 	 }
 
@@ -240,8 +269,10 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		//Wait for the promise
 		promise.then(function(payload) {
 			//redirect to the new game
-			self.reload();
-			$state.go('games.details', {gameId: payload.data.id});
+
+			// self.reload();
+			self.selectGame(payload.data.id);
+			// $state.go('games.details', {gameId: payload.data.id});
 		},
 		function(errorPayload) {
 			console.log("then error");
@@ -281,16 +312,12 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * @uses gameService 
 	 */
 	 self.reload = function () {
-	 	console.log("calling reload");
-
 	 	var promise = gameService.loadFromApi();
 	 	
 	 	promise.then(function(payload) {
 	 		self.setGames(self.buildGameGrid(gameService.all()));
 	 		if ($stateParams) {
 	 			self.selectGame($stateParams.gameId);
-	 		} else {
-	 			self.selected = getGames()[0];
 	 		}
 	 	},
 	 	function(errorPayload) {
@@ -328,22 +355,19 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	{
 	 		switch(first.tile.suit) {
 	 			case "Season":
-	 			if(first.tile.suit == second.tile.suit)
-	 			{
+	 			if(first.tile.suit == second.tile.suit)	{
 	 				console.log("We have a match!");
 	 				match = true;
 	 			}
 	 			break;
 	 			case "Flower":
-	 			if(first.tile.suit == second.tile.suit)
-	 			{
+	 			if(first.tile.suit == second.tile.suit)	{
 	 				console.log("We have a match!");
 	 				match = true;
 	 			}
 	 			break;
 	 			default:
-	 			if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name)
-	 			{
+	 			if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name) {
 	 				console.log("we have a match");
 	 				match = true;
 	 			}
@@ -386,10 +410,10 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		if (value.matched === false) {
 	 			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
 
-	 		if( tile.xPos -2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
-	 		{
-	 			result = true;
-	 		}
+	 			if( tile.xPos -2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
+	 			{
+	 				result = true;
+	 			}
 	 		}
 	 		
 	 	});
@@ -403,10 +427,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		if (value.matched === false) {
 	 			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
 
-	 		if( tile.xPos +2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
-	 		{
-	 			result = true;
-	 		}
+	 			if( tile.xPos +2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)	{
+	 				result = true;
+	 			}
 	 		}
 	 		
 	 	});
@@ -426,57 +449,59 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 				&& xPositions.indexOf(value.xPos) > -1 
 	 				&& (tile.zPos + 1) === value.zPos ) {
 	 				result = true;
-	 			}
 	 		}
+	 	}
 
-	 	});
+	 });
 
 	 	return result;
 	 }
 
-	self.tileClicked = function(selectedTile) {
-		console.log(selectedTile);
-		var clickedTile;
-		self.selected.tiles.forEach(function(tile) {
-			if (tile._id === selectedTile._id) {
-				clickedTile = tile;
-				return;
-			}
-		});
+	 self.tileClicked = function(selectedTile) {
+	 	console.log(selectedTile);
+	 	var clickedTile;
+	 	self.selected.tiles.forEach(function(tile) {
+	 		if (tile._id === selectedTile._id) {
+	 			clickedTile = tile;
+	 			return;
+	 		}
+	 	});
 
-		var index = clickedTile._id;
+	 	var index = clickedTile._id;
 
-		var surroundingCheck = self.checkSurroundings(clickedTile);
+	 	var surroundingCheck = self.checkSurroundings(clickedTile);
 
-		var match = false;
-		if(self.firstClick && surroundingCheck )
-		{
-			console.log("first tile selected");
-			self.firstindex = index;
-			self.first = clickedTile;
-			self.firstClick = false;
-		}
-		else
-		{			
-			if(self.firstindex != index && surroundingCheck)
-			{		
-				console.log("second tile selected");		
-				self.second = clickedTile;
-				match = self.compareTiles(self.first, self.second);		
-			}
-			self.firstindex = 0;
-			self.firstClick = true;
-		}
+	 	var match = false;
+	 	if(self.firstClick && surroundingCheck )
+	 	{
+	 		console.log("first tile selected");
+	 		self.firstindex = index;
+	 		self.first = clickedTile;
+	 		self.firstClick = false;
+	 	}
+	 	else
+	 	{			
+	 		if(self.firstindex != index && surroundingCheck)
+	 		{		
+	 			console.log("second tile selected");		
+	 			self.second = clickedTile;
+	 			match = self.compareTiles(self.first, self.second);		
+	 		}
+	 		self.firstindex = 0;
+	 		self.firstClick = true;
+	 	}
 
-		if (match === true) {
-			self.first.matched = true;
-			self.second.matched = true;
-		}
-	}
+	 	if (match === true) {
+	 		self.first.matched = true;
+	 		self.second.matched = true;
+	 	}
+	 }
 
-	if(self.games.length === 0) {
-		self.reload();	 
-	}
+	 if(self.games.length === 0) {
+	 	self.reload();	 
+	 }
 
-		
+
+
+
 	};
