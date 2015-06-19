@@ -77,23 +77,32 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	self.selected = $filter('filter')(self.getGames(), {id: game})[0];
 	 	self.loadTiles();
 
-	 	self.enableSocketIO(game);
+	 	// if (typeof game !== 'undefined') {
+	 		self.enableSocketIO(game);
+	 	// }
+	 	
 
 	 }
 
 	 self.enableSocketIO = function(game) {
-	 	//disconnect previous connections
-	 	if (self.socketio) {
-	 		console.log("disconnecting");
-	 		self.socketio.disconnect();
+	 	if (typeof game === 'undefined') {
+	 		return;
 	 	}
 
-	 	self.socketio =  io('http://mahjongmayhem.herokuapp.com?gameId=' + game);
-
+	 	//disconnect previous connections
+	 	if (self.socketio) {
+	 		console.log("disconnecting " + game);
+	 		console.log(self.socketio);
+	 		self.socketio.disconnect();
+	 	}
+	 	var socketUrl = 'http://mahjongmayhem.herokuapp.com?gameId=' + game;
+	 	self.socketio =  io(socketUrl);
+	 	console.log("Connected to socket io: " + socketUrl);
 	 	self.socketio.on('start', function() {
 	 		console.log("This game has been started!");
-	 		// self.fullReload();
-	 		self.reload();
+	 		// $state.reload();
+	 		self.fullReload();
+	 		
 	 		
 
 	 	});
@@ -102,7 +111,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		console.log("A player has joined");
 	 		// self.fullReload();
 	 		self.reload();
-	 		
+	 		// $state.reload();
+
+
 	 		
 
 	 	});
@@ -274,8 +285,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	 	var promise = gameService.loadFromApi();
 	 	
-	 	promise.then(function(payload) 
-	 	{
+	 	promise.then(function(payload) {
 	 		self.setGames(self.buildGameGrid(gameService.all()));
 	 		if ($stateParams) {
 	 			self.selectGame($stateParams.gameId);
