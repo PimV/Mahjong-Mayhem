@@ -148,6 +148,8 @@ md-grid-tile {
 
 .tile {
   position: absolute;
+  /*-webkit-filter: drop-shadow(2px 7px 7px rgba(0,0,0, 0.9));*/
+   /*filter: drop-shadow(2px 7px 7px rgba(0, 0, 0, 0.9));*/
 }
 
 div.tile:hover{

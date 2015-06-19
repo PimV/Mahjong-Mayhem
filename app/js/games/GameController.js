@@ -19,7 +19,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	self.games        	= [ ];
 	self.newGame	  	= null;
-	self.tile 		  			= {width: 73, height: 100};
+	self.tile 		  	= {width: 73, height: 100};
 
 
 
@@ -153,7 +153,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		//Wait for the promise
 		promise.then(function(payload) {
 			//redirect to the new game
-			reload();
+			self.reload();
 			$state.go('games.details', {gameId: payload.data.id});
 		},
 		function(errorPayload) {
@@ -236,113 +236,163 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	}
 	 }
 
-	self.compareTiles = function(first, second)	{
-		var match = false;
-		if(first != null && first != undefined && second != null && second != undefined)
-		{
-			switch(first.tile.suit) {
-			    case "Season":
-			    	if(first.tile.suit == second.tile.suit)
-			    	{
-			    		console.log("We have a match!");
-			    		match = true;
-			    	}
-			        break;
-			    case "Flower":
-			    	if(first.tile.suit == second.tile.suit)
-			    	{
-			    		console.log("We have a match!");
-			    		match = true;
-			    	}
-			        break;
-			    default:
-			    	if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name)
-			        {
-			        	console.log("we have a match");
-			        	match = true;
-			        }
-			        break;
+	 self.compareTiles = function(first, second)	{
+	 	var match = false;
+	 	if(first != null && first != undefined && second != null && second != undefined)
+	 	{
+	 		switch(first.tile.suit) {
+	 			case "Season":
+	 			if(first.tile.suit == second.tile.suit)
+	 			{
+	 				console.log("We have a match!");
+	 				match = true;
+	 			}
+	 			break;
+	 			case "Flower":
+	 			if(first.tile.suit == second.tile.suit)
+	 			{
+	 				console.log("We have a match!");
+	 				match = true;
+	 			}
+	 			break;
+	 			default:
+	 			if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name)
+	 			{
+	 				console.log("we have a match");
+	 				match = true;
+	 			}
+	 			break;
+	 		}
+	 	}
+	 	return match;
+	 }	
+
+	 self.checkSurroundings = function(tile) {
+	 	var left = self.leftHasTile(tile);
+	 	var right =   self.rightHasTile(tile);
+	 	var top =  self.topHasTile(tile);
+
+	 	console.log("Has tiles left: ");
+	 	console.log(left);
+
+	 	console.log("Has tiles right: ");
+	 	console.log(right);
+
+	 	console.log("Has tiles top: ");
+	 	console.log(top);
+
+	 	if((!left || !right) && !top)
+	 	{
+	 		console.log("tile is free");
+	 		return true;
+	 	}
+	 	else
+	 	{
+	 		console.log("tile is blocked");
+	 		return false;
+	 	}
+	 }
+
+	 self.leftHasTile = function(tile) {
+	 	var result = false;
+
+	 	angular.forEach(self.selected.tiles, function(value, key) {
+	 		if (value.matched === false) {
+	 			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
+
+	 		if( tile.xPos -2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
+	 		{
+	 			result = true;
+	 		}
+	 		}
+	 		
+	 	});
+	 	return result;
+	 }
+
+	 self.rightHasTile = function(tile) {
+	 	var result = false;
+
+	 	angular.forEach(self.selected.tiles, function(value, key) {
+	 		if (value.matched === false) {
+	 			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
+
+	 		if( tile.xPos +2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
+	 		{
+	 			result = true;
+	 		}
+	 		}
+	 		
+	 	});
+
+	 	return result;
+	 }
+
+	 self.topHasTile = function(tile) {
+	 	var result = false;
+
+	 	angular.forEach(self.selected.tiles, function(value, key) {
+	 		if (value.matched === false) {
+	 			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
+	 			var xPositions = [tile.xPos, tile.xPos-1, tile.xPos+1];
+	 			console.log(tile.zPos, (tile.zPos + 1), value.zPos);
+	 			if(yPositions.indexOf(value.yPos) > -1 
+	 				&& xPositions.indexOf(value.xPos) > -1 
+	 				&& (tile.zPos + 1) === value.zPos ) {
+	 				result = true;
+	 			}
+	 		}
+
+	 	});
+
+	 	return result;
+	 }
+
+	// self.tileClicked = function(index) {
+	// 	var clickedTile = self.selected.tiles[index-1];
+	// 	console.log(clickedTile);
+	// 	var match = false;
+	// 	if(self.firstClick && self.checkSurroundings(clickedTile))
+	// 	{
+	// 		console.log("first tile selected");
+	// 		self.firstindex = index;
+	// 		self.first = clickedTile;
+	// 		self.firstClick = false;
+	// 	}
+	// 	else
+	// 	{			
+	// 		if(self.firstindex != index && self.checkSurroundings(clickedTile))
+	// 		{		
+	// 			console.log("second tile selected");		
+	// 			self.second = clickedTile;
+	// 			match = self.compareTiles(self.first, self.second);		
+	// 		}
+	// 		self.firstindex = 0;
+	// 		self.firstClick = true;
+	// 	}
+
+	// 	if (match === true) {
+	// 		self.first.matched = true;
+	// 		self.second.matched = true;
+	// 	}
+	// }
+
+	self.tileClicked = function(selectedTile) {
+		console.log(selectedTile);
+		var clickedTile;
+		self.selected.tiles.forEach(function(tile) {
+			if (tile._id === selectedTile._id) {
+				clickedTile = tile;
+				return;
 			}
-		}
-		return match;
-	}	
-
-	self.checkSurroundings = function(tile) {
-		var left = self.leftHasTile(tile);
-		var right =   self.rightHasTile(tile);
-		var top =  self.topHasTile(tile);
-
-		console.log("Has tiles left: ");
-		console.log(left);
-
-		console.log("Has tiles right: ");
-		console.log(right);
-
-		console.log("Has tiles top: ");
-		console.log(top);
-
-		if((!left || !right) && !top)
-		{
-			console.log("tile is free");
-			return true;
-		}
-		else
-		{
-			console.log("tile is blocked");
-			return false;
-		}
-	}
-
-	self.leftHasTile = function(tile) {
-		var result = false;
-
-		angular.forEach(self.selected.tiles, function(value, key) {
-  			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
-
-  			if( tile.xPos -2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
-  			{
-  				result = true;
-  			}
-		});
-		return result;
-	}
-
-	self.rightHasTile = function(tile) {
-		var result = false;
-
-		angular.forEach(self.selected.tiles, function(value, key) {
-  			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
-
-  			if( tile.xPos +2 === value.xPos && yPositions.indexOf(value.yPos) > -1 && tile.zPos === value.zPos)
-  			{
-  				result = true;
-  			}
 		});
 
-		return result;
-	}
+		var index = clickedTile._id;
 
-	self.topHasTile = function(tile) {
-		var result = false;
+		var surroundingCheck = self.checkSurroundings(clickedTile);
 
-		angular.forEach(self.selected.tiles, function(value, key) {
-  			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
-  			var xPositions = [tile.xPos, tile.xPos-1, tile.xPos+1];
-
-  			if( yPositions.indexOf(value.yPos) > -1 && xPositions.indexOf(value.xPos) > -1 && tile.zPos +1 === value.zPos )
-  			{
-  				result = true;
-  			}
-		});
-
-		return result;
-	}
-
-	self.tileClicked = function(index) {
-		var clickedTile = self.selected.tiles[index-1];
-		console.log(clickedTile);
 		var match = false;
-		if(self.firstClick && self.checkSurroundings(clickedTile))
+		if(self.firstClick && surroundingCheck )
 		{
 			console.log("first tile selected");
 			self.firstindex = index;
@@ -351,7 +401,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		}
 		else
 		{			
-			if(self.firstindex != index && self.checkSurroundings(clickedTile))
+			if(self.firstindex != index && surroundingCheck)
 			{		
 				console.log("second tile selected");		
 				self.second = clickedTile;
@@ -367,5 +417,5 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 		}
 	}
 
-	self.reload();	 	
-};
+	 self.reload();	 	
+	};
