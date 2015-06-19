@@ -26,8 +26,8 @@
 
     <md-content layout-padding>
       <md-button class="md-raised md-primary" ng-show="gc.selected.state == 'open'" ng-click="gc.start()">Start</md-button>
-      <md-button class="md-raised md-primary" ng-show="gc.selected.state != 'finished'">Join</md-button>
-      <md-button class="md-raised md-primary" ng-show="gc.selected.state != 'finished'">Leave</md-button>
+      <md-button class="md-raised md-primary" ng-show="gc.selected.state != 'finished'" ng-click="gc.join()">Join</md-button>
+      <md-button class="md-raised md-primary" ng-show="gc.selected.state != 'finished'" ng-click="gc.leave()">Leave</md-button>
       <md-list>
       <md-subheader class="md-no-sticky">Players ({{gc.selected.players.length}} - {{gc.selected.maxPlayers}})</md-subheader>
         <md-item ng-repeat="player in gc.selected.players">

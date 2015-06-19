@@ -36,6 +36,26 @@ module.exports = function ($q, $http){
 			console.log(data);
 		});
 	}
+
+	service.join = function(id) {
+		return $http.post(service.baseUrl+'/games/'+id+'/Players')
+		.success(function(data,status,headers,config) {
+			console.log(data);
+		})
+		.error(function(data,status,headers,config) {
+			console.log(data);
+		});
+	};
+
+	service.leave = function(id) {
+		return $http.delete(service.baseUrl+'/games/'+id+'/Players')
+		.success(function(data,status,headers,config) {
+			console.log(data);
+		})
+		.error(function(data,status,headers,config) {
+			console.log(data);
+		});
+	};
 	
 
 	/**
@@ -68,10 +88,10 @@ module.exports = function ($q, $http){
 	 */
 	service.all = function(){
 		if (service.games && service.games.length > 0) {
-			console.log("sg");
+			// console.log("sg");
 			return service.games;
 		} else {
-			console.log("sg when");
+			// console.log("sg when");
 			return $q.when(service.games).then(function(games) { return games; })
 		}
 	}

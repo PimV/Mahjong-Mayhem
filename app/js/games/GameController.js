@@ -71,10 +71,32 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 }
 
 	 self.join = function() {
+	 	console.log("Joining game...");
 	 	if (self.selected) {
+
 	 		var promise = gameService.join(self.selected.id);
 
 	 		promise.then(function(payload) {
+	 			console.log("Game joined!");
+	 			self.reload();
+	 			// $state.reload();
+	 		}, function(errorPayload) {
+	 			console.log(errorPayload);
+	 		});
+	 	} else {
+	 		console.log("No game selected.");
+	 	}	 	
+	 }
+
+	 self.leave = function() {
+	 	console.log("Leaving game...");
+	 	if (self.selected) {
+	 		var promise = gameService.leave(self.selected.id);
+
+	 		promise.then(function(payload) {
+
+	 			console.log("Game left");
+	 			self.reload();
 
 	 		}, function(errorPayload) {
 	 			console.log(errorPayload);
@@ -82,8 +104,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	} else {
 	 		console.log("No game selected.");
 	 	}
-
-	 	
 	 }
 
 	 self.buildGameGrid = function(games) {
