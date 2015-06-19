@@ -91,13 +91,16 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	self.socketio =  io('http://mahjongmayhem.herokuapp.com?gameId=' + game);
 
 	 	self.socketio.on('start', function() {
-	 		self.fullReload();
 	 		console.log("This game has been started!");
+	 		// self.fullReload();
+	 		
+
 	 	});
 
 	 	self.socketio.on('playerJoined', function() {
-	 		self.fullReload();
 	 		console.log("A player has joined");
+	 		// self.fullReload();
+	 		
 
 	 	});
 	 }
