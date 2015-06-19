@@ -93,6 +93,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	self.socketio.on('start', function() {
 	 		console.log("This game has been started!");
 	 		// self.fullReload();
+	 		self.reload();
 	 		
 
 	 	});
@@ -100,6 +101,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	self.socketio.on('playerJoined', function() {
 	 		console.log("A player has joined");
 	 		// self.fullReload();
+	 		self.reload();
+	 		
 	 		
 
 	 	});
