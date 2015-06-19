@@ -16,7 +16,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.first 			= null;
 	self.firstindex		= 0;
 	self.second 		= null;
-
+	self.history 		= [ ];
 	self.games        	= [ ];
 	self.newGame	  	= null;
 	self.tile 		  	= {width: 73, height: 100};
@@ -162,7 +162,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 					tile.boardX = (tile.xPos * (self.tile.width/2) ) - (self.tile.width/2);
 	 					tile.boardY = (tile.yPos * (self.tile.height/2) ) - (self.tile.height/2);
 	 					tile.boardZ = tile.zPos;
-	 					console.log(tile.zPos);
 	 					tile.matched = false;
 	 					return;
 	 				}
@@ -172,7 +171,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		});
 	 	}
 	 }
-
 
 	/**
 	 * Add a new game object 
@@ -310,23 +308,23 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	var right =   self.rightHasTile(tile);
 	 	var top =  self.topHasTile(tile);
 
-	 	console.log("Has tiles left: ");
-	 	console.log(left);
+	 	// console.log("Has tiles left: ");
+	 	// console.log(left);
 
-	 	console.log("Has tiles right: ");
-	 	console.log(right);
+	 	// console.log("Has tiles right: ");
+	 	// console.log(right);
 
-	 	console.log("Has tiles top: ");
-	 	console.log(top);
+	 	// console.log("Has tiles top: ");
+	 	// console.log(top);
 
 	 	if((!left || !right) && !top)
 	 	{
-	 		console.log("tile is free");
+	 		//console.log("tile is free");
 	 		return true;
 	 	}
 	 	else
 	 	{
-	 		console.log("tile is blocked");
+	 		//console.log("tile is blocked");
 	 		return false;
 	 	}
 	 }
@@ -373,7 +371,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		if (value.matched === false) {
 	 			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
 	 			var xPositions = [tile.xPos, tile.xPos-1, tile.xPos+1];
-	 			console.log(tile.zPos, (tile.zPos + 1), value.zPos);
 	 			if(yPositions.indexOf(value.yPos) > -1 
 	 				&& xPositions.indexOf(value.xPos) > -1 
 	 				&& (tile.zPos + 1) === value.zPos ) {
@@ -384,6 +381,57 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	});
 
 	 	return result;
+	 }
+
+	 self.tileMatchCheat = function(prevHistory) {	
+		 console.log("cheating"); 	
+		 var found = false;
+
+	 	if(prevHistory != null && prevHistory != undefined)
+	 	{
+	 		self.history = self.history.concat(prevHistory);
+	 	}
+	 	else
+	 	{
+	 		self.history = [ ];
+	 	}
+	 	
+	 	self.selected.tiles.forEach(function(tile) {
+	 		if(self.history.indexOf(tile) < 0)
+	 		{
+				var free = self.checkSurroundings(tile);
+				if(free) 
+				{
+
+					var secondFound = self.findSecondTile(tile);
+					if(!secondFound)
+					{
+						self.history.push(tile);
+						self.tileMatchCheat(history);
+					}
+				}
+			}
+		});
+	 }
+
+	 self.findSecondTile = function(firstTile) {
+	 	var found = false;
+	 	self.selected.tiles.forEach(function(secondTile) {
+	 		if(!found)
+	 		{
+				var free = self.checkSurroundings(secondTile);
+				var match = self.compareTiles(firstTile, secondTile);
+				if(free && match) 
+				{
+					console.log("cheat match");
+					found = true;
+					firstTile.matched = true;
+					secondTile.matched = true;	
+				}
+				console.log(found);
+			}
+		});
+		return found;
 	 }
 
 	// self.tileClicked = function(index) {
@@ -453,6 +501,10 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 			self.first.matched = true;
 			self.second.matched = true;
 		}
+	}
+
+	self.cheat = function() {
+		self.tileMatchCheat(null);
 	}
 
 	 self.reload();	 	
