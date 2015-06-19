@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 						style: 'expanded'
 					},
 					files: {
-						'dist/css/app.css' : 'dist/css/app.scss'
+						'app/css/app.scss' : 'dist/css/app.css'
 					}
 				}
 			}
