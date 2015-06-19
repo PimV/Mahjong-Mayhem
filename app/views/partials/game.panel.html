@@ -22,9 +22,9 @@
 		<h2 ng-show="gc.selected.state == 'open'"><md-button ng-click="gc.start(gc.selected.id)">Start game</md-button></h2>
 		<tile ng-repeat="tile in gc.selected.tiles | filter:{matched: false}"></tile>
 	</md-card>
-	<div id="matchedTiles" style="height:200px;">
+	<!-- <div id="matchedTiles" style="height:200px;">
 		<tile ng-repeat="tile in gc.selected.tiles | filter:{matched: true}"></tile>
-	</div>
+	</div> -->
 	<!--<md-card style="background-color: red">
 	<matched-tile ng-repeat="tile in gc.selected.tiles | filter:{matched: true}"></matched-tile>
 	</md-card> -->

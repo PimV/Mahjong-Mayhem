@@ -400,9 +400,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		if(self.history.indexOf(tile) < 0)
 	 		{
 				var free = self.checkSurroundings(tile);
+
 				if(free) 
 				{
-
 					var secondFound = self.findSecondTile(tile);
 					if(!secondFound)
 					{
@@ -417,7 +417,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 self.findSecondTile = function(firstTile) {
 	 	var found = false;
 	 	self.selected.tiles.forEach(function(secondTile) {
-	 		if(!found)
+	 		if(!found && !secondTile.matched)
 	 		{
 				var free = self.checkSurroundings(secondTile);
 				var match = self.compareTiles(firstTile, secondTile);
