@@ -16,10 +16,11 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.first 			= null;
 	self.firstindex		= 0;
 	self.second 		= null;
-	self.history 		= [ ];
+	self.history 		= [ ];	
 	self.games        	= [ ];
 	self.newGame	  	= null;
 	self.tile 		  	= {width: 73, height: 100};
+
 
 
 
@@ -281,6 +282,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 			if(first.tile.suit == second.tile.suit)
 	 			{
 	 				console.log("We have a match!");
+	 				console.log(first);
+	 				console.log(second);
 	 				match = true;
 	 			}
 	 			break;
@@ -288,6 +291,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 			if(first.tile.suit == second.tile.suit)
 	 			{
 	 				console.log("We have a match!");
+	 				console.log(first);
+	 				console.log(second);
 	 				match = true;
 	 			}
 	 			break;
@@ -295,6 +300,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 			if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name)
 	 			{
 	 				console.log("we have a match");
+	 				console.log(first);
+	 				console.log(second);
 	 				match = true;
 	 			}
 	 			break;
@@ -383,102 +390,70 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	return result;
 	 }
 
-	self.tileMatchCheat = function() {	
-	 	console.log("cheating"); 	
-	 	var found = false;
-	 	var secondFound = false;
-	 	
+	 self.findMatch = function() {
+	 	// var firstTile = undefined;
+	 	// var secondTile = undefined; 	
+	 	// var history = [];
+
+	 	self.first = self.findFreeTile();
+	 	self.second = self.findSecondFreeTile(self.first);	 	
+
+	 	console.log(self.first);
+	 	console.log(self.second);
+
+	 	if(self.first === undefined)
+	 	{
+	 		console.log("no more matches possible");
+	 	}
+	 	if(self.second === undefined)
+	 	{
+	 		self.history.push(self.first);
+	 		self.first = self.findFreeTile();
+	 		self.second = self.findSecondFreeTile(self.first);
+	 		console.log(self.history);
+	 	}
+	 	else
+	 	{
+	 		console.log("!!!cheatmatch found!!!");
+	 		self.first.matched = true;
+			self.second.matched = true;
+			self.history = [];
+	 	}
+	 }
+
+	 self.findFreeTile = function() {
+	 	var freeTile = undefined;
 	 	self.selected.tiles.forEach(function(tile) {
-	 		if(!found && !self.history.indexOf(tile) > -1)
+	 		if(freeTile === undefined)
 	 		{
-	 			var free = self.checkSurroundings(tile);
-	 			var matched = tile.matched;
-
-				if(free && !matched) 
-				{
-					console.log("first tile found");
-					console.log(tile);
-					found = true;
-					
-					var secondTile = self.findSecondTile(tile);
-
-					if(secondTile)
-					{
-						console.log(tile);
-						console.log(secondTile);
-						found = true;
-						tile.matched = true;
-						secondTile.matched = true;
-						self.history = [ ];
-						console.log("A cheat match has been made");
-					}
-					else
-					{
-						console.log("NO CHEATMATCH COULD BE MADE");	
-						self.history.push(tile);
-						self.tileMatchCheat();
-					}
-				}
-				else
-				{ 
-					console.log("no valid tile");
-				}
-			}
-		});
-	}
-
-
-
-	self.findSecondTile = function(firstTile) {
-	 	var secondTile = undefined;
-	 	self.selected.tiles.forEach(function(tile) {
-	 		if(secondTile === undefined)
-	 		{
-		 		if(firstTile != tile)
+		 		var free = self.checkSurroundings(tile);
+		 		if(free && self.history.indexOf(tile) < 0 && !tile.matched)
 		 		{
-		 			var free = self.checkSurroundings(tile);
-		 			var matched = tile.matched;
-					var match = self.compareTiles(firstTile, tile);
+		 			freeTile = tile;
+		 		}
+	 		}
+	 	});
+	 	return freeTile;
+	 }
 
-					if(free && !matched && match) 
-					{
-						console.log("Second tile found");
-					 	secondTile = tile;
-					}
-				}
-			}
-		});
-		return secondTile;
-	}
-
-	// self.tileClicked = function(index) {
-	// 	var clickedTile = self.selected.tiles[index-1];
-	// 	console.log(clickedTile);
-	// 	var match = false;
-	// 	if(self.firstClick && self.checkSurroundings(clickedTile))
-	// 	{
-	// 		console.log("first tile selected");
-	// 		self.firstindex = index;
-	// 		self.first = clickedTile;
-	// 		self.firstClick = false;
-	// 	}
-	// 	else
-	// 	{			
-	// 		if(self.firstindex != index && self.checkSurroundings(clickedTile))
-	// 		{		
-	// 			console.log("second tile selected");		
-	// 			self.second = clickedTile;
-	// 			match = self.compareTiles(self.first, self.second);		
-	// 		}
-	// 		self.firstindex = 0;
-	// 		self.firstClick = true;
-	// 	}
-
-	// 	if (match === true) {
-	// 		self.first.matched = true;
-	// 		self.second.matched = true;
-	// 	}
-	// }
+	 self.findSecondFreeTile = function(first) {
+	 	var freeTile = undefined;
+	 	self.selected.tiles.forEach(function(tile) {
+	 		if(freeTile === undefined)
+	 		{
+		 		var free = self.checkSurroundings(tile);
+		 		if(free && !tile.matched)
+		 		{
+		 			var match = self.compareTiles(first, tile);
+		 			if(tile != first && match)
+		 			{
+		 				freeTile = tile;
+		 			}
+		 		}
+	 		}
+	 	});
+	 	return freeTile;
+	 }
 
 	self.tileClicked = function(selectedTile) {
 		console.log(selectedTile);
@@ -521,7 +496,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	}
 
 	self.cheat = function() {
-		self.tileMatchCheat();
+		self.findMatch();
 	}
 
 	 self.reload();	 	
