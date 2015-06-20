@@ -302,6 +302,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	if(game.maxPlayers >= 30){
 	 		row();
 	 	}
+	 	
 
 	 	return span;
 	 }
