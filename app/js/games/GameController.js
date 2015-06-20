@@ -282,8 +282,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 			if(first.tile.suit == second.tile.suit)
 	 			{
 	 				console.log("We have a match!");
-	 				console.log(first);
-	 				console.log(second);
 	 				match = true;
 	 			}
 	 			break;
@@ -291,8 +289,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 			if(first.tile.suit == second.tile.suit)
 	 			{
 	 				console.log("We have a match!");
-	 				console.log(first);
-	 				console.log(second);
 	 				match = true;
 	 			}
 	 			break;
@@ -300,8 +296,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 			if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name)
 	 			{
 	 				console.log("we have a match");
-	 				console.log(first);
-	 				console.log(second);
 	 				match = true;
 	 			}
 	 			break;
@@ -391,9 +385,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 }
 
 	 self.findMatch = function() {
-	 	// var firstTile = undefined;
-	 	// var secondTile = undefined; 	
-	 	// var history = [];
+	 	var boardHasMatchableTiles = true;
 
 	 	self.first = self.findFreeTile();
 	 	self.second = self.findSecondFreeTile(self.first);	 	
@@ -404,20 +396,24 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	if(self.first === undefined)
 	 	{
 	 		console.log("no more matches possible");
+	 		boardHasMatchableTiles = false;
 	 	}
-	 	if(self.second === undefined)
+	 	if(self.second === undefined && boardHasMatchableTiles)
 	 	{
 	 		self.history.push(self.first);
-	 		self.first = self.findFreeTile();
-	 		self.second = self.findSecondFreeTile(self.first);
 	 		console.log(self.history);
+	 		self.findMatch();
 	 	}
-	 	else
+	 	else if (boardHasMatchableTiles)
 	 	{
 	 		console.log("!!!cheatmatch found!!!");
 	 		self.first.matched = true;
 			self.second.matched = true;
 			self.history = [];
+	 	}
+	 	else
+	 	{
+	 		console.log("GAME CANNOT BE COMPLETED: no matchable tiles left. Please start a new game!");
 	 	}
 	 }
 
