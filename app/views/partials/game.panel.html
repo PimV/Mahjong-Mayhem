@@ -12,11 +12,12 @@
 			</md-button>
 		</div>
 	</md-toolbar>
+	<md-card style="display: table;" >
+		<matched-tile ng-repeat="tile in gc.selected.tiles | filter:{matched: true}"></matched-tile>
+	</md-card>
 	<md-card class="game-container">
 		<h2 ng-show="gc.selected.state == 'open'"><md-button ng-click="gc.start(gc.selected.id)">Start game</md-button></h2>
 		<tile ng-repeat="tile in gc.selected.tiles | filter:{matched: false}"></tile>
 	</md-card>
-	<md-card style="background-color: red">
-	<matched-tile ng-repeat="tile in gc.selected.tiles | filter:{matched: true}"></matched-tile>
-	</md-card>
+
 </section>
