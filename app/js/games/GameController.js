@@ -146,6 +146,27 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		console.log("A player has joined");
 	 		self.selectGame(game);	
 	 	});
+
+	 	self.socketio.on('match', function(matchedTiles) {
+	 		var tile1 = matchedTiles[0];
+	 		var tile2 = matchedTiles[1];
+
+	 		angular.forEach(self.selected.tiles, function(gameTile, key) {
+	 			if (gameTile._id == tile1._id) {
+	 				gameTile.match = tile1.match;
+	 				gameTile.matched = true;
+	 			} else if (gameTile._id == tile2._id) {
+	 				gameTile.match = tile2.match;
+	 				gameTile.matched = true;
+	 			}
+	 		});
+	 		$state.reload();
+	 	});
+
+	 	self.socketio.on('end', function() {
+	 		console.log("This game has now been ended!");
+	 		self.selectGame(game);
+	 	});
 	 }
 
 	 self.join = function() {
@@ -240,8 +261,13 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 					tile.boardX = (tile.xPos * (self.tile.width/2) ) - (self.tile.width/2);
 	 					tile.boardY = (tile.yPos * (self.tile.height/2) ) - (self.tile.height/2);
 	 					tile.boardZ = tile.zPos;
-	 					console.log(tile.zPos);
-	 					tile.matched = false;
+	 					// console.log(tile.zPos);
+	 					if (tile.match) {
+	 						tile.matched = true;
+	 					} else {
+	 						tile.matched = false;
+	 					}
+	 					
 	 					return;
 	 				}
 	 				
@@ -302,7 +328,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	if(game.maxPlayers >= 30){
 	 		row();
 	 	}
-	 	
+
 
 	 	return span;
 	 }
@@ -495,6 +521,14 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	if (match === true) {
 	 		self.first.matched = true;
 	 		self.second.matched = true;
+	 		var promise = gameService.match(self.selected._id, self.first._id, self.second._id);
+	 		promise.then(function(payload) {
+
+	 		}, function(errorPayload) {
+	 			self.first.matched = false;
+	 			self.second.matched = false;
+	 			console.log("Tiles zijn niet gematched, waarom weet geen mens.");
+	 		});
 	 	}
 	 }
 

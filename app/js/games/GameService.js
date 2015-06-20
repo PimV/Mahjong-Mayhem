@@ -11,15 +11,15 @@ module.exports = function ($q, $http){
 	// ];
 
 	service.tileSet = 
-		[
-		'bamboo_1', 'bamboo_2', 'bamboo_3', 'bamboo_4','bamboo_5','bamboo_6','bamboo_7','bamboo_8','bamboo_9', 
-		'character_1', 'character_2', 'character_3', 'character_4','character_5','character_6','character_7','character_8','character_9',
-		'circle_1', 'circle_2', 'circle_3', 'circle_4','circle_5','circle_6','circle_7','circle_8','circle_9', 
-		'dragon_green', 'dragon_red', 'dragon_white', 
-		'flower_bamboo', 'flower_orchid', 'flower_chrysantememum', 'flower_plum',
-		'season_autumn', 'season_spring', 'season_summer',  'season_winter',
-		'wind_north', 'wind_south', 'wind_east', 'wind_west'
-		];
+	[
+	'bamboo_1', 'bamboo_2', 'bamboo_3', 'bamboo_4','bamboo_5','bamboo_6','bamboo_7','bamboo_8','bamboo_9', 
+	'character_1', 'character_2', 'character_3', 'character_4','character_5','character_6','character_7','character_8','character_9',
+	'circle_1', 'circle_2', 'circle_3', 'circle_4','circle_5','circle_6','circle_7','circle_8','circle_9', 
+	'dragon_green', 'dragon_red', 'dragon_white', 
+	'flower_bamboo', 'flower_orchid', 'flower_chrysantememum', 'flower_plum',
+	'season_autumn', 'season_spring', 'season_summer',  'season_winter',
+	'wind_north', 'wind_south', 'wind_east', 'wind_west'
+	];
 
 	/**
 	 * Create a new Game
@@ -27,71 +27,71 @@ module.exports = function ($q, $http){
 	 * @example
 	 * {"templateName": "Ox","minPlayers": 2,"maxPlayers": 32}
 	 */
-	service.add = function(obj){
-		return $http.post(service.baseUrl+'/games', obj)
-		.success(function(data,status,headers,config) {
-			console.log(data);
-		})
-		.error(function(data,status,headers,config) {
-			console.log(data);
-		});
-	}
+	 service.add = function(obj){
+	 	return $http.post(service.baseUrl+'/games', obj)
+	 	.success(function(data,status,headers,config) {
+	 		console.log(data);
+	 	})
+	 	.error(function(data,status,headers,config) {
+	 		console.log(data);
+	 	});
+	 }
 
-	service.join = function(id) {
-		return $http.post(service.baseUrl+'/games/'+id+'/Players')
-		.success(function(data,status,headers,config) {
-			console.log(data);
-		})
-		.error(function(data,status,headers,config) {
-			console.log(data);
-		});
-	};
+	 service.join = function(id) {
+	 	return $http.post(service.baseUrl+'/games/'+id+'/Players')
+	 	.success(function(data,status,headers,config) {
+	 		console.log(data);
+	 	})
+	 	.error(function(data,status,headers,config) {
+	 		console.log(data);
+	 	});
+	 };
 
-	service.leave = function(id) {
-		return $http.delete(service.baseUrl+'/games/'+id+'/Players')
-		.success(function(data,status,headers,config) {
-			console.log(data);
-		})
-		.error(function(data,status,headers,config) {
-			console.log(data);
-		});
-	};
-	
+	 service.leave = function(id) {
+	 	return $http.delete(service.baseUrl+'/games/'+id+'/Players')
+	 	.success(function(data,status,headers,config) {
+	 		console.log(data);
+	 	})
+	 	.error(function(data,status,headers,config) {
+	 		console.log(data);
+	 	});
+	 };
+
 
 	/**
 	 * Returns a game object 
 	 * @param  string id 
 	 * @return {}
 	 */
-	service.get = function(id){
-		return $http.get(service.baseUrl+'/games/' + id)
-		.success(function(data,status,headers,config) {
+	 service.get = function(id){
+	 	return $http.get(service.baseUrl+'/games/' + id)
+	 	.success(function(data,status,headers,config) {
 			// service.games = data;
 			return data;
 		})
-		.error(function(data,status,headers,config) {
-			console.log(data);
-			return null;
-		});
-	}
+	 	.error(function(data,status,headers,config) {
+	 		console.log(data);
+	 		return null;
+	 	});
+	 }
 
 
 	/**
 	 * Removes a game from the array
 	 * @param  {} item game object
 	 */
-	service.remove = function(item){
-		var index = service.games.indexOf(item);
-		service.games.splice(index, 1);
-	}
+	 service.remove = function(item){
+	 	var index = service.games.indexOf(item);
+	 	service.games.splice(index, 1);
+	 }
 
 
 	/**
 	 * Returns all loaded game objects
 	 * @return {} games collection
 	 */
-	service.all = function(){
-		if (service.games && service.games.length > 0) {
+	 service.all = function(){
+	 	if (service.games && service.games.length > 0) {
 			// console.log("sg");
 			return service.games;
 		} else {
@@ -111,15 +111,25 @@ module.exports = function ($q, $http){
 	 * @param  {[type]} gameId [description]
 	 * @return {[type]}        [description]
 	 */
-	service.start = function(gameId){
-		return $http.post(service.baseUrl+'/games/'+gameId+'/start', {})
-		.success(function(data,status,headers,config) {
-			console.log(data);
-		})
-		.error(function(data,status,headers,config) {
-			console.log(data);
-		});
-	}
+	 service.start = function(gameId){
+	 	return $http.post(service.baseUrl+'/games/'+gameId+'/start', {})
+	 	.success(function(data,status,headers,config) {
+	 		console.log(data);
+	 	})
+	 	.error(function(data,status,headers,config) {
+	 		console.log(data);
+	 	});
+	 }
+
+	 service.match = function(gameId, id1, id2) {
+	 	return $http.post(service.baseUrl+'/games/'+gameId+'/Tiles/matches', {tile1Id: id1, tile2Id: id2})
+	 	.success(function(data,status,headers,config) {
+	 		console.log(data);
+	 	})
+	 	.error(function(data,status,headers,config) {
+	 		console.log(data);
+	 	});
+	 }
 
 
 	/**
@@ -129,15 +139,15 @@ module.exports = function ($q, $http){
 	 * @uses $http
 	 * @return {} promise
 	 */
-	service.loadFromApi = function() {
-		return $http.get(service.baseUrl+'/games')
-		.success(function(data,status,headers,config) {
-			service.games = data;
-		})
-		.error(function(data,status,headers,config) {
-			console.log(data);
-		});
-	}
+	 service.loadFromApi = function() {
+	 	return $http.get(service.baseUrl+'/games')
+	 	.success(function(data,status,headers,config) {
+	 		service.games = data;
+	 	})
+	 	.error(function(data,status,headers,config) {
+	 		console.log(data);
+	 	});
+	 }
 
 
 	/**
@@ -147,15 +157,15 @@ module.exports = function ($q, $http){
 	 * @uses $http
 	 * @return {} promise
 	 */
-	service.loadTiles = function(gameId) {
-		return $http.get(service.baseUrl+'/games/' + gameId + '/tiles')
-		.success(function(data,status,headers,config) {
-			console.log("done");
-		})
-		.error(function(data,status,headers,config) {
-			console.log(data);
-		});
-	}
+	 service.loadTiles = function(gameId) {
+	 	return $http.get(service.baseUrl+'/games/' + gameId + '/tiles')
+	 	.success(function(data,status,headers,config) {
+	 		console.log("done");
+	 	})
+	 	.error(function(data,status,headers,config) {
+	 		console.log(data);
+	 	});
+	 }
 
 
 	/**
@@ -166,15 +176,15 @@ module.exports = function ($q, $http){
 	 * @uses $http
 	 * @return {} promise
 	 */
-	service.loadPlayers = function(gameId){
-		return $http.get(service.baseUrl+'/games/' + gameId + '/players')
-		.success(function(data,status,headers,config) {
-			console.log("done");
-		})
-		.error(function(data,status,headers,config) {
-			console.log(data);
-		});
-	}
+	 service.loadPlayers = function(gameId){
+	 	return $http.get(service.baseUrl+'/games/' + gameId + '/players')
+	 	.success(function(data,status,headers,config) {
+	 		console.log("done");
+	 	})
+	 	.error(function(data,status,headers,config) {
+	 		console.log(data);
+	 	});
+	 }
 
-	return service;
-}
+	 return service;
+	}
