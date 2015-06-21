@@ -558,8 +558,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	else if (boardHasMatchableTiles)
 	 	{
 	 		console.log("!!!cheatmatch found!!!");
-	 		self.first.matched = true;
-			self.second.matched = true;
+	 	// 	self.first.matched = true;
+			// self.second.matched = true;
+			self.hintGlow();
 			self.history = [];
 	 	}
 	 	else
@@ -602,6 +603,20 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	});
 	 	return freeTile;
 	 }
+
+	self.hintGlow = function() {
+		console.log("glowing bright");
+        
+        document.getElementById("tile-" + self.first._id).style ["-webkit-animation-duration"] = "1s";
+        document.getElementById("tile-" + self.first._id).style ["animation-duration"] = "1s";
+        document.getElementById("tile-" + self.first._id).style ["animation-iteration-count"] = "3";
+        document.getElementById("tile-" + self.first._id).style ["-webkit-animation-fill-mode"] = "both";
+        document.getElementById("tile-" + self.first._id).style ["animation-fill-mode"] = "both";     
+        document.getElementById("tile-" + self.first._id).style ["-webkit-animation-name"] = "pulse";
+        document.getElementById("tile-" + self.first._id).style ["animation-name"] = "pulse";
+
+        document.getElementById("tile-" + self.second._id).style ["-webkit-filter"] = "drop-shadow(0px 0px 10px rgba(255,255,0, 1))";
+    }
 
 	self.cheat = function() {
 		self.findMatch();
