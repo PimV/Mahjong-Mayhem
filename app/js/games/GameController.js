@@ -564,6 +564,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	}
 	 	else
 	 	{
+	 		alert("No more possible matches could be found. GAME OVER.");
 	 		console.log("GAME CANNOT BE COMPLETED: no matchable tiles left. Please start a new game!");
 	 	}
 	 }

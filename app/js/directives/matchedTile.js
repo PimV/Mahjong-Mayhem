@@ -9,7 +9,7 @@ module.exports = function(){
 
 			var style = "width: " + tileWidth + 'px;';
 			style += "height: " + tileHeight + 'px;';
-			style += "background: " + 'url(/assets/spritesdsmall.png) ' + tile.sheetX + 'px ' + tile.sheetY + 'px;';
+			style += "background: " + 'url(/assets/spritesdsmall.png) ' + tile.sheetX + 'px ' + -tile.sheetY + 'px;';
 			style += "transform-style: " + 'preserve-3d;';
 			style += "-webkit-transform-style: " + 'preserve-3d;';
 			style += "-webkit-backface-visibility: " + 'hidden;';
