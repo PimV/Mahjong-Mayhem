@@ -607,6 +607,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.hintGlow = function() {
 		console.log("glowing bright");
         
+		var oldStyle = document.getElementById("tile-" + self.first._id).style;
+
         document.getElementById("tile-" + self.first._id).style ["-webkit-animation-duration"] = "1s";
         document.getElementById("tile-" + self.first._id).style ["animation-duration"] = "1s";
         document.getElementById("tile-" + self.first._id).style ["animation-iteration-count"] = "3";
