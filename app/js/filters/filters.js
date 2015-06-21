@@ -4,5 +4,4 @@ module.exports = function(constants){
 	// Prepare the 'users' module for subsequent registration of controllers and delegates
 	angular.module(constants.appTitle)
 	.filter('stateFilter', require('./stateFilter'));
-
 };
