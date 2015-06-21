@@ -230,9 +230,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Load Tiles from GameService
 	 * @uses GameService 
 	 */
-	self.loadTiles = function() {
-		console.log(self.selected);
-		if(self.selected == null || self.selected.state === "open") return;
+	 self.loadTiles = function() {
+	 	console.log(self.selected);
+	 	if(self.selected == null || self.selected.state === "open") return;
 	 	var promise = gameService.loadTiles(self.selected.id);
 
 	 	promise.then(function(payload) {
@@ -285,9 +285,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Add a new game object 
 	 * @param int index
 	 */
-	self.addItem = function()	{
-		if(self.newGame == null) return;
-		if(!self.newGame.layout || !self.newGame.layout ||  !self.newGame.layout) return;
+	 self.addItem = function()	{
+	 	if(self.newGame == null) return;
+	 	if(!self.newGame.layout || !self.newGame.layout ||  !self.newGame.layout) return;
 	 	var game = {
 	 		templateName: self.newGame.layout,
 	 		minPlayers: self.newGame.minPlayers,
@@ -566,67 +566,74 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 			// self.second.matched = true;
 			self.hintGlow();
 			self.history = [];
-	 	}
-	 	else
-	 	{
-	 		alert("No more possible matches could be found. GAME OVER.");
-	 		console.log("GAME CANNOT BE COMPLETED: no matchable tiles left. Please start a new game!");
-	 	}
-	 }
+		}
+		else
+		{
+			alert("No more possible matches could be found. GAME OVER.");
+			console.log("GAME CANNOT BE COMPLETED: no matchable tiles left. Please start a new game!");
+		}
+	}
 
-	 self.findFreeTile = function() {
-	 	var freeTile = undefined;
-	 	self.selected.tiles.forEach(function(tile) {
-	 		if(freeTile === undefined)
-	 		{
-		 		var free = self.checkSurroundings(tile);
-		 		if(free && self.history.indexOf(tile) < 0 && !tile.matched)
-		 		{
-		 			freeTile = tile;
-		 		}
-	 		}
-	 	});
-	 	return freeTile;
-	 }
+	self.findFreeTile = function() {
+		var freeTile = undefined;
+		self.selected.tiles.forEach(function(tile) {
+			if(freeTile === undefined)
+			{
+				var free = self.checkSurroundings(tile);
+				if(free && self.history.indexOf(tile) < 0 && !tile.matched)
+				{
+					freeTile = tile;
+				}
+			}
+		});
+		return freeTile;
+	}
 
-	 self.findSecondFreeTile = function(first) {
-	 	var freeTile = undefined;
-	 	self.selected.tiles.forEach(function(tile) {
-	 		if(freeTile === undefined)
-	 		{
-		 		var free = self.checkSurroundings(tile);
-		 		if(free && !tile.matched)
-		 		{
-		 			var match = self.compareTiles(first, tile);
-		 			if(tile != first && match)
-		 			{
-		 				freeTile = tile;
-		 			}
-		 		}
-	 		}
-	 	});
-	 	return freeTile;
-	 }
+	self.findSecondFreeTile = function(first) {
+		var freeTile = undefined;
+		self.selected.tiles.forEach(function(tile) {
+			if(freeTile === undefined)
+			{
+				var free = self.checkSurroundings(tile);
+				if(free && !tile.matched)
+				{
+					var match = self.compareTiles(first, tile);
+					if(tile != first && match)
+					{
+						freeTile = tile;
+					}
+				}
+			}
+		});
+		return freeTile;
+	}
 
 	self.hintGlow = function() {
 		console.log("glowing bright");
-        
-		var oldStyle = document.getElementById("tile-" + self.first._id).style;
+		var tile1 = document.getElementById("tile-" + self.first._id);
+		var tile2 = document.getElementById("tile-" + self.second._id);
 
-        document.getElementById("tile-" + self.first._id).style ["-webkit-animation-duration"] = "1s";
-        document.getElementById("tile-" + self.first._id).style ["animation-duration"] = "1s";
-        document.getElementById("tile-" + self.first._id).style ["animation-iteration-count"] = "3";
-        document.getElementById("tile-" + self.first._id).style ["-webkit-animation-fill-mode"] = "both";
-        document.getElementById("tile-" + self.first._id).style ["animation-fill-mode"] = "both";     
-        document.getElementById("tile-" + self.first._id).style ["-webkit-animation-name"] = "pulse";
-        document.getElementById("tile-" + self.first._id).style ["animation-name"] = "pulse";
+		tile1.classList.add('myPulse');
+		tile2.classList.add('myPulse');
+		setTimeout(function() {
+			tile1.classList.remove('myPulse');
+			tile2.classList.remove('myPulse');
+		}, 2500);
 
-        document.getElementById("tile-" + self.second._id).style ["-webkit-filter"] = "drop-shadow(0px 0px 10px rgba(255,255,0, 1))";
+        // document.getElementById("tile-" + self.first._id).style ["-webkit-animation-duration"] = "1s";
+        // document.getElementById("tile-" + self.first._id).style ["animation-duration"] = "1s";
+        // document.getElementById("tile-" + self.first._id).style ["animation-iteration-count"] = "3";
+        // document.getElementById("tile-" + self.first._id).style ["-webkit-animation-fill-mode"] = "both";
+        // document.getElementById("tile-" + self.first._id).style ["animation-fill-mode"] = "both";     
+        // document.getElementById("tile-" + self.first._id).style ["-webkit-animation-name"] = "pulse";
+        // document.getElementById("tile-" + self.first._id).style ["animation-name"] = "pulse";
+
+        // document.getElementById("tile-" + self.second._id).style ["-webkit-filter"] = "drop-shadow(0px 0px 10px rgba(255,255,0, 1))";
     }
 
-	self.cheat = function() {
-		self.findMatch();
-	}
+    self.cheat = function() {
+    	self.findMatch();
+    }
 
-	 self.reload();	 	
-	};
+    self.reload();	 	
+};
