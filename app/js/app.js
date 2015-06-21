@@ -10,6 +10,7 @@ require('./app/Head');
 require('./auth/Auth');
 require('./users/Users');
 require('./games/Games');
+
 angular.module(constants.appTitle, [
 	require('angular-material'),
 	require('angular-ui-router'),

@@ -27,4 +27,5 @@ angular.module(name, [
 		'$mdColorPalette', 
 		require('../factories/ColorFactory')
 	]
-);
+)
+.controller('CssController', require('./CssController'));

@@ -1,0 +1,60 @@
+
+@import "variables.scss";
+
+/**
+ * Toolbar
+ */
+md-toolbar {
+	&.md-default-theme{
+		background-color: $blue;
+	}
+}
+
+/**
+ * Buttons
+ * raised
+ */
+button.md-button.md-primary.md-raised{
+	&.md-default-theme{
+		background-color: $blue;
+		&:not([disabled]):hover{
+			background-color: darken($blue, 6%);
+		}
+		&[disabled]{
+			color: $grey;
+		}
+		&:focus{
+			background-color: darken($blue, 6%);
+		}
+	}
+}
+
+/**
+ * Slider
+ */
+md-slider.md-default-theme.md-primary {
+	.md-sign{
+		background-color: $blue;
+		&:after{
+			border-top-color: $blue;
+		}
+	}
+	.md-thumb:after {
+		border-color: $blue;
+		background-color: $blue;
+	}
+	.md-track.md-track-fill{
+		background-color: $blue;
+	}
+}
+
+/**
+ * Switch
+ */
+md-switch.md-checked.md-primary{
+	&.md-default-theme{
+		.md-thumb {
+			background-color: $white;
+		}
+	}
+}

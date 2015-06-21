@@ -1,0 +1,12 @@
+
+/**
+ * Color variables
+ */
+$white: #fff;
+$white-lighter: lighten($white, 10%);
+$black: #000;
+$black-light: lighter($black, 10%);
+$black-lighter: lighter($black-light, 10%);
+$grey: lighter($black-lighter, 10%);
+$blue: #106CC8;
+$red: #DE3641;
