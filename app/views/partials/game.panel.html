@@ -4,12 +4,18 @@
 			<h2>
 				<span>Owner: {{gc.selected.createdBy.name}}</span>
 			</h2>
+			<br/>
 			
 			<span flex></span>
 
+			<md-button class="md-hue-1" ng-click="gc.cheat()" aria-label="">
+				Cheat
+			</md-button>
 			<md-button class="md-hue-1" ng-click="nav.toggleRight()" aria-label="">
 				<i class="icon icon-info-outline icon-2x"></i>
 			</md-button>
+			
+
 		</div>
 	</md-toolbar>
 	<md-card style="display: table;" >
@@ -19,5 +25,14 @@
 		<h2 ng-show="gc.selected.state == 'open'"><md-button ng-click="gc.start(gc.selected.id)">Start game</md-button></h2>
 		<tile ng-repeat="tile in gc.selected.tiles | filter:{matched: false}"></tile>
 	</md-card>
+<<<<<<< HEAD
 
+=======
+	<!-- <div id="matchedTiles" style="height:200px;">
+		<tile ng-repeat="tile in gc.selected.tiles | filter:{matched: true}"></tile>
+	</div> -->
+	<!--<md-card style="background-color: red">
+	<matched-tile ng-repeat="tile in gc.selected.tiles | filter:{matched: true}"></matched-tile>
+	</md-card> -->
+>>>>>>> origin/feature/cheatmode
 </section>

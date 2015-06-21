@@ -16,12 +16,13 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.first 			= null;
 	self.firstindex		= 0;
 	self.second 		= null;
-
+	self.history 		= [ ];	
 	self.games        	= [ ];
 	self.newGame	  	= null;
 	self.tile 		  	= {width: 73, height: 100};
 
 	self.socketio 		= null;
+
 
 
 
@@ -261,13 +262,13 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 					tile.boardX = (tile.xPos * (self.tile.width/2) ) - (self.tile.width/2);
 	 					tile.boardY = (tile.yPos * (self.tile.height/2) ) - (self.tile.height/2);
 	 					tile.boardZ = tile.zPos;
+
 	 					// console.log(tile.zPos);
 	 					if (tile.match) {
 	 						tile.matched = true;
 	 					} else {
 	 						tile.matched = false;
 	 					}
-	 					
 	 					return;
 	 				}
 	 				
@@ -276,7 +277,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		});
 	 	}
 	 }
-
 
 	/**
 	 * Add a new game object 
@@ -409,23 +409,23 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	var right =   self.rightHasTile(tile);
 	 	var top =  self.topHasTile(tile);
 
-	 	console.log("Has tiles left: ");
-	 	console.log(left);
+	 	// console.log("Has tiles left: ");
+	 	// console.log(left);
 
-	 	console.log("Has tiles right: ");
-	 	console.log(right);
+	 	// console.log("Has tiles right: ");
+	 	// console.log(right);
 
-	 	console.log("Has tiles top: ");
-	 	console.log(top);
+	 	// console.log("Has tiles top: ");
+	 	// console.log(top);
 
 	 	if((!left || !right) && !top)
 	 	{
-	 		console.log("tile is free");
+	 		//console.log("tile is free");
 	 		return true;
 	 	}
 	 	else
 	 	{
-	 		console.log("tile is blocked");
+	 		//console.log("tile is blocked");
 	 		return false;
 	 	}
 	 }
@@ -471,7 +471,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 		if (value.matched === false) {
 	 			var yPositions = [tile.yPos, tile.yPos-1, tile.yPos+1];
 	 			var xPositions = [tile.xPos, tile.xPos-1, tile.xPos+1];
-	 			console.log(tile.zPos, (tile.zPos + 1), value.zPos);
 	 			if(yPositions.indexOf(value.yPos) > -1 
 	 				&& xPositions.indexOf(value.xPos) > -1 
 	 				&& (tile.zPos + 1) === value.zPos ) {
@@ -536,7 +535,76 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	self.reload();	 
 	 }
 
+	 self.findMatch = function() {
+	 	var boardHasMatchableTiles = true;
 
+	 	self.first = self.findFreeTile();
+	 	self.second = self.findSecondFreeTile(self.first);	 	
 
+	 	console.log(self.first);
+	 	console.log(self.second);
 
+	 	if(self.first === undefined)
+	 	{
+	 		console.log("no more matches possible");
+	 		boardHasMatchableTiles = false;
+	 	}
+	 	if(self.second === undefined && boardHasMatchableTiles)
+	 	{
+	 		self.history.push(self.first);
+	 		console.log(self.history);
+	 		self.findMatch();
+	 	}
+	 	else if (boardHasMatchableTiles)
+	 	{
+	 		console.log("!!!cheatmatch found!!!");
+	 		self.first.matched = true;
+			self.second.matched = true;
+			self.history = [];
+	 	}
+	 	else
+	 	{
+	 		console.log("GAME CANNOT BE COMPLETED: no matchable tiles left. Please start a new game!");
+	 	}
+	 }
+
+	 self.findFreeTile = function() {
+	 	var freeTile = undefined;
+	 	self.selected.tiles.forEach(function(tile) {
+	 		if(freeTile === undefined)
+	 		{
+		 		var free = self.checkSurroundings(tile);
+		 		if(free && self.history.indexOf(tile) < 0 && !tile.matched)
+		 		{
+		 			freeTile = tile;
+		 		}
+	 		}
+	 	});
+	 	return freeTile;
+	 }
+
+	 self.findSecondFreeTile = function(first) {
+	 	var freeTile = undefined;
+	 	self.selected.tiles.forEach(function(tile) {
+	 		if(freeTile === undefined)
+	 		{
+		 		var free = self.checkSurroundings(tile);
+		 		if(free && !tile.matched)
+		 		{
+		 			var match = self.compareTiles(first, tile);
+		 			if(tile != first && match)
+		 			{
+		 				freeTile = tile;
+		 			}
+		 		}
+	 		}
+	 	});
+	 	return freeTile;
+	 }
+
+	self.cheat = function() {
+		self.findMatch();
+	}
+
+	 self.reload();	 	
 	};
