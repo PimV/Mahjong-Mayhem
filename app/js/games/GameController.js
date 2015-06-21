@@ -230,11 +230,13 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Load Tiles from GameService
 	 * @uses GameService 
 	 */
-	 self.loadTiles = function() {
-	 	if(self.selected.state === "open") return;
+	self.loadTiles = function() {
+		console.log(self.selected);
+		if(self.selected == null || self.selected.state === "open") return;
 	 	var promise = gameService.loadTiles(self.selected.id);
 
-	 	promise.then(function(payload) { 
+	 	promise.then(function(payload) {
+	 		if(payload == null) return; 
 	 		self.selected.tiles = payload.data;
 	 		self.processTiles();
 	 	},
@@ -251,6 +253,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 self.processTiles = function() {
 
 	 	if (self.selected && self.selected.tiles) {
+	 		console.log(self.selected);
 	 		self.selected.tiles.forEach(function(tile) {
 	 			var name = tile.tile.suit.toLowerCase() + "_" + tile.tile.name.toLowerCase();
 	 			
@@ -282,8 +285,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Add a new game object 
 	 * @param int index
 	 */
-
-	 self.addItem = function(){
+	self.addItem = function()	{
+		if(self.newGame == null) return;
+		if(!self.newGame.layout || !self.newGame.layout ||  !self.newGame.layout) return;
 	 	var game = {
 	 		templateName: self.newGame.layout,
 	 		minPlayers: self.newGame.minPlayers,
