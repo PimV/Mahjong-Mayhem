@@ -3,7 +3,7 @@
  * CSS Controller
  */
 module.exports = function ( ) {
-	console.log("CssController");
+	
 	var self = this;
 	self.blue = false;
 
@@ -12,7 +12,6 @@ module.exports = function ( ) {
 	 * @return {Boolean} isBlue
 	 */
 	self.isBlue = function (){
-		console.log(self.blue);
 		return self.blue;
 	}
 };
