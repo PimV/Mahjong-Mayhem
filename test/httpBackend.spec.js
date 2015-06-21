@@ -40,15 +40,22 @@ describe('Stubbing and mocking the backend', function() {
 
 
 	it('should fetch all games', function(){
+		//Given
+		var expectedCode = 200;
+		var controller = createController();
+
 		$httpBackend.expectGET(baseURL+'/games')
 			.respond(200, {status : 200});
 		$httpBackend
 			.expectGET('views/games/games.list.html')
 			.respond(200, {});
 
-		var controller = createController();
+		//When
+		controller.reload();
 		$httpBackend.flush();
-		assert()
+		
+		//Assert
+		expect(controller.getGames()).to.have.length.greaterThan(0);
 	});
 
 	it('Should replace gameController.addItem() and not calling gameService.add', function() { 
