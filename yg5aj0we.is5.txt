@@ -1,0 +1,34 @@
+﻿Merge remote-tracking branch 'origin/master' into feature/tests
+
+Conflicts:
+	.gitignore
+	app/js/games/GameController.js
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch feature/tests
+# Your branch is up-to-date with 'origin/feature/tests'.
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   .gitignore
+#	modified:   app/assets/app.css
+#	modified:   app/index.html
+#	modified:   app/js/app.js
+#	new file:   app/js/factories/ColorFactory.js
+#	modified:   app/js/games/GameController.js
+#	modified:   app/js/games/GameService.js
+#	modified:   app/js/games/Games.js
+#	modified:   app/views/games/games.create.html
+#	modified:   app/views/games/games.details.html
+#	modified:   app/views/games/games.list.html
+#	modified:   app/views/partials/content.html
+#
+

@@ -12,6 +12,7 @@
 		<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
 
 		<link rel="stylesheet" href="/assets/angular-material.min.css"/>
+		<!-- http://zavoloklom.github.io/material-design-iconic-font/icons.html -->
 		<link rel="stylesheet" href="/assets/material-design-iconic-font/css/material-design-iconic-font.min.css"/>
 		<link rel="stylesheet" href="/assets/app.css"/>
 
@@ -20,19 +21,12 @@
 
 	<body layout="column">
 		<!-- BEGIN HEADER -->
-		<div header ng-controller="NavController as nav"></div>
+		<div header></div>
 		<!-- END HEADER -->
 		<!-- BEGIN FLEX CONTENT -->
 		<div main></div>
 		<!-- END FLEX CONTENT-->
-<!-- 		 <pre>
-	       Here's some values to keep an eye on in the sample in order to understand $state and $stateParams 
-	      $state = {{$state.current.name}}
-	      $stateParams = {{$stateParams}}
-	      $state full url = {{ $state.$current.url.source }}
-	       $state.$current is not a public api, we are using it to
-	           display the full url for learning purposes
-	    </pre> -->
+
 	</body>
 	<script src="/js/app.js"></script>
 </html>

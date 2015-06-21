@@ -6,13 +6,13 @@ var name = "games";
 angular.module(name, [ 
 	'ngMaterial' 
 ])
-.service('gameService', [
+.service('GameService', [
 	'$q', 
 	'$http',
 	require('./GameService')
 ])
 .controller('GameController', [
-		'gameService', 
+		'GameService', 
 		'colorFactory',
 		'$scope', 
 		'$stateParams', 

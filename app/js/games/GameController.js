@@ -13,23 +13,19 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	self.selected     	= null;
 	self.firstClick 	= true;
+	self.first 			= null;
+	self.second 		= null;
+
 	self.games        	= [ ];
 	self.newGame	  	= null;
-	self.reload 	 	= reload;
-	self.selectGame   	= selectGame;
-	self.loadTiles 	  	= loadTiles;
-	self.start 		  	= start;
 	self.tile 		  	= {width: 73, height: 90};
-	self.tileClicked	= tileClicked;
-
-	self.reload();
 
 
 	/**
 	 * Setter Games
 	 * @param {} value
 	 */
-	function setGames(value){
+	self.setGames = function (value){
 		self.games = value;
 	}
 
@@ -38,7 +34,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Getter Games
 	 * @return {} self.games
 	 */
-	function getGames(){
+	self.getGames = function (){
 		return self.games;
 	}
 
@@ -46,14 +42,12 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	/**
 	 * Start selected game
 	 */
-	function start(){
-		console.log('start');
+	self.start = function (){
 		if(self.selected.state !== "open") return;
-		console.log('start != open');
+
 		var promise = gameService.start(self.selected.id);
 
-	 	promise.then(function(payload) { 
-	 		//self.selected.tiles = payload.data;
+	 	promise.then(function(payload) {
 	 		$state.reload();
 	 	},
 	 	function(errorPayload) {
@@ -66,12 +60,10 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Set selected game
 	 * @param  {} game 
 	 */
-	function selectGame ( game ) {
-	 	self.selected = $filter('filter')(getGames(), {id: game})[0];
-	 	console.log(self.selected.players);
+	self.selectedGame = function ( game ) {
+	 	self.selected = $filter('filter')(self.getGames(), {id: game})[0];
 	 	loadTiles();
 	}
-
 
 	function buildGameGrid(games){
 		var promises = [];
@@ -144,7 +136,8 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Add a new game object 
 	 * @param int index
 	 */
-	self.addItem = function(index){
+
+	self.addItem = function(){
 	 	var game = {
 	 		templateName: self.newGame.layout,
 	 		minPlayers: self.newGame.minPlayers,
@@ -196,18 +189,16 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 * Reload all game items from gameService
 	 * @uses gameService 
 	 */
-	function reload() {
+	self.reload = function () {
 	 	console.log("calling reload");
 
 	 	var promise = gameService.loadFromApi();
 	 	
  		promise.then(function(payload) 
  		{
- 			console.log(payload.data);
- 			setGames(buildGameGrid(gameService.all()));
-
+ 			self.setGames(buildGameGrid(gameService.all()));
  			if ($stateParams) {
- 				selectGame($stateParams.gameId);
+ 				self.selectedGame($stateParams.gameId);
  			} else {
  				self.selected = getGames()[0];
  			}
@@ -241,19 +232,60 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 	}
 	}
 
-	function tileClicked(index) {
-		console.log('tile clicked: ' + index);		
-		console.log(self.selected.tiles[index-1]);
+	function compareTiles(first, second)	{
+		if(first != null && first != undefined && second != null && second != undefined)
+		{
+			switch(first.tile.suit) {
+			    case "Season":
+			    	if(first.tile.suit == second.tile.suit)
+			    	{
+			    		console.log("We have a match!");
+			    	}
+			        console.log("Season");
+			        break;
+			    case "Flower":
+			    	if(first.tile.suit == second.tile.suit)
+			    	{
+			    		console.log("We have a match!");
+			    	}
+			        console.log("Flower");
+			        break;
+			    default:
+			    	console.log("comparing: ");
+			    	console.log(first.tile.suit);
+			    	console.log(second.tile.suit);
+
+			    	if(second.tile.suit == first.tile.suit && second.tile.name == first.tile.name)
+			        {
+			        	console.log("we have a match");
+			        }
+			        break;
+			}
+
+			return true
+		}
+		else {
+			return false;
+		}
+	}
+
+	self.tileClicked = function (index) {
+		console.log('tile clicked: ' + index);
 
 		if(self.firstClick)
 		{
 			console.log("first click");
+			self.first = self.selected.tiles[index-1];
 			self.firstClick = false;
 		}
 		else
 		{
 			console.log("second click");
+			self.second = self.selected.tiles[index-1];
+			compareTiles(self.first, self.second);
 			self.firstClick = true;
 		}
 	}	 	
+
+	self.reload();
 };
