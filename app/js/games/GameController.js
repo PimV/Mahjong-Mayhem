@@ -21,6 +21,9 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	self.newGame	  	= null;
 	self.tile 		  	= {width: 73, height: 100};
 
+	self.maxX 			= 0;
+	self.maxY 			= 0;
+
 	self.socketio 		= null;
 
 
@@ -95,8 +98,6 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 }
 
 	 self.disableSocketIO = function(game) {
-	 	// console.log("Disabling sockets...");
-	 	// console.log(self.socketio);
 	 	var currentUrl = 'http://mahjongmayhem.herokuapp.com?gameId=' + game;
 
 	 	if (self.socketio !== null) {
@@ -262,9 +263,19 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 	 					tile.sheetX = self.tile.width;
 	 					tile.sheetY = (i * self.tile.height);
 
+
+
 	 					tile.boardX = (tile.xPos * (self.tile.width/2) ) - (self.tile.width/2);
 	 					tile.boardY = (tile.yPos * (self.tile.height/2) ) - (self.tile.height/2);
 	 					tile.boardZ = tile.zPos;
+
+	 					if (self.maxX < tile.boardX) {
+	 						self.maxX = tile.boardX;
+	 					}
+
+	 					if (self.maxY < tile.boardY) {
+	 						self.maxY = tile.boardY;
+	 					}
 
 	 					// console.log(tile.zPos);
 	 					if (tile.match) {
@@ -278,6 +289,7 @@ module.exports = function ( gameService, colorFactory, $scope, $stateParams, $lo
 
 	 			}
 	 		});
+	 		self.maxY += self.tile.height;
 	 	}
 	 }
 
